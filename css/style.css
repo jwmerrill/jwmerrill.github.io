@@ -1,0 +1,144 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'PT Serif', serif;
+  font-size: 16px;
+}
+
+.main {
+  margin-left: 4em;
+  margin-right: 4em;
+  max-width: 65em;
+}
+
+.header-inner {
+  margin-left: 3em;
+  margin-right: 3em;
+}
+
+.header {
+  border-top: 3px solid black;
+  border-bottom: 3px solid black;
+  padding: 1em 0;
+  margin: 1em;
+}
+
+.header h3, .header h1 {
+  margin: 0;
+  margin-top: -.3em;
+}
+
+p, ul {
+  max-width: 36em;
+  line-height: 1.4em;
+  font-size: 1.1em;
+  margin-right: 20em;
+}
+
+aside {
+  margin-left: 3em;
+  float: right;
+  clear: right;
+  width: 18em;
+  color: #666;
+}
+
+aside p {
+  padding-right: 0;
+}
+
+aside img {
+  display: block;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.date {
+  color: #555;
+  font-size: 0.9em;
+  display: block;
+}
+
+h1, h2, h3 {
+  margin-top: 1em;
+  margin-bottom: 0;
+  font-size: 2em;
+  font-weight: normal;
+}
+
+h1 a, h2 a, h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1 a:hover, h2 a:hover, h3 a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 1024px) {
+  body {
+    font-size: 15px;
+  }
+  
+  .main {
+    margin-right: 1em;
+    margin-left: 2em;
+  }
+
+  .header-inner {
+    margin-left: 1em;
+  }
+}
+
+@media (max-width: 850px) {
+  p, ul {
+    margin-right: 0;
+  }
+
+  img {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  aside {
+    float: none;
+    margin-left: 1em;
+    margin-right: 1em;
+    width: auto;
+    max-width: 35em;
+    /*
+      In wide-view, can set a min-width on an aside to allow it
+      to hold slightly larger images, but we want to scale the
+      images down in narrow-view.
+    */
+    min-width: 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 13px;
+  }
+
+  h1, h2, h3 {
+    font-size: 1.4em;
+  }
+
+  .main {
+    margin-left: 1em;
+    margin-right: 1em;
+  }
+
+  .header-inner {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
