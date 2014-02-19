@@ -35,11 +35,23 @@ body {
   margin-top: -.3em;
 }
 
-p, ul {
-  max-width: 36em;
+p, ul, ol, .highlight {
   line-height: 1.4em;
   font-size: 1.1em;
+}
+
+p, .highlight {
   margin-right: 20em;
+  max-width: 36em;
+}
+
+ul, ol {
+  margin-right: 22em;
+  max-width: 34em;
+}
+
+.highlight pre {
+  font-size: 0.91em;
 }
 
 aside {
@@ -64,6 +76,10 @@ aside img {
   color: #555;
   font-size: 0.9em;
   display: block;
+}
+
+.highlight {
+  background: #f8f8f8;
 }
 
 h1, h2, h3 {
@@ -98,7 +114,7 @@ h1 a:hover, h2 a:hover, h3 a:hover {
 }
 
 @media (max-width: 850px) {
-  p, ul {
+  p, ul, ol, .highlight {
     margin-right: 0;
   }
 
