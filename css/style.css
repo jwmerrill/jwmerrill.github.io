@@ -35,26 +35,30 @@ body {
   margin-top: -.3em;
 }
 
-p, ul, ol, .highlight {
+.main p, .main ul, .main ol, .main .highlight {
   line-height: 1.4em;
   font-size: 1.1em;
 }
 
-p, .highlight {
+.main p, .main .highlight {
   margin-right: 20em;
   max-width: 36em;
 }
 
-ul, ol {
+.main ul, .main ol {
   margin-right: 22em;
   max-width: 34em;
 }
 
-.highlight pre {
+.main .highlight pre {
   font-size: 0.91em;
 }
 
-aside {
+.main .highlight {
+  overflow: auto;
+}
+
+.main aside {
   margin-left: 3em;
   float: right;
   clear: right;
@@ -62,11 +66,11 @@ aside {
   color: #666;
 }
 
-aside p {
+.main aside p {
   padding-right: 0;
 }
 
-aside img {
+.main aside img {
   display: block;
   margin-top: 1em;
   margin-bottom: 1em;
@@ -114,17 +118,17 @@ h1 a:hover, h2 a:hover, h3 a:hover {
 }
 
 @media (max-width: 850px) {
-  p, ul, ol, .highlight {
+  .main p, .main ul, .main ol, .main .highlight {
     margin-right: 0;
   }
 
-  img {
+  .main img {
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
   }
 
-  aside {
+  .main aside {
     float: none;
     margin-left: 1em;
     margin-right: 1em;
@@ -144,7 +148,7 @@ h1 a:hover, h2 a:hover, h3 a:hover {
     font-size: 13px;
   }
 
-  h1, h2, h3 {
+  .main h1, .main h2, .main h3 {
     font-size: 1.4em;
   }
 
