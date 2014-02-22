@@ -8,5 +8,6 @@ title: squishy thinking
     <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
     <abbr class="date">{{ post.date | date_to_string }}</abbr>
     <p>{{post.excerpt}}</p>
+    <p><a href="{{ post.url }}">more...</a></p>
   </div>
 {% endfor %}
