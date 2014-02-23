@@ -35,6 +35,11 @@ body {
   margin-top: -.3em;
 }
 
+.byline a {
+  text-decoration: none;
+  color: #555;
+}
+
 .main p, .main ul, .main ol, .main .highlight {
   line-height: 1.4em;
   font-size: 1.1em;
@@ -98,7 +103,7 @@ h1 a, h2 a, h3 a {
   text-decoration: none;
 }
 
-h1 a:hover, h2 a:hover, h3 a:hover {
+h1 a:hover, h2 a:hover, h3 a:hover, .byline a:hover {
   text-decoration: underline;
 }
 
