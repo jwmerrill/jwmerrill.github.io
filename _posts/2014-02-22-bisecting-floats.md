@@ -204,7 +204,7 @@ function _middle(x1::Float64, x2::Float64)
 end
 {% endhighlight %}
 
-There are some minor complications for negative numbers. The [wikipedia page on the floating point standard](https://en.wikipedia.org/wiki/IEEE_floating_point) has more information on exactly how the binary encoding of floats works. I also recommend "[What every computer scientist should know about floating point numbers](http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html)". In `_middle`, I avoid these complications by returning 0.0 for intervals with one negative endpoint and one positive endpoint, and by casting negative intervals to positive intervals and back. The `>> 1` is right shift, a fast way to divide integers by 2.
+There are some minor complications for negative numbers. The [wikipedia page on the floating point standard](https://en.wikipedia.org/wiki/IEEE_floating_point) has more information on exactly how the binary encoding of floats works. I also recommend ["What every computer scientist should know about floating point numbers"](http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html). In `_middle`, I avoid these complications by returning 0.0 for intervals with one negative endpoint and one positive endpoint, and by casting negative intervals to positive intervals and back. The `>> 1` is right shift, a fast way to divide integers by 2.
 
 Using this function, we can define our final version of `bisect_root`:
 
