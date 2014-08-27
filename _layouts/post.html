@@ -7,7 +7,9 @@
    <meta name="author" content="Jason Merrill" />
    <meta name="viewport" content="width=device-width; initial-scale=1.0"/>
    {% include styles.html %}
-   {% include head_scripts.html %}
+   {% if page.css %}
+     <link rel='stylesheet' type='text/css' href='/css/posts/{{ page.css }}.css' />
+   {% endif %}
 </head>
 <body class="post">
   <div class="header">
@@ -21,5 +23,9 @@
     <abbr class="date">{{ page.date | date_to_string }}</abbr>
     {{ content }}
   </div>
+  {% include foot_scripts.html %}
+  {% if page.js %}
+    <script src="/js/posts/{{ page.js }}.js"></script>
+  {% endif %}
 </body>
 </html>
