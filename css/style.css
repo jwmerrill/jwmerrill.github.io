@@ -11,6 +11,11 @@ html, body {
   box-sizing: content-box;
 }
 
+.mathquill-embedded-latex sub .roman {
+  font-size: 75%;
+  margin-right: .25em;
+}
+
 body {
   font-family: 'PT Serif', serif;
   font-size: 16px;
