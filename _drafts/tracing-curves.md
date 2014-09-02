@@ -7,6 +7,10 @@ js: tracing-curves
 
 Last October, I spent a few days trying to improve how it feels to trace a mathematical curve in [Desmos](https://www.desmos.com/) with a mouse or a finger. If you had asked me before I started working on the calculator whether this was a hard problem, I would have said "no way, just use the point on the curve that's directly above the mouse, or something like that." And that's how tracing had worked before last October. Here's how that feels:
 
+<aside>
+  Note, these interactive examples don't work on touch devices yet. <a href="https://www.kickstarter.com/help/faq/creator+questions#faq_50035">Stretch goal:</a> if 1000 people read this, I'll make the examples work with touch.
+</aside>
+
 <div id="example1" class="trace-example">
   <div id="example1-container1" class="trace-example-panel">
   </div>
