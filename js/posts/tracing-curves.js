@@ -5,8 +5,6 @@ function Point(x, y) {
   this.y = y;
 }
 
-var weightPower = 0.4;
-
 function TraceIllustration(elt, opts) {
   this.containerElt = elt;
   this.curve = opts.curve;
@@ -109,7 +107,6 @@ TraceIllustration.prototype.sampleFn = function () {
 
 TraceIllustration.prototype.drawFn = function () {
   this.curveCtx.beginPath();
-  this.curveCtx.strokeStyle = "#C86E6E";
   this.curveCtx.moveTo(this.xsamples[0], this.ysamples[0]);
   for (var i = 1; i < this.xsamples.length; i++) {
     this.curveCtx.lineTo(this.xsamples[i], this.ysamples[i]);
@@ -119,18 +116,13 @@ TraceIllustration.prototype.drawFn = function () {
 
 TraceIllustration.prototype.drawAxis = function () {
   this.curveCtx.beginPath();
-  this.curveCtx.strokeStyle = "#aaa";
   this.curveCtx.moveTo(0, Math.floor(this.height/2)+1/2);
   this.curveCtx.lineTo(this.width, Math.floor(this.height/2)+1/2);
   this.curveCtx.stroke();
 };
 
-TraceIllustration.prototype.drawGuidePoints = function () {
-  this.curveCtx.save();
+TraceIllustration.prototype.drawGridGuidePoints = function () {
   this.curveCtx.beginPath();
-  this.curveCtx.lineCap = "round";
-  this.curveCtx.strokeStyle = "#bbb";
-  this.curveCtx.lineWidth = 4;
   var nGuidePoints = this.nGuidePoints;
   for (var i = 0.5; i < nGuidePoints; i++) {
     for (var j = 0.5; j < nGuidePoints; j++) {
@@ -141,10 +133,9 @@ TraceIllustration.prototype.drawGuidePoints = function () {
     }
   }
   this.curveCtx.stroke();
-  this.curveCtx.restore();
 };
 
-TraceIllustration.prototype.drawGuideArrows = function () {
+TraceIllustration.prototype.drawGridGuideLines = function () {
   this.curveCtx.save();
   this.curveCtx.beginPath();
   this.curveCtx.strokeStyle = "#bbb";
@@ -168,7 +159,7 @@ TraceIllustration.prototype.drawGuideArrows = function () {
   this.curveCtx.restore();
 };
 
-TraceIllustration.prototype.isValidTracePoint = function (tracePoint) {
+TraceIllustration.prototype.isValidPoint = function (tracePoint) {
   return (
     tracePoint &&
     isFinite(tracePoint.x) &&
@@ -181,15 +172,17 @@ TraceIllustration.prototype.isValidTracePoint = function (tracePoint) {
 };
 
 TraceIllustration.prototype.drawTracePoint = function (tracePoint) {
-  this.traceCtx.save();
   this.traceCtx.beginPath();
-  this.traceCtx.strokeStyle = "#C86E6E";
-  this.traceCtx.lineCap = "round";
-  this.traceCtx.lineWidth = 6;
   this.traceCtx.moveTo(tracePoint.x, tracePoint.y);
   this.traceCtx.lineTo(tracePoint.x, tracePoint.y);
   this.traceCtx.stroke();
-  this.traceCtx.restore();
+};
+
+TraceIllustration.prototype.drawTraceGuideLine = function (mousePoint, tracePoint) {
+  this.traceCtx.beginPath();
+  this.traceCtx.moveTo(mousePoint.x, mousePoint.y);
+  this.traceCtx.lineTo(tracePoint.x, tracePoint.y);
+  this.traceCtx.stroke();
 };
 
 TraceIllustration.prototype.remeasure = function () {
@@ -206,18 +199,35 @@ TraceIllustration.prototype.redrawAll = function () {
 
 TraceIllustration.prototype.redrawCurveLayer = function () {
   this.curveCtx.clearRect(0, 0, this.width, this.height);
+  this.curveCtx.lineCap = "butt";
+  this.curveCtx.lineWidth = 1;
+  this.curveCtx.strokeStyle = "#aaa";
   this.drawAxis();
+  this.curveCtx.strokeStyle = "#C86E6E";
   this.drawFn();
   if (this.showGuides) {
-    this.drawGuidePoints();
-    this.drawGuideArrows();
+    this.curveCtx.lineCap = "round";
+    this.curveCtx.strokeStyle = "#bbb";
+    this.curveCtx.lineWidth = 4;
+    this.drawGridGuidePoints();
+    this.curveCtx.lineCap = "butt";
+    this.curveCtx.lineWidth = 1;
+    this.drawGridGuideLines();
   }
 };
 
 TraceIllustration.prototype.redrawTraceLayer = function (mousePoint, tracePoint) {
   this.traceCtx.clearRect(0, 0, this.width, this.height);
-  if (!this.isValidTracePoint(tracePoint)) return;
+  if (!this.isValidPoint(tracePoint)) return;
+  this.traceCtx.strokeStyle = "#C86E6E";
+  this.traceCtx.lineCap = "round";
+  this.traceCtx.lineWidth = 6;
   this.drawTracePoint(tracePoint);
+  if (this.showGuides && this.isValidPoint(mousePoint)) {
+    this.traceCtx.strokeStyle = "#5F81B1";
+    this.traceCtx.lineWidth = 2;
+    this.drawTraceGuideLine(mousePoint, tracePoint);
+  }
 };
 
 TraceIllustration.prototype.onResize = function () {
@@ -288,6 +298,7 @@ function tracePointClosest (p) {
   return tracePoint;
 }
 
+var weightPower = 0.4;
 function tracePointWeighted (p) {
   var lastDsq = Infinity;
   var pending;
