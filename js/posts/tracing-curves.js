@@ -136,10 +136,7 @@ TraceIllustration.prototype.drawGridGuidePoints = function () {
 };
 
 TraceIllustration.prototype.drawGridGuideLines = function () {
-  this.curveCtx.save();
   this.curveCtx.beginPath();
-  this.curveCtx.strokeStyle = "#bbb";
-  this.curveCtx.lineWidth = 1;
   var nGuidePoints = this.nGuidePoints;
   for (var i = 0.5; i < nGuidePoints; i++) {
     for (var j = 0.5; j < nGuidePoints; j++) {
@@ -188,8 +185,12 @@ TraceIllustration.prototype.drawTraceGuideLine = function (mousePoint, tracePoin
 TraceIllustration.prototype.remeasure = function () {
   var rect = this.containerElt.getBoundingClientRect();
   this.containerElt.style.height = '' + rect.width + 'px';
-  this.curveCanvas.width = this.traceCanvas.width = this.width = rect.width;
-  this.curveCanvas.height = this.traceCanvas.height = this.height = rect.width;
+  this.curveCanvas.style.width = this.traceCanvas.style.width = '' + rect.width + 'px';
+  this.curveCanvas.style.height = this.traceCanvas.style.height = '' + rect.width + 'px';
+
+  var devicePixelRatio = window.devicePixelRatio || 1;
+  this.curveCanvas.width = this.traceCanvas.width = this.width = devicePixelRatio*rect.width;
+  this.curveCanvas.height = this.traceCanvas.height = this.height = devicePixelRatio*rect.width;
 };
 
 TraceIllustration.prototype.redrawAll = function () {
@@ -198,11 +199,14 @@ TraceIllustration.prototype.redrawAll = function () {
 };
 
 TraceIllustration.prototype.redrawCurveLayer = function () {
+  var devicePixelRatio = window.devicePixelRatio || 1;
+
   this.curveCtx.clearRect(0, 0, this.width, this.height);
   this.curveCtx.lineCap = "butt";
   this.curveCtx.lineWidth = 1;
   this.curveCtx.strokeStyle = "#aaa";
   this.drawAxis();
+  this.curveCtx.lineWidth = devicePixelRatio;
   this.curveCtx.strokeStyle = "#C86E6E";
   this.drawFn();
   if (this.showGuides) {
@@ -217,11 +221,13 @@ TraceIllustration.prototype.redrawCurveLayer = function () {
 };
 
 TraceIllustration.prototype.redrawTraceLayer = function (mousePoint, tracePoint) {
+  var devicePixelRatio = window.devicePixelRatio || 1;
+
   this.traceCtx.clearRect(0, 0, this.width, this.height);
   if (!this.isValidPoint(tracePoint)) return;
   this.traceCtx.strokeStyle = "#C86E6E";
   this.traceCtx.lineCap = "round";
-  this.traceCtx.lineWidth = 6;
+  this.traceCtx.lineWidth = devicePixelRatio*6;
   this.drawTracePoint(tracePoint);
   if (this.showGuides && this.isValidPoint(mousePoint)) {
     this.traceCtx.strokeStyle = "#5F81B1";
@@ -240,9 +246,10 @@ TraceIllustration.prototype.onMove = function (evt) {
   var rect = this.containerElt.getBoundingClientRect();
   var xOffset = window.pageXOffset;
   var yOffset = window.pageYOffset;
+  var devicePixelRation = window.devicePixelRatio || 1;
   var p = new Point(
-    evt.pageX - (rect.left + xOffset),
-    evt.pageY - (rect.top + yOffset)
+    devicePixelRatio*(evt.pageX - (rect.left + xOffset)),
+    devicePixelRatio*(evt.pageY - (rect.top + yOffset))
   );
 
   if (p.x < 0 || p.x > this.width || p.y < 0 || p.y > this.height) {
