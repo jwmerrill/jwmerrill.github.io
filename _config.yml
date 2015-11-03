@@ -2,6 +2,8 @@ name: Squishy Thinking
 description: 'Mollusk-like thoughts on physics, math, and computers'
 url: http://squishythinking.com
 permalink: pretty
-redcarpet:
-  extensions:
-    - smart
+excerpt_separator: <!--more-->
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge

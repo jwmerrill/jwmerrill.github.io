@@ -3,11 +3,14 @@ layout: post
 title: Bisecting Floating Point Numbers
 ---
 
-<aside class="figure">
-  <img src="/img/bisection.png" />
-</aside>
+<div class="p">
+  <figure class="sidefig">
+    <img src="/img/bisection.png" />
+  </figure>
+</div>
+
 Bisection is about the simplest algorithm there is for isolating a root of a continuous function\:
-  
+
   1. Start with an interval such that the function takes on oppositely signed values on the endpoints.
   2. Split the interval at its midpoint.
   3. Recurse into whichever half has endpoints on which the function takes on oppositely signed values.
@@ -16,16 +19,14 @@ After each step, the new interval is half as large as the previous interval and 
 
 I want to highlight a couple of interesting issues that arise when implementing bisection in floating point arithmetic that you might miss if you just looked at the definition of the algorithm.
 
-In [Julia](http://julialang.org/) code, a single step of bisection looks like this:
+<!--more-->
 
-<aside class="note">
-  Julia treats floating point arithmetic the same way all modern programming environments do: according to the <a href="https://en.wikipedia.org/wiki/IEEE_floating_point">IEEE 754</a> standard. The examples here are in Julia because I plan to talk more about the language in the future, but everything in this post could as easily be written in any other language.
-</aside>
+In [Julia](http://julialang.org/) code{% marginnote 'mn-julia-floats' """Julia treats floating point arithmetic the same way all modern programming environments do: according to the <a href="https://en.wikipedia.org/wiki/IEEE_floating_point">IEEE 754</a> standard. The examples here are in Julia because I plan to talk more about the language in the future, but everything in this post could as easily be written in any other language."""%}, a single step of bisection looks like this:
 
 {% highlight julia %}
 function bisect_step(fn, x1, x2)
   xm = (x1 + x2)/2
-  
+
   # Return the sub-interval with
   # oppositely-signed endpoints
   if sign(fn(x1)) != sign(fn(xm))
@@ -36,11 +37,13 @@ function bisect_step(fn, x1, x2)
 end
 {% endhighlight %}
 
-<aside class="figure">
-  <img src="/img/bisection.png" />
-</aside>
-
 For example,
+
+<div class="p">
+  <figure class="sidefig">
+    <img src="/img/bisection.png" />
+  </figure>
+</div>
 
 {% highlight julia %}
 julia> x1, x2 = bisect_step(sin, 2.0, 4.0)
@@ -213,7 +216,7 @@ function bisect_root(fn, x1, x2)
   xm = _middle(x1, x2)
   s1 = sign(fn(x1))
   s2 = sign(fn(x2))
-  
+
   while x1 < xm < x2
     sm = sign(fn(xm))
 
