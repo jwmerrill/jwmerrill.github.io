@@ -586,7 +586,7 @@ solution digit sets in a <code>Set</code>, a <code>Vector</code>, or a linked li
 <span class="n">Base</span><span class="o">.</span><span class="n">setdiff</span><span class="p">(</span><span class="n">a</span><span class="p">::</span><span class="n">DigitSet</span><span class="p">,</span> <span class="n">b</span><span class="p">::</span><span class="n">DigitSet</span><span class="p">)</span> <span class="o">=</span>
   <span class="n">DigitSet</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">d</span> <span class="o">&amp;</span> <span class="p">(</span><span class="o">~</span><span class="n">b</span><span class="o">.</span><span class="n">d</span><span class="p">))</span>
 <span class="n">Base</span><span class="o">.</span><span class="n">symdiff</span><span class="p">(</span><span class="n">a</span><span class="p">::</span><span class="n">DigitSet</span><span class="p">,</span> <span class="n">b</span><span class="p">::</span><span class="n">DigitSet</span><span class="p">)</span> <span class="o">=</span>
-  <span class="n">union</span><span class="p">(</span><span class="n">setdiff</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="n">setdiff</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">))</span></code></pre></div>
+  <span class="n">DigitSet</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">d</span> <span class="o">$</span> <span class="n">b</span><span class="o">.</span><span class="n">d</span><span class="p">)</span></code></pre></div>
 
 <p>Couldn’t be easier!</p>
 
