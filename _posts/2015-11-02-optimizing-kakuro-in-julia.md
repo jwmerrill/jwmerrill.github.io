@@ -609,7 +609,7 @@ Base.intersect(a::DigitSet, b::DigitSet) =
 Base.setdiff(a::DigitSet, b::DigitSet) =
   DigitSet(a.d & (~b.d))
 Base.symdiff(a::DigitSet, b::DigitSet) =
-  union(setdiff(a, b), setdiff(b, a))
+  DigitSet(a.d $ b.d)
 {% endhighlight %}
 
 Couldn't be easier!
