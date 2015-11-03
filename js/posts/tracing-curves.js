@@ -356,13 +356,13 @@ function tracePointWeighted (p) {
     if (pdx > 0) {
       if (pdsq < leftDsq) {
         leftP = pending;
-        leftDsq = pdsq;
+        leftDsq = dsq;
         pending = undefined;
       }
     } else {
       if (pdsq < rightDsq) {
         rightP = pending;
-        rightDsq = pdsq;
+        rightDsq = dsq;
         pending = undefined;
       }
     }
