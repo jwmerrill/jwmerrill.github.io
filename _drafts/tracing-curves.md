@@ -78,11 +78,15 @@ The weighted strategy chooses the <span class="mathquill-embedded-latex">x</span
 
 with <span class="mathquill-embedded-latex">w</span> a number between 0 and 1. <span class="mathquill-embedded-latex">x_\mathrm{cursor}</span> is (obviously) a continuous function of the cursor location if the curve is continuous, but <span class="mathquill-embedded-latex">x_\mathrm{closest}</span> is not. If we want <span class="mathquill-embedded-latex">x_\mathrm{trace}</span> to be a continuous function of the cursor location, we need to arrage for the weight of <span class="mathquill-embedded-latex">x_\mathrm{closest}</span>, i.e. <span class="mathquill-embedded-latex">(1 - w)</span>, to be 0 at the points where <span class="mathquill-embedded-latex">x_\mathrm{closest}</span> is discontinuous.
 
-Discontinuous jumps in the location of the closest point happen when the distances from the cursor to two distant points on the curve becomes equal. To make <span class="mathquill-embedded-latex">x_\mathrm{trace}</span> continuous, we should ensure that whenever this condition occurs, <span class="mathquill-embedded-latex">w=1</span>. One way to do this is to choose
+Discontinuous jumps in the location of the closest point happen when the distances from the cursor to two distant points on the curve become equal. To make <span class="mathquill-embedded-latex">x_\mathrm{trace}</span> continuous, we should ensure that whenever this condition occurs, <span class="mathquill-embedded-latex">w=1</span>. One way to do this is to choose
 
-<span class="mathquill-embedded-latex">w = \left(\frac{d_2}{d_1}\right)^\alpha</span>
+<span class="mathquill-embedded-latex">w = \left(\frac{d_1}{d_2}\right)^\alpha</span>
 
 where <span class="mathquill-embedded-latex">d_1</span> and <span class="mathquill-embedded-latex">d_2</span> are the distance to the closest and second-closest points respectively, and <span class="mathquill-embedded-latex">\alpha</span> is an adjustable parameter. We only consider points that are local minima in the distance to the cursor, so points right next to the closest point don't count as the second-closest point. Actually, as a further refinement, I've found that it's best to consider only the closest local minimum to the left of the cursor and the closest local minimum to the right of the cursor.
+
+<aside>
+  If you're into javascript, check out the <a href="http://jsbin.com/reruvu/4/edit?js,output">live-editable version</a> of all of these strategies on jsbin. Maybe you can come up with an even better strategy.
+</aside>
 
 Here's how the weighted strategy feels:
 
@@ -116,7 +120,7 @@ The weighted strategy satisfies our two main desiderata:
 1. When your cursor is close to the curve, the trace point should be close to your cursor.
 2. Small movements of the cursor should not cause the trace point to jump discontinuously across the curve.
 
-Its main weakness is that it relies on a distinction between x and y, so it doesn't extend easily from curves that are a function of x to parametric or implicit curves that may have multiple y values for a single x value. To put it technically, the strategy is not *isotropic*. Note that by itself, the closest-point strategy does not distinguish between the axes, and would work just as well (or really, just as poorly...) for parametric curves as for f(x) curves, so it's our reliance on the point-above-cursor strategy as part of the weighted strategy that spoils isotropy.
+Its main weakness is that it relies on a distinction between <span class="mathquill-embedded-latex">x</span> and <span class="mathquill-embedded-latex">y</span>, so it doesn't extend easily from curves that are a function of <span class="mathquill-embedded-latex">x</span> to parametric or implicit curves that may have multiple <span class="mathquill-embedded-latex">y</span> values for a single <span class="mathquill-embedded-latex">x</span> value. To put it technically, the strategy is not *isotropic*. Note that by itself, the closest-point strategy does not distinguish between the axes, and would work just as well (or really, just as poorly...) for parametric curves as for <span class="mathquill-embedded-latex">f(x)</span> curves, so it's the weighted strategy's reliance on the point-above-cursor strategy that spoils isotropy.
 
 <aside>
   If this sounds like your kind of fun, <a href="https://www.desmos.com/careers">Desmos is hiring</a>.
