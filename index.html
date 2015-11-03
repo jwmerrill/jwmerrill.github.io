@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title>Squishy Thinking by Jason Merrill</title>
+   <meta name="author" content="Jason Merrill" />
+   <meta name="viewport" content="width=device-width"/>
+   <link rel="alternate" type="application/rss+xml" title="Squishy Thinking" href="http://squishythinking.com/feed.xml">
+   <link rel="stylesheet" href="/fonts/ptserif.css" type="text/css" >
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/vendor/mathquill/mathquill.css" type="text/css" />
+<link rel="stylesheet" href="/css/pygments/default.css" type="text/css" />
+<link rel="stylesheet" href="/css/vendor/scrubber.css" type="text/css" />
+
+
+</head>
+<body>
+  <div class="header">
+    <div class="header-inner">
+      <h1><a href="./">Squishy Thinking</a></h2>
+      <div class="byline">by Jason Merrill<br /><a href="mailto:jason@squishythinking.com">jason@squishythinking.com</a></div>
+    </div>
+  </div>
+  <div class="main">
+    
+  <div class="post post-">
+    <h2><a href="/2015/11/02/optimizing-kakuro-in-ulia/">Optimizing (part of) a Kakuro puzzle solver in Julia</a></h2>
+    <abbr class="date">02 Nov 2015</abbr>
+    <p><div class="p">
+  <figure class="sidefig">
+    <a href="https://commons.wikimedia.org/wiki/File%3AKakuro_black_box_solution.svg">
+      <img width="256" height="256" alt="Solved Kakuro puzzle" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Kakuro_black_box_solution.svg/256px-Kakuro_black_box_solution.svg.png" />
+    </a>
+    <figcaption>A solved Kakuro puzzle.</figcaption>
+  </figure>
+</div>
+
+<p><a href="https://en.wikipedia.org/wiki/Kakuro">Kakuro</a> is a number puzzle that is a bit like a combination between Sudoku and a crossword puzzle. Imagine a crossword puzzle where, instead of words, blocks of boxes are filled with combinations of digits between 1 and 9, and instead of clues about words, you are given sums that a block of digits must add up to.</p>
+
+<p>When you’re solving a Kakuro puzzle, it’s helpful to be able to generate all the combinations of <em>m</em> different digits that add up to a given sum. A <a href="https://groups.google.com/d/msg/julia-users/xJ7GpKAa16E/ZnaWuHZKBQAJ">recent thread</a> on the julia-users mailing list considered how to implement this task efficiently on a computer.</p>
+
+<p>In this post, I’d like to show a progression of a few different implementations of the solution of this same problem. I think the progression shows off one of Julia’s core strengths: in a single language, you are free to think in either a high level way that is close to your problem domain and easy to prototype, or a low level way that pays more attention to the details of efficient machine execution. I don’t know any other system that even comes close to making it as easy to switch back and forth between these modes as Julia does.</p>
+
+<p><em>Attention Conservation Notice</em>: If you’re looking for information on how to solve Kakuro with a computer, you should probably look elsewhere. This post is a deep dive into a tiny, tiny subproblem. On the other hand, I’ll show how to speed up the solution of this tiny, tiny subproblem by a factor of either ten thousand or a million, depending how you count, so if that sounds fun you’re in the right place.</p>
+
+</p>
+    <p><a href="/2015/11/02/optimizing-kakuro-in-ulia/">more...</a></p>
+  </div>
+
+  <div class="post post-">
+    <h2><a href="/2014/02/22/bisecting-floats/">Bisecting Floating Point Numbers</a></h2>
+    <abbr class="date">22 Feb 2014</abbr>
+    <p><div class="p">
+  <figure class="sidefig">
+    <img src="/img/bisection.png" />
+  </figure>
+</div>
+
+<p>Bisection is about the simplest algorithm there is for isolating a root of a continuous function:</p>
+
+<ol>
+  <li>Start with an interval such that the function takes on oppositely signed values on the endpoints.</li>
+  <li>Split the interval at its midpoint.</li>
+  <li>Recurse into whichever half has endpoints on which the function takes on oppositely signed values.</li>
+</ol>
+
+<p>After each step, the new interval is half as large as the previous interval and still contains at least one zero (by the <a href="https://en.wikipedia.org/wiki/Intermediate_value_theorem">Intermediate Value Theorem</a>).</p>
+
+<p>I want to highlight a couple of interesting issues that arise when implementing bisection in floating point arithmetic that you might miss if you just looked at the definition of the algorithm.</p>
+
+</p>
+    <p><a href="/2014/02/22/bisecting-floats/">more...</a></p>
+  </div>
+
+
+  </div>
+  <script src="/js/vendor/jquery-2.1.0.min.js"></script>
+<script src="/js/vendor/mathquill-0.9.3.min.js"></script>
+<script src="/js/vendor/scrubber.js"></script>
+</body>
+</html>
