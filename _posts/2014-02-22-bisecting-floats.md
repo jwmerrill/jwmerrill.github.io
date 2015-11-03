@@ -21,7 +21,7 @@ I want to highlight a couple of interesting issues that arise when implementing 
 
 <!--more-->
 
-In [Julia](http://julialang.org/) code{% marginnote 'mn-julia-floats' """Julia treats floating point arithmetic the same way all modern programming environments do: according to the <a href="https://en.wikipedia.org/wiki/IEEE_floating_point">IEEE 754</a> standard. The examples here are in Julia because I plan to talk more about the language in the future, but everything in this post could as easily be written in any other language."""%}, a single step of bisection looks like this:
+In [Julia](http://julialang.org/) code{% marginnote 'mn-julia-floats' """Julia treats floating point arithmetic the same way all modern programming environments do: according to the [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point) standard. The examples here are in Julia because I plan to talk more about the language in the future, but everything in this post could as easily be written in any other language."""%}, a single step of bisection looks like this:
 
 {% highlight julia %}
 function bisect_step(fn, x1, x2)
