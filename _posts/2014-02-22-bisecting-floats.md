@@ -1,6 +1,8 @@
 ---
 layout: post
 title: Bisecting Floating Point Numbers
+categories:
+  - Julia
 ---
 
 <div class="p">
