@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title>Optimizing (part of) a Kakuro puzzle solver in Julia</title>
+   <meta name="author" content="Jason Merrill" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+   <link rel="stylesheet" href="/fonts/ptserif.css" type="text/css" >
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/vendor/mathquill/mathquill.css" type="text/css" />
+<link rel="stylesheet" href="/css/pygments/default.css" type="text/css" />
+<link rel="stylesheet" href="/css/vendor/scrubber.css" type="text/css" />
+
+
+   
+</head>
+<body class="post">
+  <div class="header">
+    <div class="header-inner">
+      <h3><a href="/">Squishy Thinking</a></h2>
+      <div class="byline">by Jason Merrill<br /><a href="mailto:jason@squishythinking.com">jason@squishythinking.com</a></div>
+    </div>
+  </div>
+  <article class="main">
+    <h1><a href="/julia/2015/11/02/optimizing-kakuro-in-julia/">Optimizing (part of) a Kakuro puzzle solver in Julia</a></h1>
+    <abbr class="date">02 Nov 2015</abbr>
+    <div class="p">
+  <figure class="sidefig">
+    <a href="https://commons.wikimedia.org/wiki/File%3AKakuro_black_box_solution.svg">
+      <img width="256" height="256" alt="Solved Kakuro puzzle" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Kakuro_black_box_solution.svg/256px-Kakuro_black_box_solution.svg.png" />
+    </a>
+    <figcaption>A solved Kakuro puzzle.</figcaption>
+  </figure>
+</div>
+
+<p><a href="https://en.wikipedia.org/wiki/Kakuro">Kakuro</a> is a number puzzle that is a bit like a combination between Sudoku and a crossword puzzle. Imagine a crossword puzzle where, instead of words, blocks of boxes are filled with combinations of digits between 1 and 9, and instead of clues about words, you are given sums that a block of digits must add up to.</p>
+
+<p>When you’re solving a Kakuro puzzle, it’s helpful to be able to generate all the combinations of <em>m</em> different digits that add up to a given sum. A <a href="https://groups.google.com/d/msg/julia-users/xJ7GpKAa16E/ZnaWuHZKBQAJ">recent thread</a> on the julia-users mailing list considered how to implement this task efficiently on a computer.</p>
+
+<p>In this post, I’d like to show a progression of a few different implementations of the solution of this same problem. I think the progression shows off one of Julia’s core strengths: in a single language, you are free to think in either a high level way that is close to your problem domain and easy to prototype, or a low level way that pays more attention to the details of efficient machine execution. I don’t know any other system that even comes close to making it as easy to switch back and forth between these modes as Julia does.</p>
+
+<p><em>Attention Conservation Notice</em>: If you’re looking for information on how to solve Kakuro with a computer, you should probably look elsewhere. This post is a deep dive into a tiny, tiny subproblem. On the other hand, I’ll show how to speed up the solution of this tiny, tiny subproblem by a factor of either ten thousand or a million, depending how you count, so if that sounds fun you’re in the right place.</p>
+
+<!--more-->
+
+<h3 id="step-1-recursive-enumeration">Step 1: Recursive enumeration</h3>
+
+<p>The original solution presented by Patrick Useldinger is based on the following decomposition of the problem:</p>
+
+<p>Suppose, for example, that we want to find a set of 4 different digits between 1 and 9 that sum to 12. Each answer will either include 1 along with 3 other digits between 2 and 9 that sum to 11, or else it won’t include 1, but will instead include 4 digits between 2 and 9 that sum to 12.</p>
+
+<p>In general, a set of <em>m</em> different digits between <em>p</em> and 9 that sum to <em>s</em> either contains <em>p</em> along with a subset of <em>m</em>-1 digits between <em>p</em>+1 and 9 that sum to <em>s-p</em>, or it doesn’t contain <em>p</em> and instead contains <em>m</em> digits between <em>p</em>+1 and 9 that sum to <em>s</em>. In either case, we’ve turned one problem into two new problems with digits drawn from smaller ranges. Like any good recursive algorithm, we’re expressing the solution to the original problem as a simple combination of the solution to successively simpler problems.</p>
+
+<p>To turn this insight into code, we need to make a few choices:</p>
+
+<ol>
+  <li>How will we represent and combine the solutions to subproblems?</li>
+  <li>In what order will we solve the subproblems, and how will we keep track of where we are in this order.</li>
+</ol>
+
+<p>Early discussion focused on point (1), and the relative merits of storing the<br />
+solution digit sets in a <code>Set</code>, a <code>Vector</code>, or a linked list.</p>
+
+<p>Here’s an example that stores digit sets as a vector of integers, and organizes the process of enumerating solutions as a recursive depth-first search.</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> decompose_rec</span><span class="p">(</span><span class="n">sum</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+  <span class="c"># Container to hold all solutions</span>
+  <span class="n">solutions</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">{</span><span class="kt">Int</span><span class="p">}[]</span>
+  <span class="c"># Container to hold digits in a single solution</span>
+  <span class="n">partial_solution</span> <span class="o">=</span> <span class="kt">Int</span><span class="p">[]</span>
+  <span class="n">lower</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="n">upper</span> <span class="o">=</span> <span class="mi">9</span>
+  <span class="n">decompose_rec</span><span class="o">!</span><span class="p">(</span>
+    <span class="n">solutions</span><span class="p">,</span> <span class="n">partial_solution</span><span class="p">,</span>
+    <span class="n">sum</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span>
+  <span class="p">)</span>
+  <span class="n">solutions</span>
+<span class="k">end</span>
+
+<span class="c"># Julia has a convention that functions that mutate</span>
+<span class="c"># one of their arguments should end with a &quot;!&quot;. The</span>
+<span class="c"># argument that will be mutated is usually placed</span>
+<span class="c"># first.</span>
+<span class="k">function</span><span class="nf"> decompose_rec</span><span class="o">!</span><span class="p">(</span>
+  <span class="n">solutions</span><span class="p">,</span> <span class="n">partial_solution</span><span class="p">,</span>
+  <span class="n">sum</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span>
+<span class="p">)</span>
+  <span class="k">if</span> <span class="n">sum</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">m</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="c"># In this case, partial_solution is in fact a</span>
+    <span class="c"># full solution. Push it onto solutions.</span>
+    <span class="n">push</span><span class="o">!</span><span class="p">(</span><span class="n">solutions</span><span class="p">,</span> <span class="n">partial_solution</span><span class="p">)</span>
+  <span class="k">elseif</span> <span class="n">sum</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">upper</span> <span class="o">&gt;=</span> <span class="n">lower</span>
+    <span class="c"># Make an extended partial solution that</span>
+    <span class="c"># includes lower. The copy operation is</span>
+    <span class="c"># important because we don&#39;t want to mutate</span>
+    <span class="c"># existing partial solutions.</span>
+    <span class="n">extended</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">partial_solution</span><span class="p">)</span>
+    <span class="n">push</span><span class="o">!</span><span class="p">(</span><span class="n">extended</span><span class="p">,</span> <span class="n">lower</span><span class="p">)</span>
+    <span class="c"># Find solutions that include lower</span>
+    <span class="n">decompose_rec</span><span class="o">!</span><span class="p">(</span>
+      <span class="n">solutions</span><span class="p">,</span> <span class="n">extended</span><span class="p">,</span>
+      <span class="n">sum</span> <span class="o">-</span> <span class="n">lower</span><span class="p">,</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">lower</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">upper</span>
+    <span class="p">)</span>
+    <span class="c"># Find solutions that don&#39;t include lower</span>
+    <span class="n">decompose_rec</span><span class="o">!</span><span class="p">(</span>
+      <span class="n">solutions</span><span class="p">,</span> <span class="n">partial_solution</span><span class="p">,</span>
+      <span class="n">sum</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">lower</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">upper</span>
+    <span class="p">)</span>
+  <span class="k">else</span>
+    <span class="c"># stop searching</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>This is a reasonably idiomatic Julia solution. It spells out the types of the <code>solutions</code> and <code>partial_solution</code> containers when they are created, but otherwise doesn’t get overly bossy about annotations. I’m not really using any special features of Julia here, and you could write basically this same code in practically any language.</p>
+
+<p>Let’s see how the performance is looking so far. We’ll benchmark finding the number that can be written in the most different ways as a sum of <em>m</em> different digits:</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> benchmark_rec</span><span class="p">()</span>
+ <span class="n">nmax</span> <span class="o">=</span> <span class="mi">0</span>
+ <span class="n">solnmax</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">{</span><span class="kt">Int</span><span class="p">}[]</span>
+ <span class="k">for</span> <span class="n">sum</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">45</span><span class="p">,</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">9</span>
+   <span class="n">soln</span> <span class="o">=</span> <span class="n">decompose_rec</span><span class="p">(</span><span class="n">sum</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+   <span class="k">if</span> <span class="n">length</span><span class="p">(</span><span class="n">soln</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">nmax</span>
+     <span class="n">nmax</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">soln</span><span class="p">)</span>
+     <span class="n">solnmax</span> <span class="o">=</span> <span class="n">soln</span>
+   <span class="k">end</span>
+ <span class="k">end</span>
+ <span class="n">solnmax</span>
+<span class="k">end</span></code></pre></div>
+
+<p>and the results:</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="p">@</span><span class="n">time</span> <span class="n">benchmark_rec</span><span class="p">();</span> <span class="p">@</span><span class="n">time</span> <span class="n">benchmark_rec</span><span class="p">()</span>
+<span class="mf">0.038101</span> <span class="n">seconds</span> <span class="p">(</span><span class="mf">194.83</span> <span class="n">k</span> <span class="n">allocations</span><span class="p">:</span> <span class="mf">13.916</span> <span class="n">MB</span><span class="p">,</span> <span class="mf">26.53</span><span class="o">%</span> <span class="n">gc</span> <span class="n">time</span><span class="p">)</span>
+<span class="mf">0.009737</span> <span class="n">seconds</span> <span class="p">(</span><span class="mf">182.40</span> <span class="n">k</span> <span class="n">allocations</span><span class="p">:</span> <span class="mf">13.293</span> <span class="n">MB</span><span class="p">,</span> <span class="mf">26.66</span><span class="o">%</span> <span class="n">gc</span> <span class="n">time</span><span class="p">)</span>
+<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Array</span><span class="p">{</span><span class="kt">Int</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span></code></pre></div>
+
+<p>So there are 12 different subsets of 4 digits between 1 and 9 that sum to 20.</p>
+
+<p>Note a few <a href="http://docs.julialang.org/en/release-0.4/manual/performance-tips/">good benchmarking practices</a> here:</p>
+
+<ol>
+  <li>The benchmark is wrapped in a function. Julia currently does a poor job optimizing code that uses non-constant global variables. For this reason, benchmarks should be wrapped in functions so that they only use local variables.</li>
+  <li>The benchmark uses each result that is produced in the inner loop, and returns a result. This prevents the optimizer from just skipping the loop.</li>
+  <li>We run the benchmark multiple times. The first run includes time to compile all the code, which you typically want to ignore.</li>
+</ol>
+
+<p>Other early solutions from the mailing list in Python, lisp, and Julia had runtimes of ~500ms to ~10s. At ~10ms, the solution above already compares pretty favorably. A couple reasons that the early Julia solutions were slower are that</p>
+
+<ol>
+  <li>Using a <code>Set</code> or using <code>union</code> on a <code>Vector</code> is slower than using <code>push!</code> on a <code>Vector</code>, because Julia needs to check whether the new element is already a member of the set before adding it. Our enumeration is constructed to make this check unnecessary.</li>
+  <li>Inner functions, anonymous functions, and closures are currently relatively slow in Julia<label for="mn-fast-anonymous" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="mn-fast-anonymous" class="margin-toggle" /><span class="marginnote"><a href="https://github.com/JuliaLang/julia/issues/1864">Anonymous functions will probably be fast some day</a>.</span>. If you’re going for performance, just pass all the context you need using function arguments. You can make this more tidy by defining a type to hold the context that’s relevant to a given problem. This is generally preferable to passing around half a dozen positional arguments as I’ve done above. As an added bonus, once you have a type, you will often see useful operations that you can define on it to further simplify and structure your code.</li>
+</ol>
+
+<p>There is probably more room for improvement here. Using a linked list instead of a <code>Vector</code> to represent solutions would eliminate the need to copy partial solutions, because <a href="https://en.wikipedia.org/wiki/Persistent_data_structure#Linked_lists">linked lists can share tails</a> with each other. Alternatively, memory usage could be reduced by storing digits in a <code>Vector{Int8}</code> instead of a <code>Vector{Int}</code>, since we’re only storing digits between 1 and 9.</p>
+
+<p>Rather than spend more time experimenting with different containers, I’d like to take a step back and consider some other solution strategies.</p>
+
+<h3 id="step-2-filtering-combinations">Step 2: Filtering Combinations</h3>
+
+<p>Julia ships with built in routines for iterating through combinations of the elements of a collection<label for="mn-combinations-src" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="mn-combinations-src" class="margin-toggle" /><span class="marginnote">If you’re curious, you can see how the <code>combinations</code> iterator is implemented in <a href="https://github.com/JuliaLang/julia/blob/d594954e299617fdf72af6a896a5ff89c5d831f1/base/combinatorics.jl#L172-L209">Julia’s source code</a>.</span>. Instead of recursively building combinations with the correct sum, we can just look at all combinations and keep only those that have the correct sum. The number of combinations of <em>m</em> digits between 1 and 9 is <code>binomial(9, m)</code>,</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="p">[(</span><span class="n">m</span><span class="p">,</span> <span class="n">binomial</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span> <span class="k">for</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">0</span><span class="p">:</span><span class="mi">9</span><span class="p">]</span>
+<span class="mi">10</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Tuple</span><span class="p">{</span><span class="kt">Int64</span><span class="p">,</span><span class="kt">Int64</span><span class="p">},</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+ <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">9</span><span class="p">)</span>
+ <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">36</span><span class="p">)</span>
+ <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">84</span><span class="p">)</span>
+ <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">126</span><span class="p">)</span>
+ <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">126</span><span class="p">)</span>
+ <span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">84</span><span class="p">)</span>
+ <span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">36</span><span class="p">)</span>
+ <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">)</span>
+ <span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span></code></pre></div>
+
+<p>so we’ll never need to look at more than 126 combinations for a given <code>(sum,&nbsp;m)</code> pair.</p>
+
+<p>Here’s a solution that uses this strategy:</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> decompose_com</span><span class="p">(</span><span class="n">desired_sum</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+  <span class="n">solutions</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">{</span><span class="kt">Int</span><span class="p">}[]</span>
+  <span class="k">for</span> <span class="n">c</span> <span class="k">in</span> <span class="n">combinations</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">9</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sum</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">==</span> <span class="n">desired_sum</span>
+      <span class="n">push</span><span class="o">!</span><span class="p">(</span><span class="n">solutions</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="n">solutions</span>
+<span class="k">end</span></code></pre></div>
+
+<p>Short and simple. It could be a one liner if we used <code>filter</code>, but higher order functions aren’t as fast as they could be in Julia (yet).</p>
+
+<p>Let’s benchmark this version:</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> benchmark_com</span><span class="p">()</span>
+  <span class="n">nmax</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">solnmax</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">{</span><span class="kt">Int</span><span class="p">}[]</span>
+  <span class="k">for</span> <span class="n">sum</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">45</span><span class="p">,</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">9</span>
+    <span class="n">soln</span> <span class="o">=</span> <span class="n">decompose_com</span><span class="p">(</span><span class="n">sum</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">length</span><span class="p">(</span><span class="n">soln</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">nmax</span>
+      <span class="n">nmax</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">soln</span><span class="p">)</span>
+      <span class="n">solnmax</span> <span class="o">=</span> <span class="n">soln</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="n">solnmax</span>
+<span class="k">end</span></code></pre></div>
+
+<p>I’m running the benchmark repeatedly below because some runs invoke the garbage collector, and other runs don’t.</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="p">@</span><span class="n">time</span> <span class="n">benchmark_com</span><span class="p">();</span>
+  <span class="mf">0.042942</span> <span class="n">seconds</span> <span class="p">(</span><span class="mf">102.48</span> <span class="n">k</span> <span class="n">allocations</span><span class="p">:</span> <span class="mf">6.814</span> <span class="n">MB</span><span class="p">)</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="p">@</span><span class="n">time</span> <span class="n">benchmark_com</span><span class="p">();</span>
+  <span class="mf">0.006712</span> <span class="n">seconds</span> <span class="p">(</span><span class="mf">70.39</span> <span class="n">k</span> <span class="n">allocations</span><span class="p">:</span> <span class="mf">5.357</span> <span class="n">MB</span><span class="p">,</span> <span class="mf">45.27</span><span class="o">%</span> <span class="n">gc</span> <span class="n">time</span><span class="p">)</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="p">@</span><span class="n">time</span> <span class="n">benchmark_com</span><span class="p">();</span>
+  <span class="mf">0.004499</span> <span class="n">seconds</span> <span class="p">(</span><span class="mf">70.39</span> <span class="n">k</span> <span class="n">allocations</span><span class="p">:</span> <span class="mf">5.357</span> <span class="n">MB</span><span class="p">)</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="p">@</span><span class="n">time</span> <span class="n">benchmark_com</span><span class="p">();</span>
+  <span class="mf">0.005283</span> <span class="n">seconds</span> <span class="p">(</span><span class="mf">70.39</span> <span class="n">k</span> <span class="n">allocations</span><span class="p">:</span> <span class="mf">5.357</span> <span class="n">MB</span><span class="p">)</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="p">@</span><span class="n">time</span> <span class="n">benchmark_com</span><span class="p">();</span>
+  <span class="mf">0.005495</span> <span class="n">seconds</span> <span class="p">(</span><span class="mf">70.39</span> <span class="n">k</span> <span class="n">allocations</span><span class="p">:</span> <span class="mf">5.357</span> <span class="n">MB</span><span class="p">)</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="p">@</span><span class="n">time</span> <span class="n">benchmark_com</span><span class="p">();</span>
+  <span class="mf">0.005883</span> <span class="n">seconds</span> <span class="p">(</span><span class="mf">70.39</span> <span class="n">k</span> <span class="n">allocations</span><span class="p">:</span> <span class="mf">5.357</span> <span class="n">MB</span><span class="p">,</span> <span class="mf">36.67</span><span class="o">%</span> <span class="n">gc</span> <span class="n">time</span><span class="p">)</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="p">@</span><span class="n">time</span> <span class="n">benchmark_com</span><span class="p">()</span>
+  <span class="mf">0.002831</span> <span class="n">seconds</span> <span class="p">(</span><span class="mf">70.39</span> <span class="n">k</span> <span class="n">allocations</span><span class="p">:</span> <span class="mf">5.357</span> <span class="n">MB</span><span class="p">)</span>
+<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Array</span><span class="p">{</span><span class="kt">Int</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span></code></pre></div>
+
+<p>After the first couple runs, timing settles down to ~3 ms when the gc doesn’t run, and ~6 ms when it does. That’s a decent improvement over the recursive code, and as a bonus, it’s much simpler.</p>
+
+<p>Even so, we’re doing a fair amount of repeated work in the benchmark since we form the same combinations of <em>m</em> digits over and over again for different target sums. Since there are so few total subsets of the digits between 1 and 9 (only 2<sup>9</sup>=512 of them), we could just precompute the sums of all of them, and store the relevant combinations in a look up table.</p>
+
+<h3 id="step-3-a-lookup-table">Step 3: A lookup table</h3>
+
+<p>My first thought for the lookup table was to use a <code>Dict</code> that maps <code>(sum,&nbsp;m)</code> pairs to combinations stored as a vector of digits. But the possible values of <code>sum</code> are the integers between 1 and 45, and the possible values of <em>m</em> are the integers between 1 and 9, so we might as well just use a 2D array instead of a <code>Dict</code>. This saves a bit of time spent hashing pairs of integers.</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> buildlut</span><span class="p">()</span>
+  <span class="c"># Preallocate empty containers for each</span>
+  <span class="c"># (sum, m) pair.</span>
+  <span class="n">lut</span> <span class="o">=</span> <span class="p">[</span><span class="n">Vector</span><span class="p">{</span><span class="kt">Int</span><span class="p">}[]</span> <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">45</span><span class="p">,</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">9</span><span class="p">]</span>
+
+  <span class="k">for</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">9</span><span class="p">,</span> <span class="n">c</span> <span class="k">in</span> <span class="n">combinations</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">9</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="n">push</span><span class="o">!</span><span class="p">(</span><span class="n">lut</span><span class="p">[</span><span class="n">sum</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">m</span><span class="p">],</span> <span class="n">c</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="n">lut</span>
+<span class="k">end</span>
+
+<span class="c"># Now decompose is just a table lookup</span>
+<span class="n">decompose_lut</span><span class="p">(</span><span class="n">lut</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">lut</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span></code></pre></div>
+
+<p>Here’s the corresponding benchmark</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> benchmark_lut</span><span class="p">()</span>
+  <span class="n">lut</span> <span class="o">=</span> <span class="n">buildlut</span><span class="p">()</span>
+  <span class="n">nmax</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">solnmax</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">{</span><span class="kt">Int</span><span class="p">}[]</span>
+  <span class="k">for</span> <span class="n">sum</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">45</span><span class="p">,</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">9</span>
+    <span class="n">soln</span> <span class="o">=</span> <span class="n">decompose_lut</span><span class="p">(</span><span class="n">lut</span><span class="p">,</span> <span class="n">sum</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">length</span><span class="p">(</span><span class="n">soln</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">nmax</span>
+      <span class="n">nmax</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">soln</span><span class="p">)</span>
+      <span class="n">solnmax</span> <span class="o">=</span> <span class="n">soln</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="n">solnmax</span>
+<span class="k">end</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="p">@</span><span class="n">time</span> <span class="n">benchmark_lut</span><span class="p">();</span> <span class="p">@</span><span class="n">time</span> <span class="n">benchmark_lut</span><span class="p">()</span>
+  <span class="mf">0.048013</span> <span class="n">seconds</span> <span class="p">(</span><span class="mf">49.26</span> <span class="n">k</span> <span class="n">allocations</span><span class="p">:</span> <span class="mf">2.317</span> <span class="n">MB</span><span class="p">)</span>
+  <span class="mf">0.000158</span> <span class="n">seconds</span> <span class="p">(</span><span class="mf">2.15</span> <span class="n">k</span> <span class="n">allocations</span><span class="p">:</span> <span class="mf">161.313</span> <span class="n">KB</span><span class="p">)</span>
+<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Array</span><span class="p">{</span><span class="kt">Int</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span></code></pre></div>
+
+<p>So with the look up table strategy, we’re down to ~150 microseconds.</p>
+
+<p>Note that this benchmark includes the time it takes to build the look up table. A real Kakuro solving program could just build the table at program startup time, and then it wouldn’t be included in the time that it took to solve any particular puzzle.</p>
+
+<p>With that in mind, let’s build the table ahead of time instead of as part of the benchmark.</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="kd">const</span> <span class="n">lut</span> <span class="o">=</span> <span class="n">buildlut</span><span class="p">()</span>
+
+<span class="k">function</span><span class="nf"> benchmark_lut_precomputed</span><span class="p">()</span>
+  <span class="n">nmax</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">solnmax</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">{</span><span class="kt">Int</span><span class="p">}[]</span>
+  <span class="k">for</span> <span class="n">sum</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">45</span><span class="p">,</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">9</span>
+    <span class="n">soln</span> <span class="o">=</span> <span class="n">decompose_lut</span><span class="p">(</span><span class="n">lut</span><span class="p">,</span> <span class="n">sum</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">length</span><span class="p">(</span><span class="n">soln</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">nmax</span>
+      <span class="n">nmax</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">soln</span><span class="p">)</span>
+      <span class="n">solnmax</span> <span class="o">=</span> <span class="n">soln</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="n">solnmax</span>
+<span class="k">end</span></code></pre></div>
+
+<p>Here are the results:</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="p">@</span><span class="n">time</span> <span class="n">benchmark_lut_precomputed</span><span class="p">();</span>
+  <span class="mf">0.006212</span> <span class="n">seconds</span> <span class="p">(</span><span class="mf">4.04</span> <span class="n">k</span> <span class="n">allocations</span><span class="p">:</span> <span class="mf">197.841</span> <span class="n">KB</span><span class="p">)</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="p">@</span><span class="n">time</span> <span class="n">benchmark_lut_precomputed</span><span class="p">()</span>
+  <span class="mf">0.000007</span> <span class="n">seconds</span> <span class="p">(</span><span class="mi">5</span> <span class="n">allocations</span><span class="p">:</span> <span class="mi">224</span> <span class="n">bytes</span><span class="p">)</span>
+<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Array</span><span class="p">{</span><span class="kt">Int</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span></code></pre></div>
+
+<p>So we’re now down to ~7μs. That’s probably close to the resolution of the timer used by <code>@time</code>, so you can’t really trust times that small. Let’s add an outer loop to the benchmark to bring the time back up to measurable levels.</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> benchmark_lut_precomputed_x_1e6</span><span class="p">()</span>
+  <span class="n">nmax</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">solnmax</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">{</span><span class="kt">Int</span><span class="p">}[]</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">1_000_000</span><span class="p">,</span> <span class="n">sum</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">45</span><span class="p">,</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">9</span>
+    <span class="n">soln</span> <span class="o">=</span> <span class="n">decompose_lut</span><span class="p">(</span><span class="n">lut</span><span class="p">,</span> <span class="n">sum</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">length</span><span class="p">(</span><span class="n">soln</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">nmax</span>
+      <span class="n">nmax</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">soln</span><span class="p">)</span>
+      <span class="n">solnmax</span> <span class="o">=</span> <span class="n">soln</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="n">solnmax</span>
+<span class="k">end</span></code></pre></div>
+
+<p>The results:</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="p">@</span><span class="n">time</span> <span class="n">benchmark_lut_precomputed_x_1e6</span><span class="p">();</span>
+  <span class="mf">0.562733</span> <span class="n">seconds</span> <span class="p">(</span><span class="mf">6.12</span> <span class="n">k</span> <span class="n">allocations</span><span class="p">:</span> <span class="mf">292.998</span> <span class="n">KB</span><span class="p">)</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="p">@</span><span class="n">time</span> <span class="n">benchmark_lut_precomputed_x_1e6</span><span class="p">()</span>
+  <span class="mf">0.546012</span> <span class="n">seconds</span> <span class="p">(</span><span class="mi">5</span> <span class="n">allocations</span><span class="p">:</span> <span class="mi">224</span> <span class="n">bytes</span><span class="p">)</span>
+<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Array</span><span class="p">{</span><span class="kt">Int</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span></code></pre></div>
+
+<p>Dividing by our factor of a million, this shows that the benchmark runtime has been reduced to ~550ns. The original Python and lisp programs from the mailing list ran in ~1s.</p>
+
+<p>I can’t think of very many other times that I have been able to optimize a program by a factor of a million.</p>
+
+<p>Depending on your sense of fairness, you might not like that I’ve lifted the computation of the table out of the benchmark (even though you can solve any number of puzzles with the same table). But remember, even computing the table took less than 200μs.</p>
+
+<p>Even so, our representation of solution sets is not as efficient as it could be. As I mentioned before, we could represent the digits with an <code>Int8</code> instead of an <code>Int</code>. But we can actually do much better than that.</p>
+
+<h3 id="step-4-bitmasks">Step 4: Bitmasks</h3>
+
+<p>We know that there are only 512 subsets of digits that we want to represent, and our lookup table actually contains each of these subsets. Instead of using a vector of digits, we could use a simple binary number as a bitmask, so that a 1 represents the presence of a certain digit in a subset, and a 0 represents the absence of that digit<label for="mn-bitarray" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="mn-bitarray" class="margin-toggle" /><span class="marginnote">Julia also has a built in <code>BitArray</code> type, so we could use a <code>BitArray{9}</code> to store our bitmask even more compactly, but there are advantages to staying aligned to bytes, so I’ll proceed with an <code>Int16</code> mask.</span>. An <code>Int16</code> has 16 binary digits, and we only need 9, so we can pack a bitmask representing any set of digits between 1 and 9 into an <code>Int16</code> with room to spare.</p>
+
+<p>As an example, the number 23 is written as 10111 in binary, so you can also think of it as representing the set of digits {1,2,3,5}.</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">bits</span><span class="p">(</span><span class="kt">Int16</span><span class="p">(</span><span class="mi">23</span><span class="p">))</span>
+<span class="s">&quot;0000000000010111&quot;</span></code></pre></div>
+
+<p>All we really need to switch our table over to this new representation is a way to convert an <code>Int16</code> bitmask into a set of digits. As an optimization, I’ll also implement routines that count the digits and sum them without producing an intermediate array.</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> bitmaskdigits</span><span class="p">(</span><span class="n">x</span><span class="p">::</span><span class="n">Integer</span><span class="p">)</span>
+  <span class="n">digits</span> <span class="o">=</span> <span class="kt">Int</span><span class="p">[]</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">while</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="n">shift</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">trailing_zeros</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">+=</span> <span class="n">shift</span>
+    <span class="n">x</span> <span class="o">&gt;&gt;=</span> <span class="n">shift</span>
+    <span class="n">push</span><span class="o">!</span><span class="p">(</span><span class="n">digits</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+  <span class="k">end</span>
+  <span class="n">digits</span>
+<span class="k">end</span>
+
+<span class="k">function</span><span class="nf"> bitmasksum</span><span class="p">(</span><span class="n">x</span><span class="p">::</span><span class="n">Integer</span><span class="p">)</span>
+  <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">while</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="n">shift</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">trailing_zeros</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">+=</span> <span class="n">shift</span>
+    <span class="n">x</span> <span class="o">&gt;&gt;=</span> <span class="n">shift</span>
+    <span class="n">sum</span> <span class="o">+=</span> <span class="n">n</span>
+  <span class="k">end</span>
+  <span class="n">sum</span>
+<span class="k">end</span>
+
+<span class="n">bitmaskcount</span><span class="p">(</span><span class="n">x</span><span class="p">::</span><span class="n">Integer</span><span class="p">)</span> <span class="o">=</span> <span class="n">count_ones</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></code></pre></div>
+
+<p>With these operations defined, we can implement a very similar version of table-based decompose as before:</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> buildlut_int</span><span class="p">()</span>
+  <span class="n">lut</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Int16</span><span class="p">[]</span> <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">45</span><span class="p">,</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">9</span><span class="p">]</span>
+
+  <span class="c"># Only 511 bitmasks because we&#39;re skipping the</span>
+  <span class="c"># empty set</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">511</span>
+    <span class="n">push</span><span class="o">!</span><span class="p">(</span><span class="n">lut</span><span class="p">[</span><span class="n">bitmasksum</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">bitmaskcount</span><span class="p">(</span><span class="n">i</span><span class="p">)],</span> <span class="n">i</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="n">lut</span>
+<span class="k">end</span></code></pre></div>
+
+<p>Let’s see how long it takes to build the look up table now:</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="p">@</span><span class="n">time</span> <span class="n">buildlut_int</span><span class="p">();</span> <span class="p">@</span><span class="n">time</span> <span class="n">buildlut_int</span><span class="p">();</span>
+  <span class="mf">0.022075</span> <span class="n">seconds</span> <span class="p">(</span><span class="mf">20.20</span> <span class="n">k</span> <span class="n">allocations</span><span class="p">:</span> <span class="mf">971.572</span> <span class="n">KB</span><span class="p">)</span>
+  <span class="mf">0.000076</span> <span class="n">seconds</span> <span class="p">(</span><span class="mi">597</span> <span class="n">allocations</span><span class="p">:</span> <span class="mf">32.766</span> <span class="n">KB</span><span class="p">)</span></code></pre></div>
+
+<p>With this new representation, we’re down to only 80μs to build the look up table (twice as fast as before), and it also takes up less memory. We can also expect set operations like intersection and union to be faster on these bitmasks than they would be on a <code>Vector{Int}</code>.</p>
+
+<p>We should probably expect the benchmark of finding the largest number of solutions to be the same as the previous look up table solution, since we’ve optimized it down to in-order array access in both cases, but let’s check anyway:</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">decompose_lut_int</span><span class="p">(</span><span class="n">lut</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">lut</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+
+<span class="kd">const</span> <span class="n">lut_int</span> <span class="o">=</span> <span class="n">buildlut_int</span><span class="p">()</span>
+
+<span class="k">function</span><span class="nf"> benchmark_lut_int_precomputed_x_1e6</span><span class="p">()</span>
+  <span class="n">nmax</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">solnmax</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">{</span><span class="kt">Int</span><span class="p">}[]</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">1_000_000</span><span class="p">,</span> <span class="n">sum</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">45</span><span class="p">,</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">9</span>
+    <span class="n">soln</span> <span class="o">=</span> <span class="n">decompose_lut_int</span><span class="p">(</span><span class="n">lut_int</span><span class="p">,</span> <span class="n">sum</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">length</span><span class="p">(</span><span class="n">soln</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">nmax</span>
+      <span class="n">nmax</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">soln</span><span class="p">)</span>
+      <span class="n">solnmax</span> <span class="o">=</span> <span class="n">soln</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="n">solnmax</span>
+<span class="k">end</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="p">@</span><span class="n">time</span> <span class="n">benchmark_lut_int_precomputed_x_1e6</span><span class="p">();</span>
+  <span class="mf">0.561131</span> <span class="n">seconds</span> <span class="p">(</span><span class="mf">8.69</span> <span class="n">k</span> <span class="n">allocations</span><span class="p">:</span> <span class="mf">428.280</span> <span class="n">KB</span><span class="p">)</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="p">@</span><span class="n">time</span> <span class="n">benchmark_lut_int_precomputed_x_1e6</span><span class="p">()</span>
+  <span class="mf">0.567186</span> <span class="n">seconds</span> <span class="p">(</span><span class="mi">5</span> <span class="n">allocations</span><span class="p">:</span> <span class="mi">224</span> <span class="n">bytes</span><span class="p">)</span>
+<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="kt">Int16</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="mi">108</span>
+ <span class="mi">114</span>
+ <span class="mi">156</span>
+ <span class="mi">170</span>
+ <span class="mi">177</span>
+ <span class="mi">198</span>
+ <span class="mi">201</span>
+ <span class="mi">282</span>
+ <span class="mi">294</span>
+ <span class="mi">297</span>
+ <span class="mi">325</span>
+ <span class="mi">387</span></code></pre></div>
+
+<p>As expected, the time to complete the benchmark is again ~550ns.</p>
+
+<p>If we want to see a more friendly representation of the solutions, we can map <code>bitmaskdigits</code> over them:</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">map</span><span class="p">(</span>
+    <span class="n">bitmaskdigits</span><span class="p">,</span>
+    <span class="n">benchmark_lut_int_precomputed_x_1e6</span><span class="p">()</span>
+  <span class="p">)</span>
+<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">Array</span><span class="p">{</span><span class="kt">Int</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span></code></pre></div>
+
+<p>Unfortunately, this new representation has come at a cost in clarity and safety. It’s annoying to have to call <code>bitmaskdigits</code> to see a human-friendly display, and changing the default display of <code>Int16</code> is out of the question. It would also be easy to perform inappropriate operations on these masks, like addition, negation, or multiplication, since all those operations are of course defined on integers.</p>
+
+<p>Julia is a strongly typed language, but by mapping our data onto integers, we have been using it in a weakly typed way. We can make better use of Julia’s type system to win back and actually improve clarity and safety with no loss of performance.</p>
+
+<h3 id="step-5-digitsets">Step 5: DigitSets</h3>
+
+<p>If we wrap our bitmask digit sets in an <a href="http://docs.julialang.org/en/release-0.4/manual/types/#immutable-composite-types">immutable type</a>, we can then restrict which operations can be performed on them, and even better, we can overload existing operations (e.g. <code>sum</code>, <code>length</code>, <code>union</code>, etc.) to perform differently on them than they do on integers.</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">immutable</span> <span class="n">DigitSet</span>
+  <span class="n">d</span><span class="p">::</span><span class="kt">Int16</span>
+<span class="k">end</span></code></pre></div>
+
+<p>With this definition, you can construct a <code>DigitSet</code> to wrap an <code>Int16</code> like this:</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">DigitSet</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">DigitSet</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></code></pre></div>
+
+<p>The first operation we’ll define is a way to get the individual digits out of a <code>DigitSet</code>. The logic we need is already contained in the <code>bitmaskdigits</code> function from before. However, rather than just returning a vector, we can do something more flexible by hooking into <a href="http://docs.julialang.org/en/release-0.4/manual/interfaces/#man-interfaces-iteration">Julia’s iteration protocol</a>. To do that, we just need to define <code>start</code>, <code>next</code>, and <code>done</code> on <code>DigitSet</code>. We’ll also override <code>length</code>, <code>in</code>, and <code>isempty</code>, although these are not strictly necessary for the iteration protocol.</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="c"># Allow iterating over the members of a digit set</span>
+<span class="n">Base</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">ds</span><span class="p">::</span><span class="n">DigitSet</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="k">function</span><span class="nf"> Base</span><span class="o">.</span><span class="n">next</span><span class="p">(</span><span class="n">ds</span><span class="p">::</span><span class="n">DigitSet</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="n">state</span>
+  <span class="n">shift</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">trailing_zeros</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+  <span class="n">n</span> <span class="o">+=</span> <span class="n">shift</span>
+  <span class="n">d</span> <span class="o">&gt;&gt;=</span> <span class="n">shift</span>
+  <span class="k">return</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+<span class="k">end</span>
+<span class="n">Base</span><span class="o">.</span><span class="n">done</span><span class="p">(</span><span class="n">ds</span><span class="p">::</span><span class="n">DigitSet</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span>
+<span class="n">Base</span><span class="o">.</span><span class="n">length</span><span class="p">(</span><span class="n">ds</span><span class="p">::</span><span class="n">DigitSet</span><span class="p">)</span> <span class="o">=</span> <span class="n">count_ones</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">d</span><span class="p">)</span>
+<span class="n">Base</span><span class="o">.</span><span class="k">in</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">ds</span><span class="p">::</span><span class="n">DigitSet</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">d</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)))</span> <span class="o">!=</span> <span class="mi">0</span>
+<span class="n">Base</span><span class="o">.</span><span class="n">isempty</span><span class="p">(</span><span class="n">ds</span><span class="p">::</span><span class="n">DigitSet</span><span class="p">)</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">d</span> <span class="o">==</span> <span class="mi">0</span></code></pre></div>
+
+<p>Then we can collect digits into whatever kind of container we want, or iterate over them in a streaming fashion. For example, here we collect a DigitSet into a <code>Vector{Int8}</code>:</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">collect</span><span class="p">(</span><span class="kt">Int8</span><span class="p">,</span> <span class="n">DigitSet</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+<span class="mi">3</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="kt">Int8</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="mi">3</span>
+ <span class="mi">6</span>
+ <span class="mi">7</span></code></pre></div>
+
+<p>Now let’s define a way to construct digit sets from an array of digits, and a nicer way to display them:</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> DigitSet</span><span class="p">(</span><span class="n">a</span><span class="p">::</span><span class="n">AbstractArray</span><span class="p">)</span>
+  <span class="n">d</span> <span class="o">=</span> <span class="kt">Int16</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+  <span class="c"># For each digit in a, set the corresponding</span>
+  <span class="c"># bit in d to 1.</span>
+  <span class="k">for</span> <span class="n">n</span> <span class="k">in</span> <span class="n">a</span>
+    <span class="n">d</span> <span class="o">|=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="k">end</span>
+  <span class="n">DigitSet</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">function</span><span class="nf"> Base</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">io</span><span class="p">::</span><span class="n">IO</span><span class="p">,</span> <span class="n">ds</span><span class="p">::</span><span class="n">DigitSet</span><span class="p">)</span>
+  <span class="n">print</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="s">&quot;DigitSet&quot;</span><span class="p">)</span>
+  <span class="n">print</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="s">&quot;([&quot;</span><span class="p">)</span>
+  <span class="n">print_joined</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="s">&quot;,&quot;</span><span class="p">)</span>
+  <span class="n">print</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="s">&quot;])&quot;</span><span class="p">)</span>
+<span class="k">end</span></code></pre></div>
+
+<p>It’s nice (but not strictly required) to define this constructor and this way of displaying a <code>DigitSet</code> together, so that the result that is displayed can also be parsed back in as a <code>DigitSet</code>.</p>
+
+<p>As an aside, I wish I could define this constructor to work for any kind of iterable object instead of just for arrays, but there are two reasons that this is not possible:</p>
+
+<ol>
+  <li>Julia doesn’t (yet) have a way of dispatching on interfaces like “iterable”; instead, you can only dispatch on type inheritance relationships. There is no <code>Iterable</code> supertype that all iterable types inherit from, and there probably shouldn’t be.</li>
+  <li>Integers are iterable in Julia, so this would conflict with the raw <code>DigitSet(d::Int16)</code> constructor.</li>
+</ol>
+
+<p>It sounds like both of these issues will probably be addressed at some point, but interface dispatch is still at the design stage (see <a href="https://github.com/mauro3/SimpleTraits.jl">SimpleTraits</a> for a promising start, though).</p>
+
+<p>Anyway, let’s implement a few set operations on <code>DigitSet</code>:</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="c"># Set operations</span>
+<span class="n">Base</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">a</span><span class="p">::</span><span class="n">DigitSet</span><span class="p">,</span> <span class="n">b</span><span class="p">::</span><span class="n">DigitSet</span><span class="p">)</span> <span class="o">=</span>
+  <span class="n">DigitSet</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">d</span> <span class="o">|</span> <span class="n">b</span><span class="o">.</span><span class="n">d</span><span class="p">)</span>
+<span class="n">Base</span><span class="o">.</span><span class="n">intersect</span><span class="p">(</span><span class="n">a</span><span class="p">::</span><span class="n">DigitSet</span><span class="p">,</span> <span class="n">b</span><span class="p">::</span><span class="n">DigitSet</span><span class="p">)</span> <span class="o">=</span>
+  <span class="n">DigitSet</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">d</span> <span class="o">&amp;</span> <span class="n">b</span><span class="o">.</span><span class="n">d</span><span class="p">)</span>
+<span class="n">Base</span><span class="o">.</span><span class="n">setdiff</span><span class="p">(</span><span class="n">a</span><span class="p">::</span><span class="n">DigitSet</span><span class="p">,</span> <span class="n">b</span><span class="p">::</span><span class="n">DigitSet</span><span class="p">)</span> <span class="o">=</span>
+  <span class="n">DigitSet</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">d</span> <span class="o">&amp;</span> <span class="p">(</span><span class="o">~</span><span class="n">b</span><span class="o">.</span><span class="n">d</span><span class="p">))</span>
+<span class="n">Base</span><span class="o">.</span><span class="n">symdiff</span><span class="p">(</span><span class="n">a</span><span class="p">::</span><span class="n">DigitSet</span><span class="p">,</span> <span class="n">b</span><span class="p">::</span><span class="n">DigitSet</span><span class="p">)</span> <span class="o">=</span>
+  <span class="n">DigitSet</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">d</span> <span class="o">$</span> <span class="n">b</span><span class="o">.</span><span class="n">d</span><span class="p">)</span></code></pre></div>
+
+<p>Couldn’t be easier!</p>
+
+<p>Let’s see where we’ve gotten ourselves:</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">DigitSet</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">7</span><span class="p">])</span>
+<span class="n">DigitSet</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">7</span><span class="p">])</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="n">DigitSet</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">DigitSet</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">union</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">DigitSet</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">])</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">intersect</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">DigitSet</span><span class="p">([</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">symdiff</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">DigitSet</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">])</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="mi">7</span> <span class="k">in</span> <span class="n">a</span>
+<span class="n">true</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="mi">7</span> <span class="k">in</span> <span class="n">b</span>
+<span class="n">false</span></code></pre></div>
+
+<p>Because we hooked into the iteration protocol, we also get implementations of <code>sum</code>, <code>minimum</code>, <code>maximum</code>, etc. for free:</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">sum</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="mi">10</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">minimum</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="mi">1</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">maximum</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="mi">7</span></code></pre></div>
+
+<p>And for those of us who have worked with other people’s code (or our own code, 3 months later) often enough to appreciate having boundaries:</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span>
+<span class="n">ERROR</span><span class="p">:</span> <span class="n">MethodError</span><span class="p">:</span> <span class="sb">`+`</span> <span class="n">has</span> <span class="n">no</span> <span class="n">method</span> <span class="n">matching</span> <span class="o">+</span><span class="p">(::</span><span class="n">DigitSet</span><span class="p">,</span> <span class="p">::</span><span class="n">DigitSet</span><span class="p">)</span>
+<span class="n">Closest</span> <span class="n">candidates</span> <span class="n">are</span><span class="p">:</span>
+  <span class="o">+</span><span class="p">(::</span><span class="kt">Any</span><span class="p">,</span> <span class="p">::</span><span class="kt">Any</span><span class="p">,</span> <span class="p">::</span><span class="kt">Any</span><span class="p">,</span> <span class="p">::</span><span class="kt">Any</span><span class="o">...</span><span class="p">)</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">a</span>
+<span class="n">ERROR</span><span class="p">:</span> <span class="n">MethodError</span><span class="p">:</span> <span class="sb">`-`</span> <span class="n">has</span> <span class="n">no</span> <span class="n">method</span> <span class="n">matching</span> <span class="o">-</span><span class="p">(::</span><span class="n">DigitSet</span><span class="p">)</span></code></pre></div>
+
+<p>This is all looking pretty convenient, but at what cost? At no cost, of course!</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> buildlut_ds</span><span class="p">()</span>
+  <span class="n">lut</span> <span class="o">=</span> <span class="p">[</span><span class="n">DigitSet</span><span class="p">[]</span> <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">45</span><span class="p">,</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">9</span><span class="p">]</span>
+
+  <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">511</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">DigitSet</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">push</span><span class="o">!</span><span class="p">(</span><span class="n">lut</span><span class="p">[</span><span class="n">sum</span><span class="p">(</span><span class="n">ds</span><span class="p">),</span> <span class="n">length</span><span class="p">(</span><span class="n">ds</span><span class="p">)],</span> <span class="n">ds</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="n">lut</span>
+<span class="k">end</span></code></pre></div>
+
+<p>The time to build the look up table stays about the same at ~80μs:</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="p">@</span><span class="n">time</span> <span class="n">buildlut_ds</span><span class="p">();</span> <span class="p">@</span><span class="n">time</span> <span class="n">buildlut_ds</span><span class="p">();</span>
+  <span class="mf">0.015037</span> <span class="n">seconds</span> <span class="p">(</span><span class="mf">15.36</span> <span class="n">k</span> <span class="n">allocations</span><span class="p">:</span> <span class="mf">620.064</span> <span class="n">KB</span><span class="p">)</span>
+  <span class="mf">0.000077</span> <span class="n">seconds</span> <span class="p">(</span><span class="mf">1.11</span> <span class="n">k</span> <span class="n">allocations</span><span class="p">:</span> <span class="mf">40.750</span> <span class="n">KB</span><span class="p">)</span></code></pre></div>
+
+<p>The time to run the benchmark once the lookup table is built is also again ~550ns.</p>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">decompose_lut_ds</span><span class="p">(</span><span class="n">lut</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">lut</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+
+<span class="kd">const</span> <span class="n">lut_ds</span> <span class="o">=</span> <span class="n">buildlut_ds</span><span class="p">()</span>
+
+<span class="k">function</span><span class="nf"> benchmark_lut_ds_precomputed_x_1e6</span><span class="p">()</span>
+  <span class="n">nmax</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">solnmax</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">{</span><span class="n">DigitSet</span><span class="p">}[]</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">1_000_000</span><span class="p">,</span> <span class="n">sum</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">45</span><span class="p">,</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="p">:</span><span class="mi">9</span>
+    <span class="n">soln</span> <span class="o">=</span> <span class="n">decompose_lut_ds</span><span class="p">(</span><span class="n">lut_ds</span><span class="p">,</span> <span class="n">sum</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">length</span><span class="p">(</span><span class="n">soln</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">nmax</span>
+      <span class="n">nmax</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">soln</span><span class="p">)</span>
+      <span class="n">solnmax</span> <span class="o">=</span> <span class="n">soln</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="n">solnmax</span>
+<span class="k">end</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="p">@</span><span class="n">time</span> <span class="n">benchmark_lut_ds_precomputed_x_1e6</span><span class="p">();</span>
+  <span class="mf">0.585304</span> <span class="n">seconds</span> <span class="p">(</span><span class="mf">9.46</span> <span class="n">k</span> <span class="n">allocations</span><span class="p">:</span> <span class="mf">465.916</span> <span class="n">KB</span><span class="p">)</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="p">@</span><span class="n">time</span> <span class="n">benchmark_lut_ds_precomputed_x_1e6</span><span class="p">()</span>
+  <span class="mf">0.558804</span> <span class="n">seconds</span> <span class="p">(</span><span class="mi">5</span> <span class="n">allocations</span><span class="p">:</span> <span class="mi">224</span> <span class="n">bytes</span><span class="p">)</span>
+<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="p">{</span><span class="n">DigitSet</span><span class="p">,</span><span class="mi">1</span><span class="p">}:</span>
+ <span class="n">DigitSet</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">])</span>
+ <span class="n">DigitSet</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">])</span>
+ <span class="n">DigitSet</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">])</span>
+ <span class="n">DigitSet</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">])</span>
+ <span class="n">DigitSet</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">])</span>
+ <span class="n">DigitSet</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">])</span>
+ <span class="n">DigitSet</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">])</span>
+ <span class="n">DigitSet</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">])</span>
+ <span class="n">DigitSet</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">])</span>
+ <span class="n">DigitSet</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">])</span>
+ <span class="n">DigitSet</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">9</span><span class="p">])</span>
+ <span class="n">DigitSet</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">])</span></code></pre></div>
+
+<h3 id="in-conclusion">In conclusion</h3>
+
+<p>I think this progression of implementations is a nice illustration of some of Julia’s strengths.</p>
+
+<p>When you’re prototyping solutions to a problem, you can write high level code without thinking much about types or how things are laid out in memory. Julia code written in this way feels similar to Python. But once you have a correct solution, you sometimes want to make it fast.</p>
+
+<p>In other high level languages that are pleasant for prototyping, the general strategy for making important parts of your programs fast is to rewrite them in a lower level language like C. This strategy works for some people, but it involves a very sharp change in the slope of the learning curve. Many smart programmers, and certainly most scientists, never make it to the “rewrite it in C” part of the process, although they do benefit from using libraries written by those sage few who do.</p>
+
+<p>Julia lets you transition more gradually from high level thinking about your problem to low level thinking about how computers work. And critically, you don’t have to learn a new syntax, new build systems, or arcane language bindings for communicating between the high level and low level parts of your code.</p>
+
+<p>Then, once you have a fast, low level implementation, Julia’s type system lets you structure and clarify it by assigning additional meaning to collections of bits, without losing performance. Even though a <code>DigitSet</code> “is” just an <code>Int16</code> (and performs like one), we can make it print however we want and restrict or rename operations on it however we want. This process is sometimes called “zero cost abstraction.” It’s highly valued in languages like C++ that are used to implement games and other performance intensive, polished, professional software. But C++ is a very complex language that is infamously difficult to learn, and it isn’t pleasant for prototyping.</p>
+
+<p>One thing that Julia generally won’t do is save you completely from having to know some details about how computers represent data. At least not if you want to write code that performs up to your hardware’s potential. Newcomers are occasionally disappointed that direct translations of their code from Matlab or Python into Julia don’t always run much faster than they did in the original languages (they may even run slower, though usually not by a lot). Julia isn’t the mythical “sufficiently smart compiler” that turns a high level specification of any problem into an efficiently implemented solution. Instead, it’s a single language that lets you decide whether you want to think at a high level or a low level, and it gives you a smooth path between these two.</p>
+
+<p>Thanks to Patrick Useldinger for presenting this problem and the other contributers on julia-users for an interesting conversation. It was fun for me to think about.</p>
+
+<h3 id="appendix-version-info">Appendix: Version Info</h3>
+
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">versioninfo</span><span class="p">()</span>
+<span class="n">Julia</span> <span class="n">Version</span> <span class="mf">0.4</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">Commit</span> <span class="mi">0</span><span class="n">ff703b</span><span class="o">*</span> <span class="p">(</span><span class="mi">2015</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">08</span> <span class="mi">06</span><span class="p">:</span><span class="mi">20</span> <span class="n">UTC</span><span class="p">)</span>
+<span class="n">Platform</span> <span class="n">Info</span><span class="p">:</span>
+  <span class="n">System</span><span class="p">:</span> <span class="n">Darwin</span> <span class="p">(</span><span class="n">x86_64</span><span class="o">-</span><span class="n">apple</span><span class="o">-</span><span class="n">darwin13</span><span class="o">.</span><span class="mf">4.0</span><span class="p">)</span>
+  <span class="n">CPU</span><span class="p">:</span> <span class="n">Intel</span><span class="p">(</span><span class="n">R</span><span class="p">)</span> <span class="n">Core</span><span class="p">(</span><span class="n">TM</span><span class="p">)</span> <span class="n">i7</span><span class="o">-</span><span class="mi">4850</span><span class="n">HQ</span> <span class="n">CPU</span> <span class="p">@</span> <span class="mf">2.30</span><span class="n">GHz</span>
+  <span class="n">WORD_SIZE</span><span class="p">:</span> <span class="mi">64</span>
+  <span class="n">BLAS</span><span class="p">:</span> <span class="n">libopenblas</span> <span class="p">(</span><span class="n">USE64BITINT</span> <span class="n">DYNAMIC_ARCH</span> <span class="n">NO_AFFINITY</span> <span class="n">Haswell</span><span class="p">)</span>
+  <span class="n">LAPACK</span><span class="p">:</span> <span class="n">libopenblas64_</span>
+  <span class="n">LIBM</span><span class="p">:</span> <span class="n">libopenlibm</span>
+  <span class="n">LLVM</span><span class="p">:</span> <span class="n">libLLVM</span><span class="o">-</span><span class="mf">3.3</span></code></pre></div>
+
+  </article>
+  <script src="/js/vendor/jquery-2.1.0.min.js"></script>
+<script src="/js/vendor/mathquill-0.9.3.min.js"></script>
+<script src="/js/vendor/scrubber.js"></script>
+  
+</body>
+</html>
