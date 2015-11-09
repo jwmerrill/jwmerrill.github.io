@@ -198,8 +198,8 @@
 
   <span class="n">negate</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">&lt;</span> <span class="mf">0.0</span> <span class="o">||</span> <span class="n">x2</span> <span class="o">&lt;</span> <span class="mf">0.0</span>
 
-  <span class="n">x1_int</span> <span class="o">=</span> <span class="n">reinterpret</span><span class="p">(</span><span class="kt">Uint64</span><span class="p">,</span> <span class="n">abs</span><span class="p">(</span><span class="n">x1</span><span class="p">))</span>
-  <span class="n">x2_int</span> <span class="o">=</span> <span class="n">reinterpret</span><span class="p">(</span><span class="kt">Uint64</span><span class="p">,</span> <span class="n">abs</span><span class="p">(</span><span class="n">x2</span><span class="p">))</span>
+  <span class="n">x1_int</span> <span class="o">=</span> <span class="n">reinterpret</span><span class="p">(</span><span class="n">UInt64</span><span class="p">,</span> <span class="n">abs</span><span class="p">(</span><span class="n">x1</span><span class="p">))</span>
+  <span class="n">x2_int</span> <span class="o">=</span> <span class="n">reinterpret</span><span class="p">(</span><span class="n">UInt64</span><span class="p">,</span> <span class="n">abs</span><span class="p">(</span><span class="n">x2</span><span class="p">))</span>
   <span class="n">unsigned</span> <span class="o">=</span> <span class="n">reinterpret</span><span class="p">(</span><span class="kt">Float64</span><span class="p">,</span> <span class="p">(</span><span class="n">x1_int</span> <span class="o">+</span> <span class="n">x2_int</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">)</span>
 
   <span class="k">return</span> <span class="n">negate</span> <span class="o">?</span> <span class="o">-</span><span class="n">unsigned</span> <span class="p">:</span> <span class="n">unsigned</span>
