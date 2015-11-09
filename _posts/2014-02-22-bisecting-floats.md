@@ -201,8 +201,8 @@ function _middle(x1::Float64, x2::Float64)
 
   negate = x1 < 0.0 || x2 < 0.0
 
-  x1_int = reinterpret(Uint64, abs(x1))
-  x2_int = reinterpret(Uint64, abs(x2))
+  x1_int = reinterpret(UInt64, abs(x1))
+  x2_int = reinterpret(UInt64, abs(x2))
   unsigned = reinterpret(Float64, (x1_int + x2_int) >> 1)
 
   return negate ? -unsigned : unsigned
