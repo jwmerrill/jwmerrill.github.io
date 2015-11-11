@@ -1,0 +1,138 @@
+---
+layout: post
+title: 4 ways to know a parabola
+---
+
+I recently asked the following question on Twitter:
+
+> Does anyone know a geometrical (i.e. not algebraic) reason that the sum of two parabolas is still a parabola?
+
+My original motivation for wondering about this comes from probability theory, where one frequently encounters the fact that the product of two Gaussian functions (i.e. Normal distributions) is also a Gaussian function (now an unnormalized Normal distribution). But if you take logarithms, this observation about the product of Gaussians becomes an observation about the sum of parabolas, and I think more people are familiar with parabolas than Gaussians.
+
+The algebraic reason that the sum of two parabolas is also a parabola is fairly simple.
+
+*Algebraically*, a parabola is a function of the form
+
+<aside>Actually, this only describes a subset of the parabolas in the plane. More on this below.</aside>
+
+$$
+y = ax^2 + bx + c
+$$
+
+The sum of two such functions is a function of the same form:
+
+$$
+y_1 = a_1 x^2 + b_1 x + c_1
+y_2 = a_2 x^2 + b_2 x + c_1
+y_3 = y_1 + y_2  = (a_1 + a_2) x^2 + (b_1 + b_2) x + (c_1 + c_2) = a_3 x^2 + b_3 x + c_3
+$$
+
+I can understand this argument, but I can't actually *see* it. Ideally, I would like my eyes to be able to tell me that the sum of two scaled, shifted copies of a function that looks like this (a parabola):
+
+is also a scaled shifted copy of that function, whereas the same is not true for functions that look like this (a catenary):
+
+Or if my eyes can't know it directly, I'd at least like to be able to verify it with some paper, a compass, a ruler, and maybe some string.
+
+I soon got a response along the general lines I was looking for, which has sadly been deleted, but it was roughly
+
+> Is it true that the mean of two parabolas is a new parabola with a directrix that is the mean of the directrices, and a focus that is the mean of the foci?
+
+As it turns out, this is not quite true, but it is at least posed in geometric language, and it points towards a geometric solution.
+
+*Geometrically*, a parabola is the locus of points that is equidistant from a line (the directrix) and a point (the focus).
+
+There are a few ways to *construct* a parabola, but here's one way:
+
+1. Draw any line (the directrix) with a ruler, and pick any point in the plane the focus.
+
+2. Construct a line parallel to the directrix, offset from it by some distance $d$.
+
+3. Construct a circle centered at the focus with radius $d$
+
+4. Mark the intersection(s) of the line from step 2 and the circle from step 3. There might be 0, 1, or 2 intersections. These points are part of the parabola
+
+5. Repeat steps 2-4 with varying $d$. The set of points marked in step 4 for all $d$ is the set of point on the parabola with the directrix and focus chosen in step 1.
+
+Here's a [Desmos graph that represents this construction](https://www.desmos.com/calculator/rrumxc41ph).
+
+In plane geometry, "the sum of two curves", or "the mean of two curves" isn't actually unambiguously defined. When I asked my question about the sum of parabolas, I was thinking about them as functions. The sum of two functions means the sum of the outputs of the functions at each input value. Geometrically, this only really makes sense for parabolas that have parallel directrices, and to make the correspondence simple, we'll take our x axis to also be parallel to these directrices.
+
+We can use our algebraic understanding of the sum of two parabolas to bootstrap our geometric understanding of them. A parabola of the form
+
+$$
+y = a x^2 + b x + c
+$$
+
+has focus
+
+$$
+(-\frac{b}{2a}, \frac{4ac-b^2+1}{4a})
+$$
+
+and directrix
+
+$$
+y = \frac{4ac-b^2-1}{4a}
+$$
+
+The sum of two parabolas then has focus
+
+$$
+(-\frac{b_1+b_2}{2(a_1+a_2)}, \frac{4(a_1+a_2)(c_1+c_2)-(b_1+b_2)^2+1}{4(a_1+a_2)})
+$$
+
+and directrix
+
+$$
+y = \frac{4(a_1+a_2)(c_1+c_2)-(b_1+b_2)^2-1}{4(a_1+a_2)}
+$$
+
+If p = 1/2a is the distance between the directrix and the focus, then
+
+$$
+p_3 = \frac{1}{2(a_1+a_2)} = \left(2 a_1 + 2 a_2 \right)^{-1} = \left(\frac{1}{p_1} + \frac{1}{p_2} \right)^{-1}
+$$
+
+The x position of the focus is
+
+$$
+h_3 = -(-2 a_1 h_1 - 2 a_2 h_2)/(2 a_1 + 2 a_2) = (h_1/p_1 + h_2/p_2)/(p_1 + p_2)
+$$
+
+which is the sum of the x positions of the foci of the two input parabolas, weighted by $1/p$
+
+[[How does the y position of the focus relate to the two input foci?]]
+
+...
+
+My friend Toby (@mandy3284) weighed in with a nice answer that I didn't really expect:
+
+<iframe src="//player.vimeo.com/video/115785360?title=0&amp;byline=0&amp;portrait=0&amp;color=8072ff" width="500" height="466" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> <p><a href="http://vimeo.com/115785360">Adding Parabolas</a> from <a href="http://vimeo.com/sundialtone">Toby Schachman</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+
+Toby's solution uses a third vantage point for understanding parabolas. It is not based directly on the algebra of polynomials, nor on classical constructive geometry. Instead, it is based on finite differences.
+
+Suppose we have a table of x, y values, and the x values are evenly spaced.
+
+[[table]]
+
+How can we tell if the entries of this table are points that all lie on the same parabola.
+
+From a *finite difference* perspective, a parabola is an ordered set of points with constant 2nd differences.
+
+Given part of a table like this, we can *extrapolate* further values by first filling in the (constant) 2nd differences, then filling in the first differences implied by earlier values and the 2nd differences, and then filling in values implied by earlier values and first differences.
+
+We can also *interpolate* intermediate values by demanding constant second differences, and consistency with known values
+
+1       y_2 - 1      9 - 2y_2 + 1
+y_2     9 - y_2      y_4 - 18 + y_2
+9       y_4 - 9      25 - 2y_4 + 9
+y_4     25 - y_4
+25
+
+[[system of 3 equations in 3 unknowns]]
+
+As Toby explains in the video, when we add two functions, the first and second differences also add, and the sum of two constant functions is also a constant function.
+
+...
+
+My coworker Eric (@teachwithcode) suggested a 4th way of

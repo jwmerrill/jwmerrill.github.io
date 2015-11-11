@@ -1,0 +1,43 @@
+Why the Elm Architecture is necessary.
+
+Desiderata:
+
+1. Components should be able to function as children of an open set of parents.
+2. Containers should be able to hold an open set of children.
+3. Application state should be stored in a single, consistent, immutable structure.
+
+Take, as an example, the humble checkbox. Suppose we have a form with 3 of them, each with a different label and function.
+
+Existing alternatives:
+
+1. Two way binding: checkbox view gets a reference to a model that it can read state from and write state to. Other parts of the application may *observe* the state of the model, so that they will receive notifications when it changes.
+
+Violates 3. Observers end up scattering state all over the place, which allows inconsistency.
+
+2. Checkbox view may accept a callback when it is constructed, or expose an event that may be observed to allow parents to respond to user interaction.
+
+This is pretty good. May or may not make it difficult to write generic containers. Difficulty comes from needing to pass child specific callbacks, but might be able to do that at child-construction time in a generic way.
+
+3. Checkbox view may accept a dispatcher that it will dispatch events to.
+
+This avoids some boilerplate, but you need to encode a way of addressing the specific checkbox into the messsage it sends. The checkbox itself shouldn't know about that. It could have an id field, or an index field, but what if it's part of a hierarchy? Could give it a slot to encode arbitrary metadata, but that's kind of odd.
+
+Additionally, have a choice of either sending string messages, which are easy to forget to observe and easy to make typos in, or having the dispatcher have to know ahead of time about all the kinds of messages it can receive.
+
+Elm Architecture:
+
+Each component exposes an Action type that is a union/sum/enumeration type expressing all the kinds of update actions that it might send. A checkbox might have `Action = SetChecked Bool`.
+
+When components are constructed, their parent passes them an address that can receive actions of the type specified by the child. The parent may translate these actions into a new type that adds context (e.g. if there are multiple children, which child is this action from), and will then forward actions to its own parent.
+
+Each model also exposes an update function that takes an action and an existing model and constructs an updated model.
+
+The advantage of this structure is that
+
+1. Components don't need to know anything about their parents (specifically, they don't need to know their id or any other way of addressing themselves). They just get an address to send their actions to.
+
+2. Containers can be written independently of the kind of children they will hold. All they need to do is add addressing information to the actions their children send, and then forward that information along.
+
+Possible example:
+
+Take Todo-MVC, and add a requirement that there should be a set of named todo lists and a sidebar to let you choose between them that exposes some information about how many (active?) items are in each list.
