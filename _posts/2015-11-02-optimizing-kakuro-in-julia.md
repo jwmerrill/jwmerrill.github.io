@@ -1,8 +1,10 @@
 ---
 layout: post
 title: Optimizing (part of) a Kakuro puzzle solver in Julia
-categories:
-  - Julia
+tags:
+  - julia
+redirects:
+  - /julia/2015/11/02/optimizing-kakuro-in-julia/
 ---
 
 <div class="p">

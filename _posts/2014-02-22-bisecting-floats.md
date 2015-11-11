@@ -1,8 +1,10 @@
 ---
 layout: post
 title: Bisecting Floating Point Numbers
-categories:
-  - Julia
+tags:
+  - julia
+redirects:
+  - /julia/2014/02/22/bisecting-floats/
 ---
 
 <div class="p">
