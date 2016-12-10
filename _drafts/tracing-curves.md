@@ -7,10 +7,6 @@ js: tracing-curves
 
 Last October, I spent a few days trying to improve how it feels to trace a mathematical curve in [Desmos](https://www.desmos.com/) with a mouse or a finger. If you had asked me before I started working on the calculator whether this was a hard problem, I would have said "no way, just use the point on the curve that's directly above the mouse, or something like that." And that's how tracing had worked before last October. Here's how that feels:
 
-<aside>
-  Note, these interactive examples don't work on touch devices yet. <a href="https://www.kickstarter.com/help/faq/creator+questions#faq_50035">Stretch goal:</a> if 1000 people read this, I'll make the examples work with touch.
-</aside>
-
 <div id="example1" class="trace-example">
   <div id="example1-container1" class="trace-example-panel">
   </div>
@@ -24,11 +20,7 @@ Last October, I spent a few days trying to improve how it feels to trace a mathe
 
 This strategy is pretty good in many cases. I think it's just fine for the sinusoid on the left. But it's a frustrating experience to try to trace very steep curves like the line in the middle, because the trace point can end up very far above or below your cursor even when your cursor is close to the curve. And if the curve is only defined over a finite domain, like the half ellipse on the right, then it's annoying that you can't trace the curve at all from outside the defined region. Try getting the trace point right to the edge of the half ellipse---it's harder than it should be.
 
-<aside>
-  Sometimes other people don't share your intuitions either. I suspect that's part of what makes it so difficult to write well.
-</aside>
-
-When an interface doesn't feel right, it's often because we have very deeply held intuitions about how it should work. It can be hard to put these feelings into words. I suspect this difficulty is part of what makes it so hard to solve some easy seeming interface problems. Computers don't share your intuitions. You have to figure out how to communicate with them very explicitly.
+When an interface doesn't feel right, it's often because we have very deeply held intuitions about how it should work. It can be hard to put these feelings into words. I suspect this difficulty is part of what makes it so hard to solve some easy seeming interface problems. Computers don't share your intuitions{% marginnote 'mn-intuitions' """Sometimes other people don't share your intuitions either. I suspect that's part of what makes it so difficult to write well.""" %}. You have to figure out how to communicate with them very explicitly.
 
 Minor irritations accumulate over time. After months of using trace that worked like that, I felt about ready to shout at my computer: "If my mouse is near the curve, then the trace point should be near my mouse!" Moments like this are important for software developers. Once you've decided exactly what to shout at your computer, you know what you need to try to implement next.
 
@@ -60,11 +52,7 @@ Let's add a little bit more information to the plots to show exactly what the pr
 
 <br style="clear: both;"/>
 
-<aside>
-  You could imagine strategies that take, e.g., your cursor's velocity into account, and that might even be a good idea, but we've never felt the need to try that yet.
-</aside>
-
-In all the trace strategies I'm describing today, the location of the trace point is completely determined by the location of your cursor over the graph paper, so in the figures above, I've drawn guide lines between a grid of points on the graph paper and the trace point that they map to on the curve.
+In all the trace strategies I'm describing today, the location of the trace point is completely determined by the location of your cursor over the graph paper{% marginnote 'mn-determined-by-location' """You could imagine strategies that take, e.g., your cursor's velocity into account, and that might even be a good idea, but we've never felt the need to try that yet.""" %}, so in the figures above, I've drawn guide lines between a grid of points on the graph paper and the trace point that they map to on the curve.
 
 The problem with the closest-point strategy is that the location of the closest point on the curve is a discontinuous function of the location of your cursor. The lines from nearby grid points sometimes point to widely separated places on the curve. In the sinusoid, for example, this happens whenever the cursor is directly above or below a local maximum.
 
@@ -84,11 +72,8 @@ Discontinuous jumps in the location of the closest point happen when the distanc
 
 where <span class="mathquill-embedded-latex">d_1</span> and <span class="mathquill-embedded-latex">d_2</span> are the distance to the closest and second-closest points respectively, and <span class="mathquill-embedded-latex">\alpha</span> is an adjustable parameter. We only consider points that are local minima in the distance to the cursor, so points right next to the closest point don't count as the second-closest point. Actually, as a further refinement, I've found that it's best to consider only the closest local minimum to the left of the cursor and the closest local minimum to the right of the cursor.
 
-<aside>
-  If you're into javascript, check out the <a href="http://jsbin.com/reruvu/4/edit?js,output">live-editable version</a> of all of these strategies on jsbin. Maybe you can come up with an even better strategy.
-</aside>
 
-Here's how the weighted strategy feels:
+Here's how the weighted strategy feels{% marginnote 'mn-jsbin' """If you're into javascript, check out the [live-editable version](http://jsbin.com/reruvu/4/edit?js,output) of all of these strategies on jsbin. Maybe you can come up with an even better strategy.""" %}:
 
 <label id="show-guides-label">
   <input type="checkbox" checked="checked" id="show-guides-checkbox"/>
@@ -115,10 +100,18 @@ Here's how the weighted strategy feels:
 
 Try adjusting the exponent, <span class="mathquill-embedded-latex">\alpha</span>. What do you think the best value is?
 
-The weighted strategy satisfies our two main desiderata:
+The weighted strategy comes close to satisfying our two main desiderata:
 
 1. When your cursor is close to the curve, the trace point should be close to your cursor.
 2. Small movements of the cursor should not cause the trace point to jump discontinuously across the curve.
+
+<div class="p">
+  <figure class="sidefig">
+    <img width="160" height="155" alt="Solved Kakuro puzzle" src="/img/trace-jump.gif"/>
+  </figure>
+</div>
+
+In fact, when I wrote it, I thought it actually did satisfy both of them, but there are places where it misses on number 2. The problem happens when the second closest point jumps discontinuously.
 
 Its main weakness is that it relies on a distinction between <span class="mathquill-embedded-latex">x</span> and <span class="mathquill-embedded-latex">y</span>, so it doesn't extend easily from curves that are a function of <span class="mathquill-embedded-latex">x</span> to parametric or implicit curves that may have multiple <span class="mathquill-embedded-latex">y</span> values for a single <span class="mathquill-embedded-latex">x</span> value. To put it technically, the strategy is not *isotropic*. Note that by itself, the closest-point strategy does not distinguish between the axes, and would work just as well (or really, just as poorly...) for parametric curves as for <span class="mathquill-embedded-latex">f(x)</span> curves, so it's the weighted strategy's reliance on the point-above-cursor strategy that spoils isotropy.
 
