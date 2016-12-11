@@ -469,8 +469,10 @@ scrubber.onValueChanged = function (value) {
     weightedIllustrations[i].sampleFn();
     weightedIllustrations[i].redrawAll();
   }
+  // TODO, no longer including jquery or mathquill, so this is broken
   $(display).mathquill().mathquill('latex', '\\alpha = ' + value);
 };
+// TODO, no longer including jquery, so this is broken
 $(document).ready(function () {scrubber.value(weightPower)});
 document.getElementById('exponent-scrubber').appendChild(scrubber.elt);
 

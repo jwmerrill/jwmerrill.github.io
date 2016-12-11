@@ -8,17 +8,9 @@ html, body {
   box-sizing: border-box;
 }
 
-.mathquill-embedded-latex * {
-  box-sizing: content-box;
-}
-
-.mathquill-embedded-latex sub .roman {
-  font-size: 75%;
-  margin-right: .25em;
-}
-
 body {
-  font-family: 'PT Serif', serif;
+  font-family: 'Georgia', serif;
+  // font-family: 'PT Serif', serif;
   font-size: 16px;
 }
 
@@ -106,6 +98,10 @@ body {
   background: white;
   font-size: 0.9em;
   display: block;
+}
+
+.math-label {
+  float: right;
 }
 
 h1, h2 {
