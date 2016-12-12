@@ -6,7 +6,7 @@
 
   var displayElts = document.getElementsByClassName('display-latex');
   Array.prototype.forEach.call(displayElts, function (elt) {
-    katex.render(elt.textContent, elt, {display: true});
+    katex.render(elt.textContent, elt, {displayMode: true});
   });
 })(katex);
 
