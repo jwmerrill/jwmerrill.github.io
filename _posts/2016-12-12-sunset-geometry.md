@@ -251,7 +251,7 @@ We can simplify both <span class="mathquill-embedded-latex">r_1 t</span> and <sp
 
 <span class="display-latex">|d_1| \left\langle t w \right\rangle_2 = \rho \left\langle I t w - I g w \right\rangle_2</span>
 
-Now expanding the products of vectors in geometric products into dot and wedge product gives
+Now expanding the geometric products of vectors into dot and wedge product gives
 
 <span class="display-latex">|d_1| t \wedge w = \rho I (g \cdot w - t \cdot w)</span>
 
