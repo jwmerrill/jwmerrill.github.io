@@ -256,11 +256,11 @@
 
 &lt;p&gt;&lt;span class=&quot;display-latex&quot;&gt;|d_1| \left\langle t w \right\rangle_2 = \rho \left\langle I t w - I g w \right\rangle_2&lt;/span&gt;&lt;/p&gt;
 
-&lt;p&gt;Now expanding the products of vectors in geometric products into dot and wedge product gives&lt;/p&gt;
+&lt;p&gt;Now expanding the geometric products of vectors into dot and wedge product gives&lt;/p&gt;
 
 &lt;p&gt;&lt;span class=&quot;display-latex&quot;&gt;|d_1| t \wedge w = \rho I (g \cdot w - t \cdot w)&lt;/span&gt;&lt;/p&gt;
 
-&lt;p&gt;where, I have dropped terms like &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\left\langle t \cdot w\right\rangle_2 = 0&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\left\langle I (t \wedge w - g \wedge w)\right\rangle_2 = 0&lt;/span&gt; because they contain no part with grade 2.&lt;/p&gt;
+&lt;p&gt;where I have dropped terms like &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\left\langle t \cdot w\right\rangle_2 = 0&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\left\langle I (t \wedge w - g \wedge w)\right\rangle_2 = 0&lt;/span&gt; because they contain no part with grade 2.&lt;/p&gt;
 
 &lt;p&gt;We can take advantage of the known length &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;|d_1|^2&lt;/span&gt; derived as (4d) by taking the magnitude squared of both sides:&lt;/p&gt;
 
