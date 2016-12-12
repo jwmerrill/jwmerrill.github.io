@@ -129,7 +129,7 @@ The geometric product gives us two new super powers when working with vector equ
 
 #### Solving equations involving products of vectors.
 
-Given the equation for products of vectors
+Given an equation for two different products of vectors
 
 <span class="display-latex">ab = cd</span>
 
