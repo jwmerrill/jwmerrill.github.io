@@ -3,27 +3,49 @@
 <html>
 <head>
    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-   <title>Squishy Thinking by Jason Merrill</title>
+   <title>Shape Operator by Jason Merrill</title>
    <meta name="author" content="Jason Merrill" />
    <meta name="viewport" content="width=device-width"/>
-   <link rel="alternate" type="application/rss+xml" title="Squishy Thinking" href="http://squishythinking.com/feed.xml">
-   <link rel="stylesheet" href="/fonts/ptserif.css" type="text/css" >
+   <link rel="alternate" type="application/rss+xml" title="Shape Operator" href="http://www.shapeoperator.com/feed.xml">
+   <link rel="stylesheet" href="/css/vendor/katex.min.css" type="text/css" />
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
-<link rel="stylesheet" href="/css/vendor/mathquill/mathquill.css" type="text/css" />
 <link rel="stylesheet" href="/css/pygments/default.css" type="text/css" />
-<link rel="stylesheet" href="/css/vendor/scrubber.css" type="text/css" />
-
 
 </head>
 <body>
   <div class="header">
     <div class="header-inner">
-      <h1><a href="./">Squishy Thinking</a></h2>
-      <div class="byline">by Jason Merrill<br /><a href="mailto:jason@squishythinking.com">jason@squishythinking.com</a></div>
+      <h1><a href="./">Shape Operator</a></h2>
+      <div class="byline">by Jason Merrill<br /><a href="mailto:jason@shapeoperator.com">jason@shapeoperator.com</a></div>
     </div>
   </div>
   <div class="main">
     
+  <div class="post">
+    <h2><a href="/2016/12/12/sunset-geometry/">Sunset Geometry</a></h2>
+    <abbr class="date">12 Dec 2016</abbr>
+    <p><p>Robert Vanderbei has written a <a href="http://orfe.princeton.edu/~rvdb/tex/sunset/ms.pdf">beautiful</a> <a href="http://orfe.princeton.edu/~rvdb/tex/sunset/34-39.OPN.1108twoup.pdf">series</a> of <a href="http://orfe.princeton.edu/~rvdb/tex/sunset/sunset.pdf">articles</a> and <a href="http://orfe.princeton.edu/u/rvdb/tex/talks/sunset/sunsetTalk_RutgersREU_small.pdf">talks</a> about a method for finding the radius of the earth based on a single photograph of a sunset over a large, calm lake.</p>
+
+<p>Vanderbei’s analysis is an elegant and subtle exercise in classical trigonometry. In this post, I would like to present an alternative analysis in a different language: Geometric Algebra. I believe that geometric algebra is a more powerful system for formulating and solving trigonometry problems than the classical “lengths and angles” approach, and it deserves to be better known. Vanderbei’s sunset problem is simple to understand and challenging to solve, so it makes a nice benchmark.</p>
+
+<p>Here’s Vanderbei’s sunset problem. If the earth was flat, photographs of the sun setting over water would look like this:</p>
+
+<div>
+<img alt="Flat earth sunset diagram" src="/img/sunset-flat.png" />
+</div>
+
+<p>Notice that the reflection dips just as far below the horizon as the sun peaks above it.</p>
+
+<p>Actual photographs of the sun setting over calm water (<a href="http://www.princeton.edu/~rvdb/Sunset-crop-lossless.jpg">like Vanderbei’s</a>) look more like this:</p>
+
+<div>
+<img alt="Round earth sunset diagram" src="/img/sunset-round.png" />
+</div>
+
+</p>
+    <p><a href="/2016/12/12/sunset-geometry/">more...</a></p>
+  </div>
+
   <div class="post">
     <h2><a href="/2015/11/02/optimizing-kakuro-in-julia/">Optimizing (part of) a Kakuro puzzle solver in Julia</a></h2>
     <abbr class="date">02 Nov 2015</abbr>
@@ -75,8 +97,8 @@
 
 
   </div>
-  <script src="/js/vendor/jquery-2.1.0.min.js"></script>
-<script src="/js/vendor/mathquill-0.9.3.min.js"></script>
-<script src="/js/vendor/scrubber.js"></script>
+  <script src="/js/vendor/katex.min.js"></script>
+<script src="/js/render-katex.js"></script>
+
 </body>
 </html>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Squishy Thinking</title>
-    <description>Mollusk-like thoughts on physics, math, and computers.</description>
-    <link>http://squishythinking.com</link>
-    <atom:link href="http://squishythinking.com/feed.xml" rel="self" type="application/rss+xml" />
+    <title>Shape Operator</title>
+    <description>Thoughts on physics, math, and computers.</description>
+    <link>http://www.shapeoperator.com</link>
+    <atom:link href="http://www.shapeoperator.com/feed.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Optimizing (part of) a Kakuro puzzle solver in Julia</title>
@@ -694,9 +694,9 @@ solution digit sets in a &lt;code&gt;Set&lt;/code&gt;, a &lt;code&gt;Vector&lt;/
   &lt;span class=&quot;n&quot;&gt;LIBM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;libopenlibm&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;LLVM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;libLLVM&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;3.3&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 </description>
-      <pubDate>Mon, 02 Nov 2015 00:00:00 -0500</pubDate>
-      <link>http://squishythinking.com/2015/11/02/optimizing-kakuro-in-julia/</link>
-      <guid isPermaLink="true">http://squishythinking.com/2015/11/02/optimizing-kakuro-in-julia/</guid>
+      <pubDate>Mon, 02 Nov 2015 00:00:00 -0800</pubDate>
+      <link>http://www.shapeoperator.com/2015/11/02/optimizing-kakuro-in-julia/</link>
+      <guid isPermaLink="true">http://www.shapeoperator.com/2015/11/02/optimizing-kakuro-in-julia/</guid>
     </item>
     
     <item>
@@ -913,9 +913,9 @@ solution digit sets in a &lt;code&gt;Set&lt;/code&gt;, a &lt;code&gt;Vector&lt;/
 
 &lt;p&gt;I recently worked with John Verzani to get code very much like this final version of &lt;code&gt;bisect_root&lt;/code&gt; into the &lt;a href=&quot;https://github.com/JuliaLang/Roots.jl&quot;&gt;Roots.jl&lt;/a&gt; package. As of this writing, the &lt;a href=&quot;https://github.com/JuliaLang/Roots.jl/pull/12&quot;&gt;pull request&lt;/a&gt; is currently awaiting review.&lt;/p&gt;
 </description>
-      <pubDate>Sat, 22 Feb 2014 00:00:00 -0500</pubDate>
-      <link>http://squishythinking.com/2014/02/22/bisecting-floats/</link>
-      <guid isPermaLink="true">http://squishythinking.com/2014/02/22/bisecting-floats/</guid>
+      <pubDate>Sat, 22 Feb 2014 00:00:00 -0800</pubDate>
+      <link>http://www.shapeoperator.com/2014/02/22/bisecting-floats/</link>
+      <guid isPermaLink="true">http://www.shapeoperator.com/2014/02/22/bisecting-floats/</guid>
     </item>
     
   </channel>
