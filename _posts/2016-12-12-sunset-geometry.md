@@ -15,7 +15,7 @@ Here's Vanderbei's sunset problem. If the earth was flat, photographs of the sun
 
 Notice that the reflection dips just as far below the horizon as the sun peaks above it.
 
-Actual photographs of the sun setting over calm water ([like Vanderbei's](http://www.princeton.edu/~rvdb/Sunset-crop-lossless.jpg)) look more like this:
+Actual photographs of the sun setting over calm water ([like Vanderbei's](http://www.princeton.edu/~rvdb/Sunset-crop-lossless.jpg){%marginnote 'photo-skepticism' """Update: I should have been more careful to note that most photographs of sunsets over water actually don't look like Vanderbei's photograph (or my diagram) because of waves and atmospheric effects, and that sensor saturation artifacts make it hard to interpret images like this. Reproducing Vanderbei's image may be somewhere between hard and impossible. [More Below](#skepticism)."""%}) look more like this:
 
 <div>
 <img alt="Round earth sunset diagram" src="/img/sunset-round.png"/>
@@ -108,8 +108,8 @@ The symmetric and anti-symmetric parts of the geometric product have important g
 
 <span class="display-latex">
   \begin{aligned*}
-  (ab + ba)/2 & = a \cdot b  = b \cdot a \\\\
-  (ab - ba)/2 & = a \wedge b = - b \wedge a
+  (ab + ba)/2 &amp; = a \cdot b  = b \cdot a \\\\
+  (ab - ba)/2 &amp; = a \wedge b = - b \wedge a
   \end{aligned*}
 </span>
 
@@ -153,9 +153,9 @@ Contrast this to the dot product and the cross/wedge product. In general, even w
 
 <span class="display-latex">
   \begin{aligned*}
-  a \cdot b & = c \cdot d \\\\
-  a \wedge b & = c \wedge d \\\\
-  a \times b & = c \times d
+  a \cdot b &amp; = c \cdot d \\\\
+  a \wedge b &amp; = c \wedge d \\\\
+  a \times b &amp; = c \times d
   \end{aligned*}
 </span>
 
@@ -261,8 +261,8 @@ We can take advantage of the known length <span class="mathquill-embedded-latex"
 
 <span class="display-latex">
   \begin{aligned*}
-  |d_1|^2 |t \wedge w|^2 & = \rho^2 \left(g \cdot w - t \cdot w\right)^2 \\\\
-  |d_1|^2 & = \rho^2 \left[ \frac{\left(g \cdot w - t \cdot w\right)^2}{|t \wedge w|^2}\right]
+  |d_1|^2 |t \wedge w|^2 &amp; = \rho^2 \left(g \cdot w - t \cdot w\right)^2 \\\\
+  |d_1|^2 &amp; = \rho^2 \left[ \frac{\left(g \cdot w - t \cdot w\right)^2}{|t \wedge w|^2}\right]
   \end{aligned*}
 </span>
 
@@ -290,9 +290,9 @@ We can recover Vanderbei's final answer by rewriting <span class="mathquill-embe
 
 <span class="display-latex">
   \begin{aligned*}
-    t \cdot w & = \cos(\beta) \\\\
-    t \wedge w & = \sin(\beta) I \\\\
-    g \cdot w & = \cos(\gamma) = \cos\left(\frac{\alpha + \beta}{2}\right)
+    t \cdot w &amp; = \cos(\beta) \\\\
+    t \wedge w &amp; = \sin(\beta) I \\\\
+    g \cdot w &amp; = \cos(\gamma) = \cos\left(\frac{\alpha + \beta}{2}\right)
   \end{aligned*}
 </span>
 
@@ -310,9 +310,9 @@ Using the general approximations
 
 <span class="display-latex">
   \begin{aligned*}
-  \sqrt{1+x^2} &\approx 1 + x^2/2 &\mathrm{for}\quad x \ll 1 \\\\
-  \sin{\theta} &\approx \theta &\mathrm{for}\quad \theta \ll 1 \\\\
-  \cos{\theta} &\approx 1 - \theta^2/2 &\mathrm{for}\quad \theta \ll 1 \\\\
+  \sqrt{1+x^2} &amp;\approx 1 + x^2/2 &amp;\mathrm{for}\quad x \ll 1 \\\\
+  \sin{\theta} &amp;\approx \theta &amp;\mathrm{for}\quad \theta \ll 1 \\\\
+  \cos{\theta} &amp;\approx 1 - \theta^2/2 &amp;\mathrm{for}\quad \theta \ll 1 \\\\
   \end{aligned*}
 </span>
 
@@ -336,18 +336,20 @@ so that:
 
 <span class="display-latex">\epsilon^2 = 4 \frac{\left(\sin^2\left(\frac{\gamma}{2}\right) - \sin^2\left(\frac{\beta}{2}\right)\right)^2}{\sin(\beta)^2}</span>
 
+This is helpful because we're now subtracting two numbers that are very close to 0 instead of very close to 1, and intermediate rounding to a fixed number of digits throws away less information for numbers that are close to 0 than for numbers that are close to 1.
+
 Plugging this expression for <span class="mathquill-embedded-latex">\epsilon^2</span> into the non-cancelling form for <span class="mathquill-embedded-latex">\rho</span> (5'') now allows computing <span class="mathquill-embedded-latex">\rho</span> without undue rounding issues.
 
 To evaluate <span class="mathquill-embedded-latex">\rho</span> in terms of measured parameters, insert the following values into either (5') or (5'')
 
 <span class="display-latex">
   \begin{aligned*}
-    \alpha &= 69\ \mathrm{px} \cdot 0.5^{\circ}/317\ \mathrm{px} &=& 0.001899\ \mathrm{rad}\\\\
-    \beta &= 29\ \mathrm{px} \cdot 0.5^{\circ}/317\ \mathrm{px}  &=& 0.0007983\ \mathrm{rad}\\\\
-    \gamma &= \frac{\alpha + \beta}{2} &=& 0.001349\ \mathrm{rad}\\\\
-    \epsilon^2 &= 5.482 \times 10^{-7} \\\\
-    \delta &= 7\ \mathrm{ft} \\\\
-    \rho &= 2.55 \times 10^{7}\ \mathrm{ft} &=& 4836\ \mathrm{mi}
+    \alpha &amp;= 69\ \mathrm{px} \cdot 0.5^{\circ}/317\ \mathrm{px} &amp;=&amp; 0.001899\ \mathrm{rad}\\\\
+    \beta &amp;= 29\ \mathrm{px} \cdot 0.5^{\circ}/317\ \mathrm{px}  &amp;=&amp; 0.0007983\ \mathrm{rad}\\\\
+    \gamma &amp;= \frac{\alpha + \beta}{2} &amp;=&amp; 0.001349\ \mathrm{rad}\\\\
+    \epsilon^2 &amp;= 5.482 \times 10^{-7} \\\\
+    \delta &amp;= 7\ \mathrm{ft} \\\\
+    \rho &amp;= 2.55 \times 10^{7}\ \mathrm{ft} &amp;=&amp; 4836\ \mathrm{mi}
   \end{aligned*}
 </span>
 
@@ -387,9 +389,9 @@ Alternatively, you could use complex numbers, and this works very well for probl
 
 <span class="display-latex">
   \begin{aligned*}
-  a \cdot b &\longleftrightarrow \mathrm{Re}\left(a b^{\dagger}\right) \\\\
-  a \wedge b &\longleftrightarrow \mathrm{Im}\left(a b^{\dagger}\right) \\\\
-  a b &\longleftrightarrow a b^{\dagger}
+  a \cdot b &amp;\longleftrightarrow \mathrm{Re}\left(a b^{\dagger}\right) \\\\
+  a \wedge b &amp;\longleftrightarrow \mathrm{Im}\left(a b^{\dagger}\right) \\\\
+  a b &amp;\longleftrightarrow a b^{\dagger}
   \end{aligned*}
 </span>
 
@@ -415,7 +417,7 @@ Physicists use Pauli matrices to model 3D geometry in quantum mechanics problems
 
 Through years of experience solving physics and computer graphics problems, I have slowly learned to be skeptical of angles. In many problems where your input data is given in terms of coordinates or lengths, it is possible to solve the problem completely without ever introducing angles, and in these cases, introducing angles adds algebraic complications and computational inefficiencies. In 3D, introducing angles also invites [gimbal lock](https://en.wikipedia.org/wiki/Gimbal_lock#Gimbal_lock_in_applied_mathematics).
 
-This is not to say that angles are never useful; quite the contrary{%marginnote 'ga-angles' """Lest I give the wrong impression, geometric algebra is perfectly capable of handling angles, and in fact smoothly extends the way that complex numbers handle angles to more dimensions. It's just that it also allows you to avoid angles where they aren't fundamental.<br /><br />For example, geometric algebra's version of the Euler formula is<br /><br /><span class=\"mathquill-embedded-latex\">\\exp(I\\theta) = \\cos(\\theta) + \\sin(\\theta)I</span><br /><br />where <span class=\"mathquill-embedded-latex\">I</span> is any bivector, and in more than two dimensions, this formula is valid for each separate plane."""%}. They are exactly what you need for problems explicitly involving arc lengths on a circle (so especially problems involving rolling discs, cylinders, or spheres), or rotation at a uniform rate, or for interpolating continuously between known discrete rotations. They're also handy for making small angle approximations. However, for most problems involving areas, projections, reflections, and other simple relationships between vectors (in other words, most problems of *trigonometry*), angles are a distraction from more direct solutions.
+This is not to say that angles are never useful; quite the contrary{%marginnote 'ga-angles' """Lest I give the wrong impression, geometric algebra is perfectly capable of handling angles, and in fact smoothly extends the way that complex numbers handle angles to more dimensions. It's just that it also allows you to avoid angles where they aren't fundamental.<br /><br />For example, geometric algebra's version of the Euler formula is<br /><br /><span class=\"mathquill-embedded-latex\">\\exp(I\\theta) = \\cos(\\theta) + \\sin(\\theta)I</span><br /><br />where <span class=\"mathquill-embedded-latex\">I</span> is any unit bivector, and in more than two dimensions, this formula is valid for each separate plane."""%}. They are exactly what you need for problems explicitly involving arc lengths on a circle (so especially problems involving rolling discs, cylinders, or spheres), or rotation at a uniform rate, or for interpolating continuously between known discrete rotations. They're also handy for making small angle approximations. However, for most problems involving areas, projections, reflections, and other simple relationships between vectors (in other words, most problems of *trigonometry*), angles are a distraction from more direct solutions.
 
 To say it another way, Wildberger (author of Rational Trigonometry) emphasizes that you don't need to think about arc lengths on a circle to understand triangles, and on this point I agree with him completely. Of course, you do need to think about arc lengths on a circle to understand problems involving... arc lengths on a circle. For these problems, we should of course know and use angles.
 
@@ -432,3 +434,46 @@ Additionally, Hestenes' [website](http://geocalc.clas.asu.edu/) has many wonderf
 * [Clifford Algebra to Geometric Calculus](https://www.amazon.com/Clifford-Algebra-Geometric-Calculus-Mathematics/dp/9027725616). This is a challenging, advanced, and sometimes frustrating reference book, but it presents the subject in far more depth than it has been presented anywhere else. It used to be hard to find, and I suspect that few people have truly read it carefully. But it contains results that will probably continue to be rediscovered for decades. Chapter 7 on directed integration theory is especially notable: it contains extensions of most of the magical integral formulas of complex analysis (like Cauchy's integral formula) to any number of dimensions (and even to curved manifolds!).
 
 Finally, thank you to Steven Strogatz for first [pointing me to this problem](https://twitter.com/stevenstrogatz/status/800136462612201472) (and a related, fiendishly difficult pure [trigonometric functions problem](https://twitter.com/stevenstrogatz/status/799740091795120133)). And of course, thank you to Robert Vanderbei for dreaming up this wonderful problem, and presenting it so beautifully.
+
+### Updates
+
+Bret Victor [notes on Twitter](https://twitter.com/worrydream/status/808532834386210816) that many more of the equations in this post could be accompanied by diagrams. Interactive diagrams. His example:
+
+<a href="https://twitter.com/worrydream/status/808532834386210816"><img alt="Side view sunset diagram annotated with bivectors." src="/img/sunset-bv-bivector-diagram.png"/></a>
+
+I'll list a few relevant resources along these lines:
+
+* Daniel Fontijne wrote a program called [GAViewer](http://www.geometricalgebra.net/gaviewer_download.html) to accompany *Geometric Algebra for Computer Science* (recommended above) that allows visualizing and visually manipulating GA expressions. I wish you could embed it on the web.
+* [Apparatus](http://aprt.us) is a very cool environment for drawing interactive diagrams, and I hear you can embed apparatus creations into other web pages now. Maybe someone can teach it how to speak GA!
+* [weshoke](https://github.com/weshoke) ported the [Versor GA library](http://versor.mat.ucsb.edu/) to Javascript ([Versor.js](https://github.com/weshoke/versor.js/)) and there are stubs of an [expression parser](https://github.com/weshoke/versor.js/tree/master/cli) and a [canvas renderer](https://github.com/weshoke/versor.js/tree/master/render) written by a few other contributors (including me). Maybe you could be the one to flesh this out!
+* Finally, I'll mention that [Desmos](https://www.desmos.com/) (my employer) is a great way to interact with equations, functions, and graphs (but GA isn't on our current roadmap).
+
+----
+
+Jacob Rus writes to suggest a few more resources for learning about GA:
+
+> I was a bit surprised you didn’t mention Hestenes’s NFCM book, as that seems closest to the type of problem solving you were doing:
+>
+> David Hestenes, [New Foundations for Classical Mechanics](http://geocalc.clas.asu.edu/html/NFCM.html)
+>
+> A couple other sources you might mention:
+>
+> * Alan Bromborsky, [An Introduction to Geometric Algebra and Calculus](http://www2.montgomerycollege.edu/departments/planet/planet/Numerical_Relativity/bookGA.pdf)
+> * Eric Chisholm, [Geometric Algebra](https://arxiv.org/abs/1205.5935)
+>
+> At a closer to high school geometry level, perhaps also:
+>
+> * Ramon González Calvet, [The Clifford-Grassmann Geometric Algebra](http://www.xtec.cat/~rgonzal1/cgga.htm)
+> * James A Smith, [viXra papers on Geometric Algebra](http://vixra.org/author/james_a_smith)
+
+*New Foundations for Classical Mechanics* is the first book I read about GA. It has tons of great diagrams, and gives some interesting new perspectives on well known mechanics problems. This book got me excited about GA, but I personally found *Geometric Algebra for Computer Science* (recommended above) did a better job teaching me how to calculate things and solve problems on my own.
+
+----
+
+<a id="skepticism"></a>A few readers have written in with skepticism about whether Vanderbei's photograph shows what he (and I) said it shows. A quick [search on Google Images](https://www.google.com/search?q=sunset+over+water&amp;tbm=isch) shows that ripples and waves in water generally play a dominant role in the appearance of the sun's reflection. Vanderbei addresses waves, atmospheric effects, and CCD saturation in [his article](http://orfe.princeton.edu/~rvdb/tex/sunset/34-39.OPN.1108twoup.pdf) and concludes that the reflection in his image does display the geometric effect under discussion, but that he was lucky to obtain such an image.
+
+Randall Monroe writes:
+
+> There are some cool and somewhat similar tricks for estimating the size of the Earth by carefully observing the sunset. My favorite is to go to a beach at sunrise and stand atop some steps or a lifeguard stand. When the sun first appears, start a stopwatch. Then run/drop quickly to the ground, and time how long it takes the sun to appear a second time. I think you can use that to work out the Earth's radius.
+
+Here's a page spelling out the [relevant calculations](http://www.astro.princeton.edu/~dns/teachersguide/MeasECAct.html). If you live on the West Coast, like me, you don't even have to wake up early to try this.
