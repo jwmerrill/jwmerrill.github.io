@@ -34,7 +34,7 @@
 
 <p>Notice that the reflection dips just as far below the horizon as the sun peaks above it.</p>
 
-<p>Actual photographs of the sun setting over calm water (<a href="http://www.princeton.edu/~rvdb/Sunset-crop-lossless.jpg">like Vanderbei’s</a>) look more like this:</p>
+<p>Actual photographs of the sun setting over calm water (<a href="http://www.princeton.edu/~rvdb/Sunset-crop-lossless.jpg">like Vanderbei’s</a><label for="photo-skepticism" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="photo-skepticism" class="margin-toggle" /><span class="marginnote">Update: I should have been more careful to note that most photographs of sunsets over water actually don’t look like Vanderbei’s photograph (or my diagram) because of waves and atmospheric effects, and that sensor saturation artifacts make it hard to interpret images like this. Reproducing Vanderbei’s image may be somewhere between hard and impossible. <a href="#skepticism">More Below</a>.</span>) look more like this:</p>
 
 <div>
 <img alt="Round earth sunset diagram" src="/img/sunset-round.png" />
@@ -355,6 +355,8 @@
 
 <p><span class="display-latex">\epsilon^2 = 4 \frac{\left(\sin^2\left(\frac{\gamma}{2}\right) - \sin^2\left(\frac{\beta}{2}\right)\right)^2}{\sin(\beta)^2}</span></p>
 
+<p>This is helpful because we’re now subtracting two numbers that are very close to 0 instead of very close to 1, and intermediate rounding to a fixed number of digits throws away less information for numbers that are close to 0 than for numbers that are close to 1.</p>
+
 <p>Plugging this expression for <span class="mathquill-embedded-latex">\epsilon^2</span> into the non-cancelling form for <span class="mathquill-embedded-latex">\rho</span> (5’’) now allows computing <span class="mathquill-embedded-latex">\rho</span> without undue rounding issues.</p>
 
 <p>To evaluate <span class="mathquill-embedded-latex">\rho</span> in terms of measured parameters, insert the following values into either (5’) or (5’’)</p>
@@ -434,7 +436,7 @@
 
 <p>Through years of experience solving physics and computer graphics problems, I have slowly learned to be skeptical of angles. In many problems where your input data is given in terms of coordinates or lengths, it is possible to solve the problem completely without ever introducing angles, and in these cases, introducing angles adds algebraic complications and computational inefficiencies. In 3D, introducing angles also invites <a href="https://en.wikipedia.org/wiki/Gimbal_lock#Gimbal_lock_in_applied_mathematics">gimbal lock</a>.</p>
 
-<p>This is not to say that angles are never useful; quite the contrary<label for="ga-angles" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="ga-angles" class="margin-toggle" /><span class="marginnote">Lest I give the wrong impression, geometric algebra is perfectly capable of handling angles, and in fact smoothly extends the way that complex numbers handle angles to more dimensions. It’s just that it also allows you to avoid angles where they aren’t fundamental.<br /><br />For example, geometric algebra’s version of the Euler formula is<br /><br /><span class="mathquill-embedded-latex">\exp(I\theta) = \cos(\theta) + \sin(\theta)I</span><br /><br />where <span class="mathquill-embedded-latex">I</span> is any bivector, and in more than two dimensions, this formula is valid for each separate plane.</span>. They are exactly what you need for problems explicitly involving arc lengths on a circle (so especially problems involving rolling discs, cylinders, or spheres), or rotation at a uniform rate, or for interpolating continuously between known discrete rotations. They’re also handy for making small angle approximations. However, for most problems involving areas, projections, reflections, and other simple relationships between vectors (in other words, most problems of <em>trigonometry</em>), angles are a distraction from more direct solutions.</p>
+<p>This is not to say that angles are never useful; quite the contrary<label for="ga-angles" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="ga-angles" class="margin-toggle" /><span class="marginnote">Lest I give the wrong impression, geometric algebra is perfectly capable of handling angles, and in fact smoothly extends the way that complex numbers handle angles to more dimensions. It’s just that it also allows you to avoid angles where they aren’t fundamental.<br /><br />For example, geometric algebra’s version of the Euler formula is<br /><br /><span class="mathquill-embedded-latex">\exp(I\theta) = \cos(\theta) + \sin(\theta)I</span><br /><br />where <span class="mathquill-embedded-latex">I</span> is any unit bivector, and in more than two dimensions, this formula is valid for each separate plane.</span>. They are exactly what you need for problems explicitly involving arc lengths on a circle (so especially problems involving rolling discs, cylinders, or spheres), or rotation at a uniform rate, or for interpolating continuously between known discrete rotations. They’re also handy for making small angle approximations. However, for most problems involving areas, projections, reflections, and other simple relationships between vectors (in other words, most problems of <em>trigonometry</em>), angles are a distraction from more direct solutions.</p>
 
 <p>To say it another way, Wildberger (author of Rational Trigonometry) emphasizes that you don’t need to think about arc lengths on a circle to understand triangles, and on this point I agree with him completely. Of course, you do need to think about arc lengths on a circle to understand problems involving… arc lengths on a circle. For these problems, we should of course know and use angles.</p>
 
@@ -455,6 +457,59 @@
 </ul>
 
 <p>Finally, thank you to Steven Strogatz for first <a href="https://twitter.com/stevenstrogatz/status/800136462612201472">pointing me to this problem</a> (and a related, fiendishly difficult pure <a href="https://twitter.com/stevenstrogatz/status/799740091795120133">trigonometric functions problem</a>). And of course, thank you to Robert Vanderbei for dreaming up this wonderful problem, and presenting it so beautifully.</p>
+
+<h3 id="updates">Updates</h3>
+
+<p>Bret Victor <a href="https://twitter.com/worrydream/status/808532834386210816">notes on Twitter</a> that many more of the equations in this post could be accompanied by diagrams. Interactive diagrams. His example:</p>
+
+<p><a href="https://twitter.com/worrydream/status/808532834386210816"><img alt="Side view sunset diagram annotated with bivectors." src="/img/sunset-bv-bivector-diagram.png" /></a></p>
+
+<p>I’ll list a few relevant resources along these lines:</p>
+
+<ul>
+  <li>Daniel Fontijne wrote a program called <a href="http://www.geometricalgebra.net/gaviewer_download.html">GAViewer</a> to accompany <em>Geometric Algebra for Computer Science</em> (recommended above) that allows visualizing and visually manipulating GA expressions. I wish you could embed it on the web.</li>
+  <li><a href="http://aprt.us">Apparatus</a> is a very cool environment for drawing interactive diagrams, and I hear you can embed apparatus creations into other web pages now. Maybe someone can teach it how to speak GA!</li>
+  <li><a href="https://github.com/weshoke">weshoke</a> ported the <a href="http://versor.mat.ucsb.edu/">Versor GA library</a> to Javascript (<a href="https://github.com/weshoke/versor.js/">Versor.js</a>) and there are stubs of an <a href="https://github.com/weshoke/versor.js/tree/master/cli">expression parser</a> and a <a href="https://github.com/weshoke/versor.js/tree/master/render">canvas renderer</a> written by a few other contributors (including me). Maybe you could be the one to flesh this out!</li>
+  <li>Finally, I’ll mention that <a href="https://www.desmos.com/">Desmos</a> (my employer) is a great way to interact with equations, functions, and graphs (but GA isn’t on our current roadmap).</li>
+</ul>
+
+<hr />
+
+<p>Jacob Rus writes to suggest a few more resources for learning about GA:</p>
+
+<blockquote>
+  <p>I was a bit surprised you didn’t mention Hestenes’s NFCM book, as that seems closest to the type of problem solving you were doing:</p>
+
+  <p>David Hestenes, <a href="http://geocalc.clas.asu.edu/html/NFCM.html">New Foundations for Classical Mechanics</a></p>
+
+  <p>A couple other sources you might mention:</p>
+
+  <ul>
+    <li>Alan Bromborsky, <a href="http://www2.montgomerycollege.edu/departments/planet/planet/Numerical_Relativity/bookGA.pdf">An Introduction to Geometric Algebra and Calculus</a></li>
+    <li>Eric Chisholm, <a href="https://arxiv.org/abs/1205.5935">Geometric Algebra</a></li>
+  </ul>
+
+  <p>At a closer to high school geometry level, perhaps also:</p>
+
+  <ul>
+    <li>Ramon González Calvet, <a href="http://www.xtec.cat/~rgonzal1/cgga.htm">The Clifford-Grassmann Geometric Algebra</a></li>
+    <li>James A Smith, <a href="http://vixra.org/author/james_a_smith">viXra papers on Geometric Algebra</a></li>
+  </ul>
+</blockquote>
+
+<p><em>New Foundations for Classical Mechanics</em> is the first book I read about GA. It has tons of great diagrams, and gives some interesting new perspectives on well known mechanics problems. This book got me excited about GA, but I personally found <em>Geometric Algebra for Computer Science</em> (recommended above) did a better job teaching me how to calculate things and solve problems on my own.</p>
+
+<hr />
+
+<p><a id="skepticism"></a>A few readers have written in with skepticism about whether Vanderbei’s photograph shows what he (and I) said it shows. A quick <a href="https://www.google.com/search?q=sunset+over+water&amp;tbm=isch">search on Google Images</a> shows that ripples and waves in water generally play a dominant role in the appearance of the sun’s reflection. Vanderbei addresses waves, atmospheric effects, and CCD saturation in <a href="http://orfe.princeton.edu/~rvdb/tex/sunset/34-39.OPN.1108twoup.pdf">his article</a> and concludes that the reflection in his image does display the geometric effect under discussion, but that he was lucky to obtain such an image.</p>
+
+<p>Randall Monroe writes:</p>
+
+<blockquote>
+  <p>There are some cool and somewhat similar tricks for estimating the size of the Earth by carefully observing the sunset. My favorite is to go to a beach at sunrise and stand atop some steps or a lifeguard stand. When the sun first appears, start a stopwatch. Then run/drop quickly to the ground, and time how long it takes the sun to appear a second time. I think you can use that to work out the Earth’s radius.</p>
+</blockquote>
+
+<p>Here’s a page spelling out the <a href="http://www.astro.princeton.edu/~dns/teachersguide/MeasECAct.html">relevant calculations</a>. If you live on the West Coast, like me, you don’t even have to wake up early to try this.</p>
 
   </article>
   <script src="/js/vendor/katex.min.js"></script>

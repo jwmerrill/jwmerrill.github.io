@@ -10,13 +10,13 @@ html, body {
 
 body {
   font-family: 'Georgia', serif;
-  // font-family: 'PT Serif', serif;
   font-size: 16px;
 }
 
 .main {
   margin-left: 4em;
   margin-right: 4em;
+  margin-bottom: 10em;
 }
 
 .header-inner {
@@ -43,11 +43,15 @@ body {
   color: #555;
 }
 
-.main p, .main ul, .main ol, .main .highlight, .main .p {
+.main p, .main ul, .main ol, .main .highlight, .main .p, .main hr {
   line-height: 1.4em;
   font-size: 18px;
   width: 36em;
   max-width: 65%;
+}
+
+.main hr {
+  margin-left: 0;
 }
 
 .main .highlight {
@@ -124,6 +128,12 @@ h1 a:hover, h2 a:hover, h3 a:hover, .byline a:hover {
 .main h3 {
   font-size: 1.2em;
   font-weight: bold;
+}
+
+blockquote {
+  margin-left: 0;
+  padding-left: 1.5rem;
+  border-left: solid 3px #ddd;
 }
 
 @media (max-width: 960px) {
