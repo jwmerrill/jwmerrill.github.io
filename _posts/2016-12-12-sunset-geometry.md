@@ -472,7 +472,7 @@ Jacob Rus writes to suggest a few more resources for learning about GA:
 
 <a id="skepticism"></a>A few readers have written in with skepticism about whether Vanderbei's photograph shows what he (and I) said it shows. A quick [search on Google Images](https://www.google.com/search?q=sunset+over+water&amp;tbm=isch) shows that ripples and waves in water generally play a dominant role in the appearance of the sun's reflection. Vanderbei addresses waves, atmospheric effects, and CCD saturation in [his article](http://orfe.princeton.edu/~rvdb/tex/sunset/34-39.OPN.1108twoup.pdf) and concludes that the reflection in his image does display the geometric effect under discussion, but that he was lucky to obtain such an image.
 
-Randall Monroe writes:
+Randall Munroe writes:
 
 > There are some cool and somewhat similar tricks for estimating the size of the Earth by carefully observing the sunset. My favorite is to go to a beach at sunrise and stand atop some steps or a lifeguard stand. When the sun first appears, start a stopwatch. Then run/drop quickly to the ground, and time how long it takes the sun to appear a second time. I think you can use that to work out the Earth's radius.
 
