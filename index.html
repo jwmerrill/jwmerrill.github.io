@@ -22,6 +22,76 @@
   <div class="main">
     
   <div class="post">
+    <h2><a href="/2017/02/28/geometry-algebra-intuition/">Geometry, Algebra, and Intuition</a></h2>
+    <abbr class="date">28 Feb 2017</abbr>
+    <p><p>I have a confession to make: I have always found symbolic algebra more intuitive than geometric pictures. I think you’re supposed to feel the opposite way, and I greatly admire people who think and communicate in pictures, but for me, it’s usually a struggle.</p>
+
+<p>For example, I have seen many pictorial “proofs without words” of the Pythagorean Theorem. I find some of them to be quite beautiful, but I also often find them difficult to unpack, and I never really think “oh, I could have come up with that myself.”</p>
+
+<p>Here’s Pythagoras’ own proof<label for="faulk-pythagoras-image" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="faulk-pythagoras-image" class="margin-toggle" /><span class="marginnote"><a href="https://en.wikipedia.org/wiki/Pythagorean_theorem#/media/File:Pythagoras-proof-anim.svg">Image by William B. Faulk</a>, lifted from the <a href="https://en.wikipedia.org/wiki/Pythagorean_theorem">Pythagorean Theorem Wikipedia Page</a>. It’s worth looking at some of the many other visual proofs given there.</span>:</p>
+
+<figure class="mainfig">
+  <img alt="Pythagoras' visual proof of the Pythagorean theorem." src="/img/geometry-algebra-intuition/pythagoras-original-proof.png" style="width: 653px;" />
+</figure>
+
+<p>I like this proof a lot. It’s fairly simple to interpret (more so than some of the other examples in the genre), and quite convincing. We have</p>
+
+<p><span class="display-latex">
+  c^2 = a^2 + b^2
+</span></p>
+
+<p>because, along with the same four copies of a triangle, both sides of this equation fill up an identical area.</p>
+
+<p>Even so, it’s odd to me that this diagram involves four copies of the triangle. This is one of those “I couldn’t have come up with this myself” stumbling blocks.</p>
+
+<p>For comparison, I’ll give an algebraic proof<label for="proof-caveat" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="proof-caveat" class="margin-toggle" /><span class="marginnote">Here and throughout I am using the word “proof” quite loosely. Forgive me, I am a physicist, not a mathematician.</span> of the Pythagorean theorem using vectors. The condition that three vectors <span class="mathquill-embedded-latex">a</span>, <span class="mathquill-embedded-latex">b</span>, and <span class="mathquill-embedded-latex">c</span> traverse a triangle is that their sum is zero:</p>
+
+<p><span class="display-latex">
+  a + b + c = 0
+</span></p>
+
+<p>Solving for <span class="mathquill-embedded-latex">c</span> gives</p>
+
+<p><span class="display-latex">
+  c = -(a+b)
+</span></p>
+
+<p>and then dotting each side with itself and distributing gives</p>
+
+<p><span class="display-latex">
+  \begin{aligned<em>}
+  c \cdot c &amp;= \left(a+b\right) \cdot \left(a + b\right) \\
+    &amp;= a \cdot a + a \cdot b + b \cdot a + b \cdot b \\
+    &amp;= a^2 + b^2 + 2 a \cdot b
+  \end{aligned</em>}
+</span></p>
+
+<p>The condition that vectors <span class="mathquill-embedded-latex">a</span> and <span class="mathquill-embedded-latex">b</span> form a right angle is just that <span class="mathquill-embedded-latex">a \cdot b = 0</span>, and in that special case, we have the Pythagorean theorem:</p>
+
+<p><span class="display-latex">
+  c^2 = a^2 + b^2
+</span></p>
+
+<p>The thing I like about this algebraic manipulation is that it is a straightforward application of simple rules in sequence. There are dozens of ways to arrange 4 congruent triangles on a page (probably much more than dozens, really), but the algebra feels almost inevitable<label for="practice-the-rules" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="practice-the-rules" class="margin-toggle" /><span class="marginnote">It does take practice to get a feel for which rules to apply to achieve a given goal, but there are really only a few rules to try: distributivity, commutativity, associativity, linearity over scalar multiplication, and that’s about it.</span>.</p>
+
+<ol>
+  <li>Write down the algebraic condition that vectors forming the sides of any triangle must satisfy.</li>
+  <li>We’re interested in a function of one of the side vectors, <span class="mathquill-embedded-latex">c^2</span>, so we solve for <span class="mathquill-embedded-latex">c</span> and apply the function to both sides.</li>
+  <li>We transform the right hand side by applying distributivity of the dot product across addition, and commutativity of the dot product, i.e. <span class="mathquill-embedded-latex">a \cdot b = b \cdot a</span>.</li>
+  <li>Right triangles in particular are a simplifying special case where one term drops out.</li>
+</ol>
+
+<p>I also think it’s important that the algebraic manipulation embeds the Pythagorean theorem as a special case of a relationship that holds for all triangles: the Law of Cosines<label for="law-of-cosines" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="law-of-cosines" class="margin-toggle" /><span class="marginnote">The following diagram shows the relationship between the vector form of the law of cosines, <span class="mathquill-embedded-latex">c^2 = a^2 + b^2 + 2 a \cdot b</span>, and the angle form of the law of cosines, <span class="mathquill-embedded-latex">c^2 = a^2 + b^2 - 2 |a||b|\cos C</span> <img src="/img/geometry-algebra-intuition/law-of-cosines-triangle.png" style="width: 213px" /> In the angle form, <span class="mathquill-embedded-latex">C</span> is an interior angle, but in the vector form, if <span class="mathquill-embedded-latex">a \cdot b = |a||b|\cos(\theta_{ab})</span>, then <span class="mathquill-embedded-latex">\theta_{ab}</span> is an exterior angle. This is the origin of the difference in sign of the final term between the two forms.</span>. If you have a theorem about right triangles, then you’d really like to know whether it’s ever true for non-right triangles, and how exactly it breaks down in cases where it isn’t true. Perhaps there’s a good way to deform Pythagoras’ picture to illustrate the law of cosines, but I don’t believe I’ve seen it.</p>
+
+<p>For these reasons, I’ve generally been satisfied with the algebraic way of thinking about the Pythagorean theorem. So satisfied, I recently realized, that I’ve barely even tried to think about what pictures would “naturally” illustrate the algebraic manipulation.</p>
+
+<p>In the remainder of this post, I plan to remedy this complacency.</p>
+
+</p>
+    <p><a href="/2017/02/28/geometry-algebra-intuition/">more...</a></p>
+  </div>
+
+  <div class="post">
     <h2><a href="/2016/12/12/sunset-geometry/">Sunset Geometry</a></h2>
     <abbr class="date">12 Dec 2016</abbr>
     <p><p>Robert Vanderbei has written a <a href="http://orfe.princeton.edu/~rvdb/tex/sunset/ms.pdf">beautiful</a> <a href="http://orfe.princeton.edu/~rvdb/tex/sunset/34-39.OPN.1108twoup.pdf">series</a> of <a href="http://orfe.princeton.edu/~rvdb/tex/sunset/sunset.pdf">articles</a> and <a href="http://orfe.princeton.edu/u/rvdb/tex/talks/sunset/sunsetTalk_RutgersREU_small.pdf">talks</a> about a method for finding the radius of the earth based on a single photograph of a sunset over a large, calm lake.</p>

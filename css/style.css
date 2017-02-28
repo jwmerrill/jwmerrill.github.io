@@ -43,11 +43,24 @@ body {
   color: #555;
 }
 
-.main p, .main ul, .main ol, .main .highlight, .main .p, .main hr {
+.main p, .main ul, .main ol, .main .highlight, .main .p, .main hr, .mainfig {
   line-height: 1.4em;
   font-size: 18px;
   width: 36em;
   max-width: 65%;
+}
+
+.mainfig {
+  text-align: center;
+}
+
+.mainfig img {
+  height: auto;
+  max-width: 100%;
+}
+
+.mainfig {
+  margin: 1em 0 ;
 }
 
 .main hr {
@@ -83,7 +96,7 @@ body {
 
 .main .marginnote, figcaption {
   background: white;
-  color: #666;
+  color: #444;
 }
 
 .main ol .marginnote, .main ul .marginnote {
@@ -142,7 +155,7 @@ blockquote {
     margin-right: 1em;
   }
 
-  .main p, .main ul, .main ol, .main .highlight, .main .p {
+  .main p, .main ul, .main ol, .main .highlight, .main .p, .mainfig {
     line-height: 1.4em;
     font-size: 1.1em;
     max-width: 60%;
@@ -164,7 +177,7 @@ blockquote {
     margin-right: 1em;
   }
 
-  .main p, .main ul, .main ol, .main .highlight, .main .p {
+  .main p, .main ul, .main ol, .main .highlight, .main .p, .mainfig {
     margin-right: 0;
     margin-left: 0;
     width: auto;
