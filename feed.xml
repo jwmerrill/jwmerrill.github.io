@@ -203,6 +203,34 @@
 
 &lt;p&gt;Thanks to Jacob Rus for an interesting discussion that led me to write these ideas down carefully, Bret Victor for inspiring me to work harder at making diagrams, and especially to Jaime George, who has edited this post and also all of my other posts, and who I should have thanked sooner for doing this!&lt;/p&gt;
 
+&lt;h3 id=&quot;updates&quot;&gt;Updates&lt;/h3&gt;
+
+&lt;p&gt;Nick Jackiw points to some prior art:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Your dissection with the vanishing parallelograms is very close to &lt;a href=&quot;https://books.google.ca/books?id=pHPMpj2DedsC&amp;amp;lpg=PA39&amp;amp;dq=erwin%20dintzl&amp;amp;pg=PA38#v=onepage&amp;amp;q=erwin%20dintzl&amp;amp;f=false&quot;&gt;Erwin Dintzl (1939)&lt;/a&gt;. The late 19th and early 20th century, basically up to the time Hilbert’s ideas spread into curricula of the German gymnasiums, is an incredibly fertile time for geometric construction/interpretation/dissection of more modern results.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Daniel Scher &lt;a href=&quot;https://twitter.com/dpscher/status/836705380432478208&quot;&gt;writes on Twitter&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Dan Bennett has a nice activity in &lt;em&gt;Pythagoras Plugged In&lt;/em&gt; that focuses on this visualization of the Law of Cosines.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;(See the Tweet for a photograph of the relevant book page.)&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Several folks contributed interactive versions of the Law of Cosines construction:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://ggbm.at/EuRrn4tJ&quot;&gt;Gray Crawford, Geogebra&lt;/a&gt; (&lt;a href=&quot;https://twitter.com/graycrawford/status/836686261767262214&quot;&gt;via Twitter&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://t.co/UMSN7JSs6Z&quot;&gt;Daniel Scher, Web Sketchpad&lt;/a&gt; (&lt;a href=&quot;https://twitter.com/dpscher/status/836964608938213377&quot;&gt;via Twitter&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://hrldcpr.github.io/law-of-cosines/&quot;&gt;Harold Cooper, Custom JS+SVG&lt;/a&gt; (&lt;a href=&quot;https://twitter.com/hrldcpr/status/839188469368963073&quot;&gt;via Twitter&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+
 &lt;!--Note to self, geo tool state used to generate these diagrams lives at https://www.desmos.com/geometry?state=a410c2210e33--&gt;
 </description>
       <pubDate>Tue, 28 Feb 2017 00:00:00 -0800</pubDate>
