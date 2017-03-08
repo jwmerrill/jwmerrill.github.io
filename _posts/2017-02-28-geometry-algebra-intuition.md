@@ -218,4 +218,26 @@ Or as Hestenes put it, "*Geometry without algebra is dumb! Algebra without geome
 
 Thanks to Jacob Rus for an interesting discussion that led me to write these ideas down carefully, Bret Victor for inspiring me to work harder at making diagrams, and especially to Jaime George, who has edited this post and also all of my other posts, and who I should have thanked sooner for doing this!
 
+### Updates
+
+Nick Jackiw points to some prior art:
+
+> Your dissection with the vanishing parallelograms is very close to [Erwin Dintzl (1939)](https://books.google.ca/books?id=pHPMpj2DedsC&lpg=PA39&dq=erwin%20dintzl&pg=PA38#v=onepage&q=erwin%20dintzl&f=false). The late 19th and early 20th century, basically up to the time Hilbert's ideas spread into curricula of the German gymnasiums, is an incredibly fertile time for geometric construction/interpretation/dissection of more modern results.
+
+---
+
+Daniel Scher [writes on Twitter](https://twitter.com/dpscher/status/836705380432478208):
+
+> Dan Bennett has a nice activity in *Pythagoras Plugged In* that focuses on this visualization of the Law of Cosines.
+
+(See the Tweet for a photograph of the relevant book page.)
+
+---
+
+Several folks contributed interactive versions of the Law of Cosines construction:
+
+* [Gray Crawford, Geogebra](https://ggbm.at/EuRrn4tJ) ([via Twitter](https://twitter.com/graycrawford/status/836686261767262214))
+* [Daniel Scher, Web Sketchpad](https://t.co/UMSN7JSs6Z) ([via Twitter](https://twitter.com/dpscher/status/836964608938213377))
+* [Harold Cooper, Custom JS+SVG](https://hrldcpr.github.io/law-of-cosines/) ([via Twitter](https://twitter.com/hrldcpr/status/839188469368963073))
+
 <!--Note to self, geo tool state used to generate these diagrams lives at https://www.desmos.com/geometry?state=a410c2210e33-->
