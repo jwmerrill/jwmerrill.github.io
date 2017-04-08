@@ -7,6 +7,31 @@
     <atom:link href="http://www.shapeoperator.com/feed.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Lawnmower Puzzle</title>
+      <description>&lt;p&gt;One of the joys of being an engineer at Desmos is that my collaborators occasionally bring me math problems that they need to solve to make something that they’re building work right. I love tricky little geometry problems, and I’d solve them as a hobby if they weren’t part of my job. When it helps our team get on with the work, so much the better.&lt;/p&gt;
+
+&lt;p&gt;In today’s post, I’d like to share one of these puzzles that came up while building &lt;a href=&quot;https://teacher.desmos.com/activitybuilder/custom/5873db71ae798052084222cb&quot;&gt;Lawnmower Math&lt;/a&gt;, and invite you to solve it yourself.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;The activity is centered around a lazy lawnmowing scheme: tie the mower to a peg in the center of the lawn with a length of rope, and then sit back and sip your lemonade as the mower cuts an autonomous spiral in toward the peg (see the video evidence on screen 2 of &lt;a href=&quot;https://teacher.desmos.com/activitybuilder/custom/5873db71ae798052084222cb&quot;&gt;the activity&lt;/a&gt;). But the peg needs to be just the right size to mow the lawn efficiently, with no gaps and not too much overlap between passes. In the activity, students interact with animations to build intuition before developing a mathematical model of how large the peg should.&lt;/p&gt;
+
+&lt;p&gt;Building the animations for this activity brought up a different but related mathematical challenge. You want the mower to stop moving at the moment it collides with the peg. Collision detection can get pretty tricky, and that’s the puzzle I’m posing to you: how much rope remains unspooled from the peg when the mower collides with it?&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Lawn mower puzzle&quot; src=&quot;/img/lawnmower-puzzle/lawnmower-puzzle.png&quot; style=&quot;width: 601px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;At this point, I’m tempted to state the question formally with named variables, labeled angles and such. But instead, I’ll follow &lt;a href=&quot;https://www.ted.com/talks/dan_meyer_math_curriculum_makeover&quot;&gt;Dan’s lead&lt;/a&gt; and leave the work and the joy of formulating the problem to you. In other words, I’ll be less helpful.&lt;/p&gt;
+
+&lt;p&gt;Feel free to e-mail solutions to jason@shapeoperator.com. There won’t be any prizes, but I’ll give a shout out to anyone whose solution teaches me something, and I’ll post my own solution some time next week.&lt;/p&gt;
+</description>
+      <pubDate>Sat, 08 Apr 2017 00:00:00 -0400</pubDate>
+      <link>http://www.shapeoperator.com/2017/04/08/lawnmower-puzzle/</link>
+      <guid isPermaLink="true">http://www.shapeoperator.com/2017/04/08/lawnmower-puzzle/</guid>
+    </item>
+    
+    <item>
       <title>Geometry, Algebra, and Intuition</title>
       <description>&lt;p&gt;I have a confession to make: I have always found symbolic algebra more intuitive than geometric pictures. I think you’re supposed to feel the opposite way, and I greatly admire people who think and communicate in pictures, but for me, it’s usually a struggle.&lt;/p&gt;
 
@@ -233,7 +258,7 @@
 
 &lt;!--Note to self, geo tool state used to generate these diagrams lives at https://www.desmos.com/geometry?state=a410c2210e33--&gt;
 </description>
-      <pubDate>Tue, 28 Feb 2017 00:00:00 -0800</pubDate>
+      <pubDate>Tue, 28 Feb 2017 00:00:00 -0500</pubDate>
       <link>http://www.shapeoperator.com/2017/02/28/geometry-algebra-intuition/</link>
       <guid isPermaLink="true">http://www.shapeoperator.com/2017/02/28/geometry-algebra-intuition/</guid>
     </item>
@@ -729,7 +754,7 @@
 
 &lt;p&gt;Here’s a page spelling out the &lt;a href=&quot;http://www.astro.princeton.edu/~dns/teachersguide/MeasECAct.html&quot;&gt;relevant calculations&lt;/a&gt;. If you live on the West Coast, like me, you don’t even have to wake up early to try this.&lt;/p&gt;
 </description>
-      <pubDate>Mon, 12 Dec 2016 00:00:00 -0800</pubDate>
+      <pubDate>Mon, 12 Dec 2016 00:00:00 -0500</pubDate>
       <link>http://www.shapeoperator.com/2016/12/12/sunset-geometry/</link>
       <guid isPermaLink="true">http://www.shapeoperator.com/2016/12/12/sunset-geometry/</guid>
     </item>
@@ -1422,7 +1447,7 @@ solution digit sets in a &lt;code&gt;Set&lt;/code&gt;, a &lt;code&gt;Vector&lt;/
   &lt;span class=&quot;n&quot;&gt;LIBM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;libopenlibm&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;LLVM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;libLLVM&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;3.3&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 </description>
-      <pubDate>Mon, 02 Nov 2015 00:00:00 -0800</pubDate>
+      <pubDate>Mon, 02 Nov 2015 00:00:00 -0500</pubDate>
       <link>http://www.shapeoperator.com/2015/11/02/optimizing-kakuro-in-julia/</link>
       <guid isPermaLink="true">http://www.shapeoperator.com/2015/11/02/optimizing-kakuro-in-julia/</guid>
     </item>
@@ -1641,7 +1666,7 @@ solution digit sets in a &lt;code&gt;Set&lt;/code&gt;, a &lt;code&gt;Vector&lt;/
 
 &lt;p&gt;I recently worked with John Verzani to get code very much like this final version of &lt;code&gt;bisect_root&lt;/code&gt; into the &lt;a href=&quot;https://github.com/JuliaLang/Roots.jl&quot;&gt;Roots.jl&lt;/a&gt; package. As of this writing, the &lt;a href=&quot;https://github.com/JuliaLang/Roots.jl/pull/12&quot;&gt;pull request&lt;/a&gt; is currently awaiting review.&lt;/p&gt;
 </description>
-      <pubDate>Sat, 22 Feb 2014 00:00:00 -0800</pubDate>
+      <pubDate>Sat, 22 Feb 2014 00:00:00 -0500</pubDate>
       <link>http://www.shapeoperator.com/2014/02/22/bisecting-floats/</link>
       <guid isPermaLink="true">http://www.shapeoperator.com/2014/02/22/bisecting-floats/</guid>
     </item>
