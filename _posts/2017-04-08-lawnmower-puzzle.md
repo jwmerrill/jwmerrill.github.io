@@ -23,4 +23,4 @@ At this point, I'm tempted to state the question formally with named variables, 
 
 Feel free to e-mail solutions to jason@shapeoperator.com. There won't be any prizes, but I'll give a shout out to anyone whose solution teaches me something, and I'll post my own solution some time next week.
 
-Update: [my solution](2017/04/23/lawnmower-puzzle-solution/) is now available.
+Update: [my solution](/2017/04/23/lawnmower-puzzle-solution/) is now available.
