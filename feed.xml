@@ -7,6 +7,124 @@
     <atom:link href="http://www.shapeoperator.com/feed.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Lawnmower Puzzle Solution</title>
+      <description>&lt;p&gt;I recently posted a &lt;a href=&quot;/2017/04/08/lawnmower-puzzle/&quot;&gt;geometry puzzle&lt;/a&gt; about an autonomous lawn mower steered by a rope and a peg. How much rope remains unspooled from the peg when the mower collides with it? If you haven’t seen the puzzle yet, go check out &lt;a href=&quot;/2017/04/08/lawnmower-puzzle/&quot;&gt;last week’s post&lt;/a&gt; and give it a try.&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;a href=&quot;/2017/04/08/lawnmower-puzzle/&quot;&gt;&lt;img alt=&quot;Lawnmower puzzle&quot; src=&quot;/img/lawnmower-puzzle/lawnmower-puzzle.png&quot; style=&quot;width: 601px;&quot; /&gt;&lt;/a&gt;
+&lt;/figure&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;I received two very nice (and satisfyingly different) solutions from Suzanne von Oy and Patrick Honner&lt;label for=&quot;solutions&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;solutions&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Suzanne von Oy (&lt;a href=&quot;https://vondesmos.wordpress.com/author/vondesmos/&quot;&gt;blog&lt;/a&gt;, &lt;a href=&quot;https://twitter.com/von_oy?lang=en&quot;&gt;twitter&lt;/a&gt;) and Patrick Honner (&lt;a href=&quot;http://mrhonner.com/&quot;&gt;blog&lt;/a&gt;, &lt;a href=&quot;https://twitter.com/mrhonner?lang=en&quot;&gt;twitter&lt;/a&gt;) are both inspiring educators, and I’m honored that they took the time to submit solutions. You should check out their writing.&lt;/span&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/img/lawnmower-puzzle-solution/suzanne-von-oy-solution.jpg&quot;&gt;Suzanne von Oy’s solution&lt;/a&gt; (&lt;a href=&quot;https://www.desmos.com/calculator/zjapg4plhe&quot;&gt;graph&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/img/lawnmower-puzzle-solution/patrick-honner-solution.png&quot;&gt;Patrick Honner’s solution&lt;/a&gt; (&lt;a href=&quot;https://www.desmos.com/calculator/rzcqmdjpvw&quot;&gt;graph&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I’ll begin my solution by stating some assumptions and naming some quantities.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The mower is a square with side length &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;2m&lt;/span&gt;&lt;/li&gt;
+  &lt;li&gt;The peg is a circe of radius &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;r&lt;/span&gt;&lt;/li&gt;
+  &lt;li&gt;The length of unspooled rope is &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;l&lt;/span&gt;&lt;/li&gt;
+  &lt;li&gt;The rope is attached to the mower at its center&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Lawnmower variable names&quot; src=&quot;/img/lawnmower-puzzle-solution/lawnmower-variable-names.png&quot; style=&quot;width: 497px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;In the figure, I’ve also drawn in two right angles, and seeing these is a lot of the work of solving the problem.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The rope is tangent to the peg at the point that they lose contact, and is therefore always perpendicular to the radius connecting the center of the peg to this point.&lt;/li&gt;
+  &lt;li&gt;The side of the mower is always perpendicular to the rope (because the wheels on the mower are perpendicular to the rope, and the sides are parallel to the wheels).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Together, these assumptions mean that the side of the mower (and also its midline) is parallel to the radius of the peg that passes through the loss-of-contact point, and from this observation, we’ll just need to draw a couple of rectangles and write down the solution, more or less.&lt;/p&gt;
+
+&lt;p&gt;Once you’ve done enough problems like this, writing down these kinds of right angles starts to become habitual, and you don’t really need to carefully justify to yourself why you’re doing it every single time. But it’s worth remembering that these right angle conditions are not trivial, and there are plenty of similar looking problems where they wouldn’t be right!&lt;/p&gt;
+
+&lt;p&gt;Both of these right angles depend crucially on the fact that the rope is &lt;em&gt;under tension&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;The rope certainly can’t penetrate the peg, so that eliminates half the directions it could conceivably take on at the loss-of-contact point, but a slack rope could leave at any angle that doesn’t cause it to penetrate the peg. Under tension, however, the rope will spool or unspool itself until the loss of contact occurs at a point where the tangent direction to the peg is parallel to the tension. Because the peg is a circle (and only for this reason!), tangent directions to its perimiter are always perpendicular to radii through its center.&lt;/p&gt;
+
+&lt;p&gt;Similarly, if the rope weren’t under tension, it could make any angle with the side of the mower. Just imagine pointing the mower directly toward the peg. It would happily head directly there, maybe running over and chewing up the slack rope on its way. So we have to start the mower off pointed in a direction that produces tension, and then the tension will steer the mower in a way that maintains the tension.&lt;/p&gt;
+
+&lt;p&gt;I can go on. We’re effectively assuming the mower wheels roll without slipping. If you put the mower on very slick ice and gave it a push, it could wrap itself around the peg with its center following exactly the same trajectory but without ever changing the direction it’s pointing (its attitude). And we’re assuming that the rope has no thickness, and no stiffness (i.e. provides no resistance to a bending force).&lt;/p&gt;
+
+&lt;p&gt;Of course it isn’t news that puzzles are about idealized models (so are scientific theories, by the way), and I’m belaboring the point just to say that if these right angles don’t seem obvious to you, that’s ok! They really do require some assumptions and justification, and the first time you wrestle with these arguments, you’re in for a good long hard think.&lt;/p&gt;
+
+&lt;p&gt;These two right angle conditions hold over the mower’s entire path. The additional condition of contact is that a point on the perimeter of the mower is coincident with a point on the perimeter of the peg, and the mower and peg don’t penetrate one another.&lt;/p&gt;
+
+&lt;p&gt;It turns out that there are two cases that need to be treated separately, and that’s a lot of what makes this problem tricky. Either the mower contacts the peg somewhere along the side of the mower, or it contacts the peg at its corner. The first case is simpler to analyze.&lt;/p&gt;
+
+&lt;h4&gt;Side contact&lt;/h4&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Lawnmower side contact&quot; src=&quot;/img/lawnmower-puzzle-solution/lawnmower-side-contact.png&quot; style=&quot;width: 482px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;When the mower contacts the peg along its side, a square of side length &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;r&lt;/span&gt; is formed by four important points: the contact point of the mower with the peg, the center of the peg, the loss-of-contact point of the rope with the peg, and the point where the rope crosses the side of the mower. In this case, the length of unspooled rope at contact is then&lt;/p&gt;
+
+&lt;p&gt;&lt;span class=&quot;display-latex&quot;&gt;
+  l = m + r
+&lt;/span&gt;&lt;/p&gt;
+
+&lt;h4&gt;Corner contact&lt;/h4&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Lawnmower corner contact&quot; src=&quot;/img/lawnmower-puzzle-solution/lawnmower-corner-contact.png&quot; style=&quot;width: 520px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;When the mower contacts the peg at its corner, these same four points form a quadrilateral with 3 known sides, and two right angles.&lt;/p&gt;
+
+&lt;p&gt;In general, I might start trying to solve this quadrilateral by disecting it across opposite vertices to make two triangles and then solving the triangles, but the adjacent right angles make this problem simpler than the general case: we can instead divide the quadrilateral into a rectangle and a right triangle with two known sides, and then solve the right triangle using the Pythagorean theorem&lt;label for=&quot;isoceles&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;isoceles&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Patrick Honner took a different approach in &lt;a href=&quot;/img/lawnmower-puzzle-solution/patrick-honner-solution.png&quot;&gt;his solution&lt;/a&gt;: he did divide the quadrilateral along opposite vertices, and then noticed a pair of similar isoceles triangles that also lead to a nice, simple way of solving the problem.&lt;/span&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Lawnmower quadrilateral solution&quot; src=&quot;/img/lawnmower-puzzle-solution/lawnmower-quadrilateral-rectangle.png&quot; style=&quot;width: 529px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;The only unknown length here, which I’ll call &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;d&lt;/span&gt;, is the length of unspooled rope between the loss-of-contact point and the point where the rope crosses the side of the mower. Applying the Pythagorean theorem gives&lt;/p&gt;
+
+&lt;p&gt;&lt;span class=&quot;display-latex&quot;&gt;
+  d = \sqrt{r^2 - \left(r-m\right)^2}
+&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;and so the total length of the rope is&lt;/p&gt;
+
+&lt;p&gt;&lt;span class=&quot;display-latex&quot;&gt;
+  l = d + m = \sqrt{r^2 - \left(r-m\right)^2} + m
+&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;The two solutions are equivalent when the diameter of the peg is equal to the width of the mower. Under this condition, the quadrilateral of the corner contact case becomes the square of the side contact case. When the peg is smaller than this, contact will occur along a side, and when the peg is larger than this, contact will occur at a corner.&lt;/p&gt;
+
+&lt;p&gt;So the full solution is then&lt;/p&gt;
+
+&lt;p&gt;&lt;span class=&quot;display-latex&quot;&gt;
+  l =
+    \begin{cases}
+      r + m &amp;amp; r \leq m \\
+      \sqrt{r^2 - \left(r-m\right)^2} + m &amp;amp; r \geq m
+    \end{cases}
+&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;The corner contact case is really a little silly in this scenario. Your eyeball and intuition will probably tell you that the peg should be smaller than the mower to have a chance of allowing successive paths to be properly adjacent. And to be honest, when we first designed these animations, we missed the corner contact case completely.&lt;/p&gt;
+
+&lt;p&gt;We could have just set a lower limit on the peg size and been done with it (the thought crossed our mind), but in these activities, we generally prefer to show you the implications of going a little off the rails rather than steering you hard back onto them.&lt;/p&gt;
+
+&lt;p&gt;Anyway, if you took a crack at this problem, I hope you enjoyed thinking about it. I know that I did.&lt;/p&gt;
+
+&lt;p&gt;Bonus idea: what if the mower and the peg lived on the surface of a sphere instead of on the plane?&lt;/p&gt;
+</description>
+      <pubDate>Sun, 23 Apr 2017 00:00:00 -0700</pubDate>
+      <link>http://www.shapeoperator.com/2017/04/23/lawnmower-puzzle-solution/</link>
+      <guid isPermaLink="true">http://www.shapeoperator.com/2017/04/23/lawnmower-puzzle-solution/</guid>
+    </item>
+    
+    <item>
       <title>Lawnmower Puzzle</title>
       <description>&lt;p&gt;One of the joys of being an engineer at Desmos is that my collaborators occasionally bring me math problems that they need to solve to make something that they’re building work right. I love tricky little geometry problems, and I’d solve them as a hobby if they weren’t part of my job. When it helps our team get on with the work, so much the better.&lt;/p&gt;
 
@@ -26,7 +144,7 @@
 
 &lt;p&gt;Feel free to e-mail solutions to jason@shapeoperator.com. There won’t be any prizes, but I’ll give a shout out to anyone whose solution teaches me something, and I’ll post my own solution some time next week.&lt;/p&gt;
 </description>
-      <pubDate>Sat, 08 Apr 2017 00:00:00 -0400</pubDate>
+      <pubDate>Sat, 08 Apr 2017 00:00:00 -0700</pubDate>
       <link>http://www.shapeoperator.com/2017/04/08/lawnmower-puzzle/</link>
       <guid isPermaLink="true">http://www.shapeoperator.com/2017/04/08/lawnmower-puzzle/</guid>
     </item>
@@ -258,7 +376,7 @@
 
 &lt;!--Note to self, geo tool state used to generate these diagrams lives at https://www.desmos.com/geometry?state=a410c2210e33--&gt;
 </description>
-      <pubDate>Tue, 28 Feb 2017 00:00:00 -0500</pubDate>
+      <pubDate>Tue, 28 Feb 2017 00:00:00 -0800</pubDate>
       <link>http://www.shapeoperator.com/2017/02/28/geometry-algebra-intuition/</link>
       <guid isPermaLink="true">http://www.shapeoperator.com/2017/02/28/geometry-algebra-intuition/</guid>
     </item>
@@ -754,7 +872,7 @@
 
 &lt;p&gt;Here’s a page spelling out the &lt;a href=&quot;http://www.astro.princeton.edu/~dns/teachersguide/MeasECAct.html&quot;&gt;relevant calculations&lt;/a&gt;. If you live on the West Coast, like me, you don’t even have to wake up early to try this.&lt;/p&gt;
 </description>
-      <pubDate>Mon, 12 Dec 2016 00:00:00 -0500</pubDate>
+      <pubDate>Mon, 12 Dec 2016 00:00:00 -0800</pubDate>
       <link>http://www.shapeoperator.com/2016/12/12/sunset-geometry/</link>
       <guid isPermaLink="true">http://www.shapeoperator.com/2016/12/12/sunset-geometry/</guid>
     </item>
@@ -1447,7 +1565,7 @@ solution digit sets in a &lt;code&gt;Set&lt;/code&gt;, a &lt;code&gt;Vector&lt;/
   &lt;span class=&quot;n&quot;&gt;LIBM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;libopenlibm&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;LLVM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;libLLVM&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;3.3&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 </description>
-      <pubDate>Mon, 02 Nov 2015 00:00:00 -0500</pubDate>
+      <pubDate>Mon, 02 Nov 2015 00:00:00 -0800</pubDate>
       <link>http://www.shapeoperator.com/2015/11/02/optimizing-kakuro-in-julia/</link>
       <guid isPermaLink="true">http://www.shapeoperator.com/2015/11/02/optimizing-kakuro-in-julia/</guid>
     </item>
@@ -1666,7 +1784,7 @@ solution digit sets in a &lt;code&gt;Set&lt;/code&gt;, a &lt;code&gt;Vector&lt;/
 
 &lt;p&gt;I recently worked with John Verzani to get code very much like this final version of &lt;code&gt;bisect_root&lt;/code&gt; into the &lt;a href=&quot;https://github.com/JuliaLang/Roots.jl&quot;&gt;Roots.jl&lt;/a&gt; package. As of this writing, the &lt;a href=&quot;https://github.com/JuliaLang/Roots.jl/pull/12&quot;&gt;pull request&lt;/a&gt; is currently awaiting review.&lt;/p&gt;
 </description>
-      <pubDate>Sat, 22 Feb 2014 00:00:00 -0500</pubDate>
+      <pubDate>Sat, 22 Feb 2014 00:00:00 -0800</pubDate>
       <link>http://www.shapeoperator.com/2014/02/22/bisecting-floats/</link>
       <guid isPermaLink="true">http://www.shapeoperator.com/2014/02/22/bisecting-floats/</guid>
     </item>
