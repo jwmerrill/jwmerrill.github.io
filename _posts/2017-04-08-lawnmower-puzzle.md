@@ -22,3 +22,5 @@ Building the animations for this activity brought up a different but related mat
 At this point, I'm tempted to state the question formally with named variables, labeled angles and such. But instead, I'll follow [Dan's lead](https://www.ted.com/talks/dan_meyer_math_curriculum_makeover) and leave the work and the joy of formulating the problem to you. In other words, I'll be less helpful.
 
 Feel free to e-mail solutions to jason@shapeoperator.com. There won't be any prizes, but I'll give a shout out to anyone whose solution teaches me something, and I'll post my own solution some time next week.
+
+Update: [my solution](2017/04/23/lawnmower-puzzle-solution/) is now available.
