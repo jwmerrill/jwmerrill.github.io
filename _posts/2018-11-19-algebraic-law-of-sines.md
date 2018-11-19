@@ -94,7 +94,7 @@ If you know the lengths, <span class="mathquill-embedded-latex">|a|</span> and <
   a \wedge b = |a| |b| \sin(\theta_{ab}) I
 </div>
 
-where <span class="mathquill-embedded-latex">I</span> represents a unit plane segment. You can think of it as a square spanned by two perpendicular unit vectors, <span class="mathquill-embedded-latex">e_1</span> and <span class="mathquill-embedded-latex">e_2</span>, in the same plane as <span class="mathquill-embedded-latex">a</span> and <span class="mathquill-embedded-latex">b</span>: <span class="mathquill-embedded-latex">I=e_1\wedge e_2</span>.
+where <span class="mathquill-embedded-latex">I</span> represents a unit plane segment. You can think of <span class="mathquill-embedded-latex">I</span> as a square spanned by two perpendicular unit vectors, <span class="mathquill-embedded-latex">e_1</span> and <span class="mathquill-embedded-latex">e_2</span>, in the same plane as <span class="mathquill-embedded-latex">a</span> and <span class="mathquill-embedded-latex">b</span>: <span class="mathquill-embedded-latex">I=e_1\wedge e_2</span>.
 
 <figure class="mainfig">
   <img alt="Orthogonal unit vectors span a unit area." src="/img//algebraic-law-of-sines/unit-vectors.png"
