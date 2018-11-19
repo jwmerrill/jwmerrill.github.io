@@ -44,17 +44,17 @@
 
 <p>In <a href="http://julialang.org/">Julia</a> code<label for="mn-julia-floats" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="mn-julia-floats" class="margin-toggle" /><span class="marginnote">Julia treats floating point arithmetic the same way all modern programming environments do: according to the <a href="https://en.wikipedia.org/wiki/IEEE_floating_point">IEEE 754</a> standard. The examples here are in Julia because I plan to talk more about the language in the future, but everything in this post could as easily be written in any other language.</span>, a single step of bisection looks like this:</p>
 
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> bisect_step</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
-  <span class="n">xm</span> <span class="o">=</span> <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> bisect_step</span><span class="x">(</span><span class="n">fn</span><span class="x">,</span> <span class="n">x1</span><span class="x">,</span> <span class="n">x2</span><span class="x">)</span>
+  <span class="n">xm</span> <span class="o">=</span> <span class="x">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="x">)</span><span class="o">/</span><span class="mi">2</span>
 
   <span class="c"># Return the sub-interval with</span>
   <span class="c"># oppositely-signed endpoints</span>
-  <span class="k">if</span> <span class="n">sign</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="n">x1</span><span class="p">))</span> <span class="o">!=</span> <span class="n">sign</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="n">xm</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">x1</span><span class="p">,</span> <span class="n">xm</span>
+  <span class="k">if</span> <span class="n">sign</span><span class="x">(</span><span class="n">fn</span><span class="x">(</span><span class="n">x1</span><span class="x">))</span> <span class="o">!=</span> <span class="n">sign</span><span class="x">(</span><span class="n">fn</span><span class="x">(</span><span class="n">xm</span><span class="x">))</span>
+    <span class="k">return</span> <span class="n">x1</span><span class="x">,</span> <span class="n">xm</span>
   <span class="k">else</span>
-    <span class="k">return</span> <span class="n">xm</span><span class="p">,</span> <span class="n">x2</span>
+    <span class="k">return</span> <span class="n">xm</span><span class="x">,</span> <span class="n">x2</span>
   <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
+<span class="k">end</span></code></pre></figure>
 
 <p>For example,</p>
 
@@ -64,48 +64,48 @@
   </figure>
 </div>
 
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">bisect_step</span><span class="p">(</span><span class="n">sin</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span>
-<span class="p">(</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">4.0</span><span class="p">)</span>
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">bisect_step</span><span class="p">(</span><span class="n">sin</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
-<span class="p">(</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">3.5</span><span class="p">)</span>
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">bisect_step</span><span class="p">(</span><span class="n">sin</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
-<span class="p">(</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">3.25</span><span class="p">)</span>
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">bisect_step</span><span class="p">(</span><span class="n">sin</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
-<span class="p">(</span><span class="mf">3.125</span><span class="p">,</span><span class="mf">3.25</span><span class="p">)</span>
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">bisect_step</span><span class="p">(</span><span class="n">sin</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
-<span class="p">(</span><span class="mf">3.125</span><span class="p">,</span><span class="mf">3.1875</span><span class="p">)</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">x1</span><span class="x">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">bisect_step</span><span class="x">(</span><span class="n">sin</span><span class="x">,</span> <span class="mf">2.0</span><span class="x">,</span> <span class="mf">4.0</span><span class="x">)</span>
+<span class="x">(</span><span class="mf">3.0</span><span class="x">,</span><span class="mf">4.0</span><span class="x">)</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">x1</span><span class="x">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">bisect_step</span><span class="x">(</span><span class="n">sin</span><span class="x">,</span> <span class="n">x1</span><span class="x">,</span> <span class="n">x2</span><span class="x">)</span>
+<span class="x">(</span><span class="mf">3.0</span><span class="x">,</span><span class="mf">3.5</span><span class="x">)</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">x1</span><span class="x">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">bisect_step</span><span class="x">(</span><span class="n">sin</span><span class="x">,</span> <span class="n">x1</span><span class="x">,</span> <span class="n">x2</span><span class="x">)</span>
+<span class="x">(</span><span class="mf">3.0</span><span class="x">,</span><span class="mf">3.25</span><span class="x">)</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">x1</span><span class="x">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">bisect_step</span><span class="x">(</span><span class="n">sin</span><span class="x">,</span> <span class="n">x1</span><span class="x">,</span> <span class="n">x2</span><span class="x">)</span>
+<span class="x">(</span><span class="mf">3.125</span><span class="x">,</span><span class="mf">3.25</span><span class="x">)</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">x1</span><span class="x">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">bisect_step</span><span class="x">(</span><span class="n">sin</span><span class="x">,</span> <span class="n">x1</span><span class="x">,</span> <span class="n">x2</span><span class="x">)</span>
+<span class="x">(</span><span class="mf">3.125</span><span class="x">,</span><span class="mf">3.1875</span><span class="x">)</span></code></pre></figure>
 
 <p>The first interesting question when implementing bisection is <em>when should I stop bisecting?</em> In pure mathematics, you can think of carrying the process on indefinitely, but a computer program should halt.</p>
 
 <p>Here’s a little puzzle. I claim that one of the following functions always halts, and the other can loop forever. The functions differ only in their stopping criteria. Which one is which?</p>
 
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> bisect1</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
-  <span class="p">@</span><span class="nb">assert</span> <span class="n">sign</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="n">x1</span><span class="p">))</span> <span class="o">!=</span> <span class="n">sign</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="n">x2</span><span class="p">))</span>
+<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> bisect1</span><span class="x">(</span><span class="n">fn</span><span class="x">,</span> <span class="n">x1</span><span class="x">,</span> <span class="n">x2</span><span class="x">)</span>
+  <span class="nd">@assert</span> <span class="n">sign</span><span class="x">(</span><span class="n">fn</span><span class="x">(</span><span class="n">x1</span><span class="x">))</span> <span class="o">!=</span> <span class="n">sign</span><span class="x">(</span><span class="n">fn</span><span class="x">(</span><span class="n">x2</span><span class="x">))</span>
   <span class="n">tol</span> <span class="o">=</span> <span class="mf">1e-13</span>
   <span class="c"># Stop when function values are below</span>
   <span class="c"># a set tolerance</span>
-  <span class="k">while</span> <span class="n">abs</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="n">x1</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">tol</span> <span class="o">||</span> <span class="n">abs</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="n">x2</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">tol</span>
-    <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">bisect_step</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">fn</span><span class="p">)</span>
+  <span class="k">while</span> <span class="n">abs</span><span class="x">(</span><span class="n">fn</span><span class="x">(</span><span class="n">x1</span><span class="x">))</span> <span class="o">&gt;</span> <span class="n">tol</span> <span class="o">||</span> <span class="n">abs</span><span class="x">(</span><span class="n">fn</span><span class="x">(</span><span class="n">x2</span><span class="x">))</span> <span class="o">&gt;</span> <span class="n">tol</span>
+    <span class="n">x1</span><span class="x">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">bisect_step</span><span class="x">(</span><span class="n">x1</span><span class="x">,</span> <span class="n">x2</span><span class="x">,</span> <span class="n">fn</span><span class="x">)</span>
   <span class="k">end</span>
-  <span class="k">return</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span>
+  <span class="k">return</span> <span class="n">x1</span><span class="x">,</span> <span class="n">x2</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="nf"> bisect2</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
-  <span class="p">@</span><span class="nb">assert</span> <span class="n">sign</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="n">x1</span><span class="p">))</span> <span class="o">!=</span> <span class="n">sign</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="n">x2</span><span class="p">))</span>
+<span class="k">function</span><span class="nf"> bisect2</span><span class="x">(</span><span class="n">fn</span><span class="x">,</span> <span class="n">x1</span><span class="x">,</span> <span class="n">x2</span><span class="x">)</span>
+  <span class="nd">@assert</span> <span class="n">sign</span><span class="x">(</span><span class="n">fn</span><span class="x">(</span><span class="n">x1</span><span class="x">))</span> <span class="o">!=</span> <span class="n">sign</span><span class="x">(</span><span class="n">fn</span><span class="x">(</span><span class="n">x2</span><span class="x">))</span>
   <span class="c"># Stop when the mean of the endpoints</span>
   <span class="c"># is equal to one of the endpoints</span>
-  <span class="k">while</span> <span class="n">x1</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">&lt;</span> <span class="n">x2</span>
-    <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">bisect_step</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">fn</span><span class="p">)</span>
+  <span class="k">while</span> <span class="n">x1</span> <span class="o">&lt;</span> <span class="x">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="x">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">&lt;</span> <span class="n">x2</span>
+    <span class="n">x1</span><span class="x">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">bisect_step</span><span class="x">(</span><span class="n">x1</span><span class="x">,</span> <span class="n">x2</span><span class="x">,</span> <span class="n">fn</span><span class="x">)</span>
   <span class="k">end</span>
-  <span class="k">return</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span>
-<span class="k">end</span></code></pre></div>
+  <span class="k">return</span> <span class="n">x1</span><span class="x">,</span> <span class="n">x2</span>
+<span class="k">end</span></code></pre></figure>
 
 <p>Let’s try them out:</p>
 
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">bisect1</span><span class="p">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="mi">1000</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">bisect1</span><span class="x">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="mi">1000</span><span class="o">*</span><span class="n">sin</span><span class="x">(</span><span class="n">x</span><span class="x">),</span> <span class="mf">2.0</span><span class="x">,</span> <span class="mf">4.0</span><span class="x">)</span>
 <span class="c"># loops forever...</span>
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">bisect2</span><span class="p">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="mi">1000</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span>
-<span class="p">(</span><span class="mf">3.141592653589793</span><span class="p">,</span><span class="mf">3.1415926535897936</span><span class="p">)</span></code></pre></div>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">bisect2</span><span class="x">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="mi">1000</span><span class="o">*</span><span class="n">sin</span><span class="x">(</span><span class="n">x</span><span class="x">),</span> <span class="mf">2.0</span><span class="x">,</span> <span class="mf">4.0</span><span class="x">)</span>
+<span class="x">(</span><span class="mf">3.141592653589793</span><span class="x">,</span><span class="mf">3.1415926535897936</span><span class="x">)</span></code></pre></figure>
 
 <p>This is the opposite of what would have happened if we ran these algorithms using mathematical real numbers instead of computer floating point numbers.</p>
 
@@ -113,106 +113,106 @@
 
 <p>Over floating point doubles, the first algorithm doesn’t terminate because there is no floating point number <span class="mathquill-embedded-latex">2.0 &lt; x &lt; 4.0</span> such that <span class="mathquill-embedded-latex">1000\sin(x) &lt; 10^{-13}</span>, and the second algorithm does terminate because for any finite floating point number <span class="mathquill-embedded-latex">x_1</span> (except the largest finite float), there exists a strictly larger floating point number <span class="mathquill-embedded-latex">x_2</span> such that <span class="mathquill-embedded-latex">(x_1 + x_2)/2 = x_1</span> or <span class="mathquill-embedded-latex">(x_1 + x_2)/2 = x_2</span>.</p>
 
-<p>Both of these results might be surprising if you aren’t familiar with the details of floating point numbers. They arise due to the granularity of floats. There is a finite gap between any float and the next largest float. The size of the gap depends (proportionally) on the size of the number. In Julia, you can find the size of the gap using <code>eps</code>:</p>
+<p>Both of these results might be surprising if you aren’t familiar with the details of floating point numbers. They arise due to the granularity of floats. There is a finite gap between any float and the next largest float. The size of the gap depends (proportionally) on the size of the number. In Julia, you can find the size of the gap using <code class="highlighter-rouge">eps</code>:</p>
 
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="nb">eps</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
-<span class="mf">2.220446049250313e-16</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="nb">eps</span><span class="x">(</span><span class="mf">1.0</span><span class="x">)</span>
+<span class="mf">2.220446049250313e-16</span></code></pre></figure>
 
 <p>If <span class="mathquill-embedded-latex">x_1</span> is a float and <span class="mathquill-embedded-latex">x_2</span> is the next largest float, it is always true that their mean is either <span class="mathquill-embedded-latex">x_1</span> or <span class="mathquill-embedded-latex">x_2</span>, because there are no other values between them.</p>
 
 <p>For example,</p>
 
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="k">let</span> <span class="n">x</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">x</span><span class="o">+</span><span class="nb">eps</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-         <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">let</span> <span class="n">x</span><span class="o">=</span><span class="mf">3.0</span><span class="x">,</span> <span class="n">y</span><span class="o">=</span><span class="n">x</span><span class="o">+</span><span class="nb">eps</span><span class="x">(</span><span class="n">x</span><span class="x">)</span>
+         <span class="x">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="x">)</span><span class="o">/</span><span class="mi">2</span>
        <span class="k">end</span>
-<span class="mf">3.0</span></code></pre></div>
+<span class="mf">3.0</span></code></pre></figure>
 
 <p>The floating point representation of <span class="mathquill-embedded-latex">\pi</span> is</p>
 
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">fpi</span> <span class="o">=</span> <span class="nb">convert</span><span class="p">(</span><span class="kt">Float64</span><span class="p">,</span> <span class="nb">pi</span><span class="p">)</span>
-<span class="mf">3.141592653589793</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">fpi</span> <span class="o">=</span> <span class="nb">convert</span><span class="x">(</span><span class="kt">Float64</span><span class="x">,</span> <span class="nb">pi</span><span class="x">)</span>
+<span class="mf">3.141592653589793</span></code></pre></figure>
 
 <p>Its sine is positive:</p>
 
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">sin</span><span class="p">(</span><span class="n">fpi</span><span class="p">)</span>
-<span class="mf">1.2246467991473532e-16</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">sin</span><span class="x">(</span><span class="n">fpi</span><span class="x">)</span>
+<span class="mf">1.2246467991473532e-16</span></code></pre></figure>
 
 <p>The next largest floating point number is</p>
 
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">fpi_plus</span> <span class="o">=</span> <span class="n">fpi</span> <span class="o">+</span> <span class="nb">eps</span><span class="p">(</span><span class="n">fpi</span><span class="p">)</span>
-<span class="mf">3.1415926535897936</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">fpi_plus</span> <span class="o">=</span> <span class="n">fpi</span> <span class="o">+</span> <span class="nb">eps</span><span class="x">(</span><span class="n">fpi</span><span class="x">)</span>
+<span class="mf">3.1415926535897936</span></code></pre></figure>
 
 <p>and its sine is negative:</p>
 
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">fpi_plus</span> <span class="o">=</span> <span class="n">fpi</span> <span class="o">+</span> <span class="nb">eps</span><span class="p">(</span><span class="n">fpi</span><span class="p">)</span>
-<span class="o">-</span><span class="mf">3.216245299353273e-16</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">fpi_plus</span> <span class="o">=</span> <span class="n">fpi</span> <span class="o">+</span> <span class="nb">eps</span><span class="x">(</span><span class="n">fpi</span><span class="x">)</span>
+<span class="o">-</span><span class="mf">3.216245299353273e-16</span></code></pre></figure>
 
-<p>Neither of these outputs is within <span class="mathquill-embedded-latex">10^{-16}</span> of 0.0, which is why <code>bisect1</code> fails to terminate. On the other hand, <code>bisect2</code> managed to find exactly these inputs as lower and upper bounds of a root of <code>sin</code>. It didn’t need any explicit tolerances at all.</p>
+<p>Neither of these outputs is within <span class="mathquill-embedded-latex">10^{-16}</span> of 0.0, which is why <code class="highlighter-rouge">bisect1</code> fails to terminate. On the other hand, <code class="highlighter-rouge">bisect2</code> managed to find exactly these inputs as lower and upper bounds of a root of <code class="highlighter-rouge">sin</code>. It didn’t need any explicit tolerances at all.</p>
 
-<p>In this sense, <code>bisect2</code> is an exemplary floating point algorithm. The answer to our present question, <em>when should I stop bisecting?</em>, is <em>when there are no more floating point numbers between your lower and upper bound</em>, whenever this is practical. Checking whether the mean of the endpoints is equal to one of the endpoints is a convenient way to check this condition.</p>
+<p>In this sense, <code class="highlighter-rouge">bisect2</code> is an exemplary floating point algorithm. The answer to our present question, <em>when should I stop bisecting?</em>, is <em>when there are no more floating point numbers between your lower and upper bound</em>, whenever this is practical. Checking whether the mean of the endpoints is equal to one of the endpoints is a convenient way to check this condition.</p>
 
-<p>Choosing a different arbitrary tolerance in a general purpose floating point algorithm is impolite. Absolute tolerances like the <code>1e-13</code> in <code>bisect1</code> are inappropriate in general purpose algorithms because floating point numbers don’t come with units attached, so an algorithm with an absolute tolerance will behave differently depending on whether your user measures, <em>e.g.</em>, lengths in millimeters or meters. Relative tolerances are better but fail when the answer is supposed to be 0.0. The spacing between floating point numbers cleanly elides these two limits, being relative for finite numbers, and finite for 0.0.</p>
+<p>Choosing a different arbitrary tolerance in a general purpose floating point algorithm is impolite. Absolute tolerances like the <code class="highlighter-rouge">1e-13</code> in <code class="highlighter-rouge">bisect1</code> are inappropriate in general purpose algorithms because floating point numbers don’t come with units attached, so an algorithm with an absolute tolerance will behave differently depending on whether your user measures, <em>e.g.</em>, lengths in millimeters or meters. Relative tolerances are better but fail when the answer is supposed to be 0.0. The spacing between floating point numbers cleanly elides these two limits, being relative for finite numbers, and finite for 0.0.</p>
 
 <p>If you write your algorithms to compute to full precision, you save your users from having to think about tolerance conventions specific to your library. It can be tempting to think of floating point numbers as broken real numbers, but it’s much more productive to think of floating point numbers as a carefully thought out set of conventions for rounding the output of one algorithm to be appropriate as an input to another algorithm. Floating point numbers help with the hard work of making our programs <em>composable</em>.</p>
 
-<p>Now that we know when to stop bisecting, the next interesting question is <em>how many iterations will it take to bisect a root to full precision?</em> As we’ve just discussed, floating point numbers are a finite set. There are <span class="mathquill-embedded-latex">2^{64}</span> floating point doubles (actually somewhat less because a whole group of them are <code>NaN</code>). Each step of bisection should halve the number of floats contained in the interval. This means it should always take less than 64 steps to reach full precision.</p>
+<p>Now that we know when to stop bisecting, the next interesting question is <em>how many iterations will it take to bisect a root to full precision?</em> As we’ve just discussed, floating point numbers are a finite set. There are <span class="mathquill-embedded-latex">2^{64}</span> floating point doubles (actually somewhat less because a whole group of them are <code class="highlighter-rouge">NaN</code>). Each step of bisection should halve the number of floats contained in the interval. This means it should always take less than 64 steps to reach full precision.</p>
 
 <p>Let’s see some examples:</p>
 
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> count_bisect2_steps</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> count_bisect2_steps</span><span class="x">(</span><span class="n">fn</span><span class="x">,</span> <span class="n">x1</span><span class="x">,</span> <span class="n">x2</span><span class="x">)</span>
   <span class="n">i</span><span class="o">=</span><span class="mi">0</span>
-  <span class="k">while</span> <span class="n">x1</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">&lt;</span> <span class="n">x2</span>
-    <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">bisect_step</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
+  <span class="k">while</span> <span class="n">x1</span> <span class="o">&lt;</span> <span class="x">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="x">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">&lt;</span> <span class="n">x2</span>
+    <span class="n">x1</span><span class="x">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">bisect_step</span><span class="x">(</span><span class="n">fn</span><span class="x">,</span> <span class="n">x1</span><span class="x">,</span> <span class="n">x2</span><span class="x">)</span>
     <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
   <span class="k">end</span>
   <span class="k">return</span> <span class="n">i</span>
-<span class="k">end</span></code></pre></div>
+<span class="k">end</span></code></pre></figure>
 
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="c"># Isolate root at pi</span>
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">count_bisect2_steps</span><span class="p">(</span><span class="n">sin</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="c"># Isolate root at pi</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">count_bisect2_steps</span><span class="x">(</span><span class="n">sin</span><span class="x">,</span> <span class="mf">3.0</span><span class="x">,</span> <span class="mf">4.0</span><span class="x">)</span>
 <span class="mi">51</span> <span class="c"># good</span>
 <span class="c"># Isolate root at 0.0</span>
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">count_bisect2_steps</span><span class="p">(</span><span class="n">sin</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
-<span class="mi">1075</span> <span class="c"># bad</span></code></pre></div>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">count_bisect2_steps</span><span class="x">(</span><span class="n">sin</span><span class="x">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="x">,</span> <span class="mf">1.0</span><span class="x">)</span>
+<span class="mi">1075</span> <span class="c"># bad</span></code></pre></figure>
 
 <p>What happened?</p>
 
-<p>Earlier, I said “each step of bisection should halve the number of floats contained in the interval,” but as written, <code>bisect_step</code> doesn’t actually do this. The problem is that floats aren’t evenly distributed. They are much denser near 0.0 than far from it. This means that bisecting toward a root at 0.0 using the arithmetic mean eliminates fewer than half of the floats in the interval at each step.</p>
+<p>Earlier, I said “each step of bisection should halve the number of floats contained in the interval,” but as written, <code class="highlighter-rouge">bisect_step</code> doesn’t actually do this. The problem is that floats aren’t evenly distributed. They are much denser near 0.0 than far from it. This means that bisecting toward a root at 0.0 using the arithmetic mean eliminates fewer than half of the floats in the interval at each step.</p>
 
 <p>Instead of bisecting the values of floating point numbers, what we really want to do is bisect a function that counts them. That would make it easy to eliminate exactly half of them at each step. Conveniently, the underlying binary representation of floating point numbers is exactly a function that counts them. If we reinterpret the binary representation of a float as an integer, we can find the mean of the two integers that represent the endpoints, instead of the mean of the values of the two endpoints. Here’s a function that does just that:</p>
 
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> _middle</span><span class="p">(</span><span class="n">x1</span><span class="p">::</span><span class="kt">Float64</span><span class="p">,</span> <span class="n">x2</span><span class="p">::</span><span class="kt">Float64</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> _middle</span><span class="x">(</span><span class="n">x1</span><span class="o">::</span><span class="kt">Float64</span><span class="x">,</span> <span class="n">x2</span><span class="o">::</span><span class="kt">Float64</span><span class="x">)</span>
   <span class="c"># Use the usual float rules for combining</span>
   <span class="c"># non-finite numbers</span>
-  <span class="k">if</span> <span class="o">!</span><span class="n">isfinite</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span> <span class="o">||</span> <span class="o">!</span><span class="n">isfinite</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
+  <span class="k">if</span> <span class="o">!</span><span class="n">isfinite</span><span class="x">(</span><span class="n">x1</span><span class="x">)</span> <span class="o">||</span> <span class="o">!</span><span class="n">isfinite</span><span class="x">(</span><span class="n">x2</span><span class="x">)</span>
     <span class="k">return</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span>
   <span class="k">end</span>
 
   <span class="c"># Always return 0.0 when inputs have opposite sign</span>
-  <span class="k">if</span> <span class="n">sign</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span> <span class="o">!=</span> <span class="n">sign</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">x1</span> <span class="o">!=</span> <span class="mf">0.0</span> <span class="o">&amp;&amp;</span> <span class="n">x2</span> <span class="o">!=</span> <span class="mf">0.0</span>
+  <span class="k">if</span> <span class="n">sign</span><span class="x">(</span><span class="n">x1</span><span class="x">)</span> <span class="o">!=</span> <span class="n">sign</span><span class="x">(</span><span class="n">x2</span><span class="x">)</span> <span class="o">&amp;&amp;</span> <span class="n">x1</span> <span class="o">!=</span> <span class="mf">0.0</span> <span class="o">&amp;&amp;</span> <span class="n">x2</span> <span class="o">!=</span> <span class="mf">0.0</span>
     <span class="k">return</span> <span class="mf">0.0</span>
   <span class="k">end</span>
 
   <span class="n">negate</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">&lt;</span> <span class="mf">0.0</span> <span class="o">||</span> <span class="n">x2</span> <span class="o">&lt;</span> <span class="mf">0.0</span>
 
-  <span class="n">x1_int</span> <span class="o">=</span> <span class="n">reinterpret</span><span class="p">(</span><span class="n">UInt64</span><span class="p">,</span> <span class="n">abs</span><span class="p">(</span><span class="n">x1</span><span class="p">))</span>
-  <span class="n">x2_int</span> <span class="o">=</span> <span class="n">reinterpret</span><span class="p">(</span><span class="n">UInt64</span><span class="p">,</span> <span class="n">abs</span><span class="p">(</span><span class="n">x2</span><span class="p">))</span>
-  <span class="n">unsigned</span> <span class="o">=</span> <span class="n">reinterpret</span><span class="p">(</span><span class="kt">Float64</span><span class="p">,</span> <span class="p">(</span><span class="n">x1_int</span> <span class="o">+</span> <span class="n">x2_int</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="n">x1_int</span> <span class="o">=</span> <span class="n">reinterpret</span><span class="x">(</span><span class="kt">UInt64</span><span class="x">,</span> <span class="n">abs</span><span class="x">(</span><span class="n">x1</span><span class="x">))</span>
+  <span class="n">x2_int</span> <span class="o">=</span> <span class="n">reinterpret</span><span class="x">(</span><span class="kt">UInt64</span><span class="x">,</span> <span class="n">abs</span><span class="x">(</span><span class="n">x2</span><span class="x">))</span>
+  <span class="n">unsigned</span> <span class="o">=</span> <span class="n">reinterpret</span><span class="x">(</span><span class="kt">Float64</span><span class="x">,</span> <span class="x">(</span><span class="n">x1_int</span> <span class="o">+</span> <span class="n">x2_int</span><span class="x">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="x">)</span>
 
-  <span class="k">return</span> <span class="n">negate</span> <span class="o">?</span> <span class="o">-</span><span class="n">unsigned</span> <span class="p">:</span> <span class="n">unsigned</span>
-<span class="k">end</span></code></pre></div>
+  <span class="k">return</span> <span class="n">negate</span> <span class="o">?</span> <span class="o">-</span><span class="n">unsigned</span> <span class="x">:</span> <span class="n">unsigned</span>
+<span class="k">end</span></code></pre></figure>
 
-<p>There are some minor complications for negative numbers. The <a href="https://en.wikipedia.org/wiki/IEEE_floating_point">wikipedia page on the floating point standard</a> has more information on exactly how the binary encoding of floats works. I also recommend <a href="http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html">“What every computer scientist should know about floating point numbers”</a>. In <code>_middle</code>, I avoid these complications by returning 0.0 for intervals with one negative endpoint and one positive endpoint, and by casting negative intervals to positive intervals and back. The <code>&gt;&gt; 1</code> is right shift, a fast way to divide integers by 2.</p>
+<p>There are some minor complications for negative numbers. The <a href="https://en.wikipedia.org/wiki/IEEE_floating_point">wikipedia page on the floating point standard</a> has more information on exactly how the binary encoding of floats works. I also recommend <a href="http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html">“What every computer scientist should know about floating point numbers”</a>. In <code class="highlighter-rouge">_middle</code>, I avoid these complications by returning 0.0 for intervals with one negative endpoint and one positive endpoint, and by casting negative intervals to positive intervals and back. The <code class="highlighter-rouge">&gt;&gt; 1</code> is right shift, a fast way to divide integers by 2.</p>
 
-<p>Using this function, we can define our final version of <code>bisect_root</code>:</p>
+<p>Using this function, we can define our final version of <code class="highlighter-rouge">bisect_root</code>:</p>
 
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> bisect_root</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
-  <span class="n">xm</span> <span class="o">=</span> <span class="n">_middle</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
-  <span class="n">s1</span> <span class="o">=</span> <span class="n">sign</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="n">x1</span><span class="p">))</span>
-  <span class="n">s2</span> <span class="o">=</span> <span class="n">sign</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="n">x2</span><span class="p">))</span>
+<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> bisect_root</span><span class="x">(</span><span class="n">fn</span><span class="x">,</span> <span class="n">x1</span><span class="x">,</span> <span class="n">x2</span><span class="x">)</span>
+  <span class="n">xm</span> <span class="o">=</span> <span class="n">_middle</span><span class="x">(</span><span class="n">x1</span><span class="x">,</span> <span class="n">x2</span><span class="x">)</span>
+  <span class="n">s1</span> <span class="o">=</span> <span class="n">sign</span><span class="x">(</span><span class="n">fn</span><span class="x">(</span><span class="n">x1</span><span class="x">))</span>
+  <span class="n">s2</span> <span class="o">=</span> <span class="n">sign</span><span class="x">(</span><span class="n">fn</span><span class="x">(</span><span class="n">x2</span><span class="x">))</span>
 
   <span class="k">while</span> <span class="n">x1</span> <span class="o">&lt;</span> <span class="n">xm</span> <span class="o">&lt;</span> <span class="n">x2</span>
-    <span class="n">sm</span> <span class="o">=</span> <span class="n">sign</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="n">xm</span><span class="p">))</span>
+    <span class="n">sm</span> <span class="o">=</span> <span class="n">sign</span><span class="x">(</span><span class="n">fn</span><span class="x">(</span><span class="n">xm</span><span class="x">))</span>
 
     <span class="k">if</span> <span class="n">s1</span> <span class="o">!=</span> <span class="n">sm</span>
       <span class="n">x2</span> <span class="o">=</span> <span class="n">xm</span>
@@ -222,17 +222,17 @@
       <span class="n">s1</span> <span class="o">=</span> <span class="n">sm</span>
     <span class="k">end</span>
 
-    <span class="n">xm</span> <span class="o">=</span> <span class="n">_middle</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
+    <span class="n">xm</span> <span class="o">=</span> <span class="n">_middle</span><span class="x">(</span><span class="n">x1</span><span class="x">,</span> <span class="n">x2</span><span class="x">)</span>
   <span class="k">end</span>
 
-  <span class="k">return</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span>
-<span class="k">end</span></code></pre></div>
+  <span class="k">return</span> <span class="n">x1</span><span class="x">,</span> <span class="n">x2</span>
+<span class="k">end</span></code></pre></figure>
 
-<p>This version also inlines <code>bisect_step</code> in a way that avoids unnecessary reevaluations of the function. It has the nice property that it will always converge to full precision in 65 function evaluations or fewer (two initial evaluations, and one more per step for up to 63 additional steps).</p>
+<p>This version also inlines <code class="highlighter-rouge">bisect_step</code> in a way that avoids unnecessary reevaluations of the function. It has the nice property that it will always converge to full precision in 65 function evaluations or fewer (two initial evaluations, and one more per step for up to 63 additional steps).</p>
 
 <p>There are root bracketing algorithms that converge to full precision in fewer function evaluations for smooth functions (e.g. <a href="https://en.wikipedia.org/wiki/Brent's_method">Brent’s method</a>), but well-implemented bisection has the advantages of simplicity (fewer places for bugs to hide), and very low overhead, because there is so little arithmetic aside from the objective function evaluations.</p>
 
-<p>I recently worked with John Verzani to get code very much like this final version of <code>bisect_root</code> into the <a href="https://github.com/JuliaLang/Roots.jl">Roots.jl</a> package. As of this writing, the <a href="https://github.com/JuliaLang/Roots.jl/pull/12">pull request</a> is currently awaiting review.</p>
+<p>I recently worked with John Verzani to get code very much like this final version of <code class="highlighter-rouge">bisect_root</code> into the <a href="https://github.com/JuliaLang/Roots.jl">Roots.jl</a> package. As of this writing, the <a href="https://github.com/JuliaLang/Roots.jl/pull/12">pull request</a> is currently awaiting review.</p>
 
   </article>
   <script src="/js/vendor/katex.min.js"></script>

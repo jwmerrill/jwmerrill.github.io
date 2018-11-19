@@ -22,6 +22,31 @@
   <div class="main">
     
   <div class="post">
+    <h2><a href="/2018/11/19/algebraic-law-of-sines/">An algebraic approach to the law of sines</a></h2>
+    <abbr class="date">19 Nov 2018</abbr>
+    <p><p>A visual way of expressing that three vectors, <span class="mathquill-embedded-latex">a</span>, <span class="mathquill-embedded-latex">b</span>, and <span class="mathquill-embedded-latex">c</span>, form a triangle is</p>
+
+<figure class="mainfig">
+  <img alt="A triangle with sides a, b, and c." src="/img/algebraic-law-of-sines/triangle.png" style="width: 234px;" />
+</figure>
+
+<p>and an algebraic way is</p>
+
+<div class="display-latex">
+  a + b + c = 0
+</div>
+
+<p>In a <a href="/2017/02/28/geometry-algebra-intuition/">previous post</a>, I showed how to generate the law of cosines from this vector equation—solve for c and square both sides—and that this simplifies to the Pythagorean theorem when two of the vectors are perpendicular.</p>
+
+<p>In this post, I’ll show a similarly simple algebraic route to the law of sines.</p>
+
+<p>In understanding the law of cosines, the dot product of two vectors, <span class="mathquill-embedded-latex">a \cdot b</span>, played an important role. In understanding the law of sines, the wedge product of two vectors, <span class="mathquill-embedded-latex">a \wedge b</span>, will play a similarly important role.</p>
+
+</p>
+    <p><a href="/2018/11/19/algebraic-law-of-sines/">more...</a></p>
+  </div>
+
+  <div class="post">
     <h2><a href="/2017/04/23/lawnmower-puzzle-solution/">Lawnmower Puzzle Solution</a></h2>
     <abbr class="date">23 Apr 2017</abbr>
     <p><p>I recently posted a <a href="/2017/04/08/lawnmower-puzzle/">geometry puzzle</a> about an autonomous lawn mower steered by a rope and a peg. How much rope remains unspooled from the peg when the mower collides with it? If you haven’t seen the puzzle yet, go check out <a href="/2017/04/08/lawnmower-puzzle/">last week’s post</a> and give it a try.</p>
@@ -60,9 +85,9 @@
 
 <p>I like this proof a lot. It’s fairly simple to interpret (more so than some of the other examples in the genre), and quite convincing. We have</p>
 
-<p><span class="display-latex">
+<div class="display-latex">
   c^2 = a^2 + b^2
-</span></p>
+</div>
 
 <p>because, along with the same four copies of a triangle, both sides of this equation fill up an identical area.</p>
 
@@ -70,31 +95,31 @@
 
 <p>For comparison, I’ll give an algebraic proof<label for="proof-caveat" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="proof-caveat" class="margin-toggle" /><span class="marginnote">Here and throughout I am using the word “proof” quite loosely. Forgive me, I am a physicist, not a mathematician.</span> of the Pythagorean theorem using vectors. The condition that three vectors <span class="mathquill-embedded-latex">a</span>, <span class="mathquill-embedded-latex">b</span>, and <span class="mathquill-embedded-latex">c</span> traverse a triangle is that their sum is zero:</p>
 
-<p><span class="display-latex">
+<div class="display-latex">
   a + b + c = 0
-</span></p>
+</div>
 
 <p>Solving for <span class="mathquill-embedded-latex">c</span> gives</p>
 
-<p><span class="display-latex">
+<div class="display-latex">
   c = -(a+b)
-</span></p>
+</div>
 
 <p>and then dotting each side with itself and distributing gives</p>
 
-<p><span class="display-latex">
-  \begin{aligned<em>}
+<div class="display-latex">
+  \begin{aligned}
   c \cdot c &amp;= \left(a+b\right) \cdot \left(a + b\right) \\
     &amp;= a \cdot a + a \cdot b + b \cdot a + b \cdot b \\
     &amp;= a^2 + b^2 + 2 a \cdot b
-  \end{aligned</em>}
-</span></p>
+  \end{aligned}
+</div>
 
 <p>The condition that vectors <span class="mathquill-embedded-latex">a</span> and <span class="mathquill-embedded-latex">b</span> form a right angle is just that <span class="mathquill-embedded-latex">a \cdot b = 0</span>, and in that special case, we have the Pythagorean theorem:</p>
 
-<p><span class="display-latex">
+<div class="display-latex">
   c^2 = a^2 + b^2
-</span></p>
+</div>
 
 <p>The thing I like about this algebraic manipulation is that it is a straightforward application of simple rules in sequence. There are dozens of ways to arrange 4 congruent triangles on a page (probably much more than dozens, really), but the algebra feels almost inevitable<label for="practice-the-rules" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="practice-the-rules" class="margin-toggle" /><span class="marginnote">It does take practice to get a feel for which rules to apply to achieve a given goal, but there are really only a few rules to try: distributivity, commutativity, associativity, linearity over scalar multiplication, and that’s about it.</span>.</p>
 
