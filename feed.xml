@@ -49,7 +49,7 @@
 
 &lt;p&gt;A plane region traversed clockwise is considered to have opposite directed area as the same region traversed counter-clockwise. The concept of negative area is useful for similar reasons that negative numbers are useful: the difference of two areas can continue to be represented geometrically even if the second area is bigger than the first&lt;label for=&quot;euclidean-geometry-orientation&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;euclidean-geometry-orientation&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;In my opinion, the missing concept of sign/orientation for edges, areas, and angles is one of the biggest deficiencies of classical Greek Euclidean geometry. It leads to more special cases in theorems, like having to consider acute and obtuse angles separately in the &lt;a href=&quot;https://en.wikipedia.org/wiki/Inscribed_angle&quot;&gt;inscribed angle theorem&lt;/a&gt;.&lt;/span&gt;.&lt;/p&gt;
 
-&lt;p&gt;Consider the incoming and outgoing edges in vertices in the diagram above, starting from the bottom right vertex of the &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a \wedge b&lt;/span&gt; parallelogram. If the wedge product at each vertex is to be consistent, we must have&lt;/p&gt;
+&lt;p&gt;Consider the incoming and outgoing edges at each vertex in the diagram above, starting from the bottom right vertex of the &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a \wedge b&lt;/span&gt; parallelogram. If the wedge product at each vertex is to be consistent, we must have&lt;/p&gt;
 
 &lt;div class=&quot;display-latex&quot;&gt;a \wedge b = b \wedge (-a) = (-a) \wedge (-b) = (-b) \wedge a&lt;/div&gt;
 
