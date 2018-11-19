@@ -94,7 +94,7 @@
   a \wedge b = |a| |b| \sin(\theta_{ab}) I
 &lt;/div&gt;
 
-&lt;p&gt;where &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I&lt;/span&gt; represents a unit plane segment. You can think of it as a square spanned by two perpendicular unit vectors, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;e_1&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;e_2&lt;/span&gt;, in the same plane as &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt;: &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I=e_1\wedge e_2&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;where &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I&lt;/span&gt; represents a unit plane segment. You can think of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I&lt;/span&gt; as a square spanned by two perpendicular unit vectors, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;e_1&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;e_2&lt;/span&gt;, in the same plane as &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt;: &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I=e_1\wedge e_2&lt;/span&gt;.&lt;/p&gt;
 
 &lt;figure class=&quot;mainfig&quot;&gt;
   &lt;img alt=&quot;Orthogonal unit vectors span a unit area.&quot; src=&quot;/img//algebraic-law-of-sines/unit-vectors.png&quot; style=&quot;width: 410px;&quot; /&gt;
