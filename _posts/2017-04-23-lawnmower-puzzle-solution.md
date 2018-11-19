@@ -65,9 +65,9 @@ It turns out that there are two cases that need to be treated separately, and th
 
 When the mower contacts the peg along its side, a square of side length <span class="mathquill-embedded-latex">r</span> is formed by four important points: the contact point of the mower with the peg, the center of the peg, the loss-of-contact point of the rope with the peg, and the point where the rope crosses the side of the mower. In this case, the length of unspooled rope at contact is then
 
-<span class="display-latex">
+<div class="display-latex">
   l = m + r
-</span>
+</div>
 
 <h4>Corner contact</h4>
 
@@ -89,27 +89,27 @@ In general, I might start trying to solve this quadrilateral by disecting it acr
 
 The only unknown length here, which I'll call <span class="mathquill-embedded-latex">d</span>, is the length of unspooled rope between the loss-of-contact point and the point where the rope crosses the side of the mower. Applying the Pythagorean theorem gives
 
-<span class="display-latex">
-  d = \sqrt{r^2 - \\left(r-m\\right)^2}
-</span>
+<div class="display-latex">
+  d = \sqrt{r^2 - \left(r-m\right)^2}
+</div>
 
 and so the total length of the rope is
 
-<span class="display-latex">
-  l = d + m = \sqrt{r^2 - \\left(r-m\\right)^2} + m
-</span>
+<div class="display-latex">
+  l = d + m = \sqrt{r^2 - \left(r-m\right)^2} + m
+</div>
 
 The two solutions are equivalent when the diameter of the peg is equal to the width of the mower. Under this condition, the quadrilateral of the corner contact case becomes the square of the side contact case. When the peg is smaller than this, contact will occur along a side, and when the peg is larger than this, contact will occur at a corner.
 
 So the full solution is then
 
-<span class="display-latex">
+<div class="display-latex">
   l =
     \begin{cases}
-      r + m &amp; r \leq m \\\\
-      \sqrt{r^2 - \\left(r-m\\right)^2} + m &amp; r \geq m
+      r + m &amp; r \leq m \\
+      \sqrt{r^2 - \left(r-m\right)^2} + m &amp; r \geq m
     \end{cases}
-</span>
+</div>
 
 The corner contact case is really a little silly in this scenario. Your eyeball and intuition will probably tell you that the peg should be smaller than the mower to have a chance of allowing successive paths to be properly adjacent. And to be honest, when we first designed these animations, we missed the corner contact case completely.
 

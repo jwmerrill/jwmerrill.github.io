@@ -16,9 +16,9 @@ Here's Pythagoras' own proof{%marginnote 'faulk-pythagoras-image' """[Image by W
 
 I like this proof a lot. It's fairly simple to interpret (more so than some of the other examples in the genre), and quite convincing. We have
 
-<span class="display-latex">
+<div class="display-latex">
   c^2 = a^2 + b^2
-</span>
+</div>
 
 because, along with the same four copies of a triangle, both sides of this equation fill up an identical area.
 
@@ -26,31 +26,31 @@ Even so, it's odd to me that this diagram involves four copies of the triangle. 
 
 For comparison, I'll give an algebraic proof{%marginnote 'proof-caveat' """Here and throughout I am using the word \"proof\" quite loosely. Forgive me, I am a physicist, not a mathematician."""%} of the Pythagorean theorem using vectors. The condition that three vectors <span class="mathquill-embedded-latex">a</span>, <span class="mathquill-embedded-latex">b</span>, and <span class="mathquill-embedded-latex">c</span> traverse a triangle is that their sum is zero:
 
-<span class="display-latex">
+<div class="display-latex">
   a + b + c = 0
-</span>
+</div>
 
 Solving for <span class="mathquill-embedded-latex">c</span> gives
 
-<span class="display-latex">
+<div class="display-latex">
   c = -(a+b)
-</span>
+</div>
 
 and then dotting each side with itself and distributing gives
 
-<span class="display-latex">
-  \begin{aligned*}
-  c \cdot c &amp;= \left(a+b\right) \cdot \left(a + b\right) \\\\
-    &amp;= a \cdot a + a \cdot b + b \cdot a + b \cdot b \\\\
+<div class="display-latex">
+  \begin{aligned}
+  c \cdot c &amp;= \left(a+b\right) \cdot \left(a + b\right) \\
+    &amp;= a \cdot a + a \cdot b + b \cdot a + b \cdot b \\
     &amp;= a^2 + b^2 + 2 a \cdot b
-  \end{aligned*}
-</span>
+  \end{aligned}
+</div>
 
 The condition that vectors <span class="mathquill-embedded-latex">a</span> and <span class="mathquill-embedded-latex">b</span> form a right angle is just that <span class="mathquill-embedded-latex">a \cdot b = 0</span>, and in that special case, we have the Pythagorean theorem:
 
-<span class="display-latex">
+<div class="display-latex">
   c^2 = a^2 + b^2
-</span>
+</div>
 
 The thing I like about this algebraic manipulation is that it is a straightforward application of simple rules in sequence. There are dozens of ways to arrange 4 congruent triangles on a page (probably much more than dozens, really), but the algebra feels almost inevitable{%marginnote 'practice-the-rules' """It does take practice to get a feel for which rules to apply to achieve a given goal, but there are really only a few rules to try: distributivity, commutativity, associativity, linearity over scalar multiplication, and that's about it."""%}.
 
@@ -105,9 +105,9 @@ Applying this insight to the law of cosines gives the following pictorial formul
 
 Given
 
-<span class="display-latex">
+<div class="display-latex">
   a + b + c = 0
-</span>
+</div>
 
 <figure class="mainfig">
   <img alt="Triangle only" src="/img/geometry-algebra-intuition/triangle-only.png"
@@ -117,9 +117,9 @@ Given
 
 Then
 
-<span class="display-latex">
+<div class="display-latex">
   c^2 = a^2 + b^2 + 2 a \cdot b
-</span>
+</div>
 
 <figure class="mainfig">
   <img alt="Law of Cosines as separate pieces"
@@ -150,13 +150,13 @@ Now use exactly the same trick to expand the <span class="mathquill-embedded-lat
 
 In algebra:
 
-<span class="display-latex">
-  \begin{aligned*}
-  c \cdot c &amp;= -a \cdot c -b \cdot c \\\\
-    &amp;= a \cdot \left(a + b\right) + b \cdot \left(a + b\right)  \\\\
+<div class="display-latex">
+  \begin{aligned}
+  c \cdot c &amp;= -a \cdot c -b \cdot c \\
+    &amp;= a \cdot \left(a + b\right) + b \cdot \left(a + b\right)  \\
     &amp;= a \cdot a + a \cdot b + b \cdot a + b \cdot b
-  \end{aligned*}
-</span>
+  \end{aligned}
+</div>
 
 In a picture:
 
@@ -184,9 +184,9 @@ I find this one a little trickier to understand than Pythagoras' picture in the 
 
 When <span class="mathquill-embedded-latex">a</span>, <span class="mathquill-embedded-latex">b</span> and <span class="mathquill-embedded-latex">c</span> become proportional to one another (i.e. when they are all parallel or anti-parallel), we have a pictorial demonstration of the scalar identity
 
-<span class="display-latex">
+<div class="display-latex">
   (|a| + |b|)^2 = |a|^2 + |b|^2 + 2|a||b|
-</span>
+</div>
 
 <figure class="mainfig">
   <img alt="Scalar Case" src="/img/geometry-algebra-intuition/scalar-case.png"

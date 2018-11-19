@@ -1,0 +1,17 @@
+- [x] Law of Cosines and dot product
+- [ ] Law of Sines and wedge product
+- [ ] Geometric product, angle composition, duality
+- [ ] Diagonals theorems for rhombus and rectangle, Thales theorems
+- [ ] Proving Theorems about angles without angles (inscribed angle theorem)
+- [ ] n ways of representing condition that vectors are perpendicular
+- [ ] Summary of trigonometry using vectors
+- [ ] Quadrilaterals
+    a + b + c + d = 0
+    a + c = - (b + d)
+    "The parallelogram equation"
+    (a - c)(a + c)(b - d) = - (a - c)(b + d)(b - d)
+    "Cycilc quadrilateral equation"
+    (a + b) \dot (b + c) = (a^2 - b^2 - (c^2 - d^2))
+- [ ] Translating between complex numbers and GA
+    Argand diagram--pick a reference vector
+    Should be able to prove everything about plane geometry using a weaker algebra where the reference vector is not in the plane

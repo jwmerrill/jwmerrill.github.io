@@ -43,7 +43,7 @@ body {
   color: #555;
 }
 
-.main p, .main ul, .main ol, .main .highlight, .main .p, .main hr, .mainfig {
+.main p, .main ul, .main ol, .main .highlight, .main .p, .main hr, .mainfig, .display-latex {
   line-height: 1.4em;
   font-size: 18px;
   width: 36em;
@@ -149,13 +149,13 @@ blockquote {
   border-left: solid 3px #ddd;
 }
 
-@media (max-width: 960px) {
+@media only screeen and (max-width: 960px) {
   .main {
     margin-left: 1em;
     margin-right: 1em;
   }
 
-  .main p, .main ul, .main ol, .main .highlight, .main .p, .mainfig {
+  .main p, .main ul, .main ol, .main .highlight, .main .p, .mainfig, .display-latex {
     line-height: 1.4em;
     font-size: 1.1em;
     max-width: 60%;
@@ -171,13 +171,13 @@ blockquote {
   }
 }
 
-@media (max-width: 760px) {
+@media only screen and (max-width: 760px) {
   .main {
     margin-left: 1em;
     margin-right: 1em;
   }
 
-  .main p, .main ul, .main ol, .main .highlight, .main .p, .mainfig {
+  .main p, .main ul, .main ol, .main .highlight, .main .p, .mainfig, .display-latex {
     margin-right: 0;
     margin-left: 0;
     width: auto;

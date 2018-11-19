@@ -43,20 +43,22 @@ There are two important triangles in this diagram: the triangle formed by the ce
 
 Triangles have a very simple algebraic representation in terms of vectors{%marginnote 'notation' """In this post, I am following the common geometric algebra convention of writing vectors as plain, lower-case letters, and using Greek letters for scalars. This takes a little getting used to if you are accustomed to bold face or over-arrows for vectors, but skipping all the decorations makes it simpler to work with lots of vectors."""%}:
 
-<span class="display-latex">
-  \begin{aligned*}
-  r_1 - d_1 = p \\\\
+<div class="display-latex">
+  \begin{aligned}
+  r_1 - d_1 = p \\
   r_2 - d_2 = p
-  \end{aligned*}
-</span>
+  \end{aligned}
+</div>
 
 These simple sums of vectors subsume all the information about the relationships of lengths and angles that is expressed in classical trigonometry through "soh-cah-toa", the triangle postulate (sum of interior angles is 180 degrees), the Pythagorean theorem, and the laws of cosines and sines. Quite an improvement.
 
 It will be useful to re-express <span class="mathquill-embedded-latex">d_1</span> and <span class="mathquill-embedded-latex">d_2</span> in terms of the unit directions defined previously in order to relate other vectors to known directions:
 
-<span class="math-label">(1a)</span> <span class="display-latex">r_1 - |d_1|t = p</span>
+<span class="math-label">(1a)</span>
+<div class="display-latex">r_1 - |d_1|t = p</div>
 
-<span class="math-label">(1b)</span> <span class="display-latex">r_2 - |d_2|w = p</span>
+<span class="math-label">(1b)</span>
+<div class="display-latex">r_2 - |d_2|w = p</div>
 
 In other words, <span class="mathquill-embedded-latex">d_1</span> is directed toward the horizon, and <span class="mathquill-embedded-latex">d_2</span> is directed toward the bottom of the reflection from the water.
 
@@ -66,31 +68,37 @@ Besides these triangles, there are a few salient geometric facts:
 
 The line of sight to the horizon is tangent to the earth at the horizon, and is therefore perpendicular to the radius of the earth through the horizon.
 
-<span class="math-label">(2)</span> <span class="display-latex">r_1 \cdot d_1 = r_1 \cdot t = 0</span>
+<span class="math-label">(2)</span>
+<div class="display-latex">r_1 \cdot d_1 = r_1 \cdot t = 0</div>
 
 #### The reflection condition
 
 In terms of angles, this is expressed as "angle of incidence equals angle of reflection". In terms of vectors, it can be restated as
 
-<span class="display-latex">r_2 \cdot s = - r_2 \cdot w</span>
+<div class="display-latex">r_2 \cdot s = - r_2 \cdot w</div>
 
 or
 
-<span class="math-label">(3)</span> <span class="display-latex">r_2 \cdot (s + w) = 0</span>
+<span class="math-label">(3)</span>
+<div class="display-latex">r_2 \cdot (s + w) = 0</div>
 
 #### Known lengths
 
 We know the lengths of some of these vectors in terms of the earth's radius, <span class="mathquill-embedded-latex">\rho</span>, and the height of the camera above the shoreline, <span class="mathquill-embedded-latex">\delta</span>,
 
-<span class="math-label">(4a)</span> <span class="display-latex">r_1^2 = r_2^2 = \rho^2</span>
+<span class="math-label">(4a)</span>
+<div class="display-latex">r_1^2 = r_2^2 = \rho^2</div>
 
-<span class="math-label">(4b)</span> <span class="display-latex">p^2 = (\rho + \delta)^2</span>
+<span class="math-label">(4b)</span>
+<div class="display-latex">p^2 = (\rho + \delta)^2</div>
 
-<span class="math-label">(4c)</span> <span class="display-latex">s^2 = w^2 = t^2 = 1</span>
+<span class="math-label">(4c)</span>
+<div class="display-latex">s^2 = w^2 = t^2 = 1</div>
 
 Squaring both sides of the first triangle equation (1a), and using the horizon condition (2) (or equivalently, using the Pythagorean theorem) also allows finding the length of <span class="mathquill-embedded-latex">d_1</span>:
 
-<span class="math-label">(4d)</span> <span class="display-latex">d_1^2 = p^2 - r_1^2 = (\rho + \delta)^2 - \rho^2</span>
+<span class="math-label">(4d)</span>
+<div class="display-latex">d_1^2 = p^2 - r_1^2 = (\rho + \delta)^2 - \rho^2</div>
 
 Equations (1-4) contain all of the geometrical information{%marginnote 'distant-sun' """I assumed one other important piece of geometrical information by writting \"s\" in two places on the side-view diagram. This corresponds to the (excellent) approximation that the sun is very far away compared to other lengths."""%} needed to solve algebraically for the Earth's radius, <span class="mathquill-embedded-latex">\rho</span>, in terms of the given angles/directions (<span class="mathquill-embedded-latex">\alpha</span> and <span class="mathquill-embedded-latex">\beta</span>, or <span class="mathquill-embedded-latex">s</span>, <span class="mathquill-embedded-latex">w</span>, and <span class="mathquill-embedded-latex">t</span>) and the height of the camera above the shoreline, <span class="mathquill-embedded-latex">\delta</span>.
 
@@ -100,18 +108,18 @@ So far, I have formulated everything in terms of vector algebra that should look
 
 Geometric algebra is the answer to the question "what if I could multiply and divide by vectors?" It introduces a new associative (but non-commutative) invertible product between vectors: the geometric product. The geometric product between vectors <span class="mathquill-embedded-latex">a</span> and <span class="mathquill-embedded-latex">b</span> is simply written <span class="mathquill-embedded-latex">ab</span>. The geometric product of a vector with itself equals a scalar (the square of the length of the vector),
 
-<span class="display-latex">aa = a^2 = |a|^2</span>
+<div class="display-latex">aa = a^2 = |a|^2</div>
 
 This fact, combined with associativity and the other familiar rules for multiplication, is enough to define the geometric product uniquely.
 
 The symmetric and anti-symmetric parts of the geometric product have important geometric meaning, and are traditionally given their own special symbols{%marginnote 'commutation' """Physicists may be mystified to realize that, based on this definition of the geometric product, parallel vectors commute, and perpendicular vectors *anti*-commute. What else does that remind you of?"""%}:
 
-<span class="display-latex">
-  \begin{aligned*}
-  (ab + ba)/2 &amp; = a \cdot b  = b \cdot a \\\\
+<div class="display-latex">
+  \begin{aligned}
+  (ab + ba)/2 &amp; = a \cdot b  = b \cdot a \\
   (ab - ba)/2 &amp; = a \wedge b = - b \wedge a
-  \end{aligned*}
-</span>
+  \end{aligned}
+</div>
 
 I will assume that the dot product, <span class="mathquill-embedded-latex">a \cdot b</span>, is familiar: it is related to the projection of one vector onto another, and proportional to the cosine of the angle between them.
 
@@ -119,7 +127,7 @@ The wedge product, <span class="mathquill-embedded-latex">a \wedge b</span>, is 
 
 We can turn these definitions around to write the geometric product in terms of the dot and wedge products,
 
-<span class="display-latex">ab = a \cdot b + a \wedge b = \left\langle a b \right\rangle_0 + \left\langle a b \right\rangle_2</span>
+<div class="display-latex">ab = a \cdot b + a \wedge b = \left\langle a b \right\rangle_0 + \left\langle a b \right\rangle_2</div>
 
 where <span class="mathquill-embedded-latex">\left\langle a b \right\rangle_0</span> and <span class="mathquill-embedded-latex">\left\langle a b \right\rangle_2</span> are notations for "the scalar part" and "the bivector part".
 
@@ -131,33 +139,33 @@ The geometric product gives us two new super powers when working with vector equ
 
 Given an equation for two different products of vectors
 
-<span class="display-latex">ab = cd</span>
+<div class="display-latex">ab = cd</div>
 
 if <span class="mathquill-embedded-latex">b</span> is known, we can solve for <span class="mathquill-embedded-latex">a</span> by right-multiplying by <span class="mathquill-embedded-latex">b^{-1}</span> (i.e. dividing by <span class="mathquill-embedded-latex">b</span>).
 
-<span class="display-latex">a = cdb^{-1}</span>
+<div class="display-latex">a = cdb^{-1}</div>
 
 <span class="mathquill-embedded-latex">b^{-1}</span> is well-defined by demanding
 
-<span class="display-latex">bb^{-1} = 1</span>
+<div class="display-latex">bb^{-1} = 1</div>
 
 left-multiplying by <span class="mathquill-embedded-latex">b</span>
 
-<span class="display-latex">b^2 b^{-1} = b</span>
+<div class="display-latex">b^2 b^{-1} = b</div>
 
 and dividing through by the scalar <span class="mathquill-embedded-latex">b^2</span>
 
-<span class="display-latex">b^{-1} = \frac{b}{b^2}</span>
+<div class="display-latex">b^{-1} = \frac{b}{b^2}</div>
 
 Contrast this to the dot product and the cross/wedge product. In general, even when <span class="mathquill-embedded-latex">b</span> is known, it is not possible to uniquely solve any one of the following equations for <span class="mathquill-embedded-latex">a</span>.
 
-<span class="display-latex">
-  \begin{aligned*}
-  a \cdot b &amp; = c \cdot d \\\\
-  a \wedge b &amp; = c \wedge d \\\\
+<div class="display-latex">
+  \begin{aligned}
+  a \cdot b &amp; = c \cdot d \\
+  a \wedge b &amp; = c \wedge d \\
   a \times b &amp; = c \times d
-  \end{aligned*}
-</span>
+  \end{aligned}
+</div>
 
 The first equation only determines the part of <span class="mathquill-embedded-latex">a</span> that is parallel to <span class="mathquill-embedded-latex">b</span>, and the second two equations only determine the part of <span class="mathquill-embedded-latex">a</span> that is perpendicular to <span class="mathquill-embedded-latex">b</span>. You need both of these to solve for all of <span class="mathquill-embedded-latex">a</span>, and that's what the single geometric product gives you.
 
@@ -165,15 +173,15 @@ The first equation only determines the part of <span class="mathquill-embedded-l
 
 It frequently occurs that we know the relationships of two vectors <span class="mathquill-embedded-latex">a</span> and <span class="mathquill-embedded-latex">b</span> to a third vector <span class="mathquill-embedded-latex">c</span>, and we would like to use this information to determine the relationship between <span class="mathquill-embedded-latex">a</span> and <span class="mathquill-embedded-latex">b</span>. Algebraically, we can take the unknown product
 
-<span class="display-latex">ab<span class="display-latex">
+<div class="display-latex">ab</div>
 
 and insert the identity
 
-<span class="display-latex">cc^{-1} = \frac{cc}{|c|^2} = 1<span class="display-latex">
+<div class="display-latex">cc^{-1} = \frac{cc}{|c|^2} = 1</div>
 
 between the factors and re-associate
 
-<span class="display-latex">ab = a \left(cc^{-1}\right) b = \left(a c\right) \left(c^{-1} b\right) = \frac{1}{|c|^2}(ac)(cb)<span class="display-latex">
+<div class="display-latex">ab = a \left(cc^{-1}\right) b = \left(a c\right) \left(c^{-1} b\right) = \frac{1}{|c|^2}(ac)(cb)</div>
 
 thus re-expressing the unknown product <span class="mathquill-embedded-latex">ab</span> in terms of the known products products <span class="mathquill-embedded-latex">ac</span> and <span class="mathquill-embedded-latex">cb</span>.
 
@@ -189,39 +197,41 @@ In order to make efficient use of geometric algebra's tools, it is useful to ref
 
 Consider the geometric product
 
-<span class="display-latex">r_1 t = r_1 \cdot t + r_1 \wedge t = r_1 \wedge t</span>
+<div class="display-latex">r_1 t = r_1 \cdot t + r_1 \wedge t = r_1 \wedge t</div>
 
 where the first equality is an expression of the general vector identity <span class="mathquill-embedded-latex">ab = a \cdot b + a \wedge b</span>, and the second equality follows from <span class="mathquill-embedded-latex">r_1 \cdot t = 0</span>, our previous form of the horizon condition (2).
 
 In two dimensions, there is only one unit bivector, called <span class="mathquill-embedded-latex">I</span>, spanned by any two orthogonal unit vectors <span class="mathquill-embedded-latex">e_1</span> and <span class="mathquill-embedded-latex">e_2</span>:
 
-<span class="display-latex">e_1 \wedge e_2 = e_1 e_2 = I</span>
+<div class="display-latex">e_1 \wedge e_2 = e_1 e_2 = I</div>
 
 Therefore <span class="mathquill-embedded-latex">r_1 \wedge t</span> is proportional to <span class="mathquill-embedded-latex">I</span>, and since <span class="mathquill-embedded-latex">r_1</span> and <span class="mathquill-embedded-latex">t</span> are orthogonal, we can write
 
-<span class="math-label">(2')</span> <span class="display-latex">r_1 t = r_1 \wedge t = |r_1||t|I = |r_1|I = \rho I</span>
+<span class="math-label">(2')</span>
+<div class="display-latex">r_1 t = r_1 \wedge t = |r_1||t|I = |r_1|I = \rho I</div>
 
 #### Reflection Condition
 
 Our previous version of the reflection condition (3) also has the form of an orthogonality condition:
 
-<span class="display-latex">r_2 \cdot (s + w) = 0</span>
+<div class="display-latex">r_2 \cdot (s + w) = 0</div>
 
 so, similarly to the way we rewrote the horizon condition, we can rewrite this in terms of the geometric product as {%marginnote 'reflections' """There's another way to write reflections in geometric algebra that shows up more commonly: <span class=\"mathquill-embedded-latex\">r_2 s = - w r_2</span> or <span class=\"mathquill-embedded-latex\">s = - r_2^{-1} w r_2 = - r_2 w r_2^{-1} </span>.<br /><br />This other form is very useful for *composing* reflections into rotations, or *factoring* rotations into reflections, but the form we use here involving forming an orthogonal vector will be more convenient when it comes time to solve for <span class=\"mathquill-embedded-latex\">r_2</span>.""" %}
 
-<span class="display-latex">r_2 (s + w) = |r_2| |s + w| I</span>
+<div class="display-latex">r_2 (s + w) = |r_2| |s + w| I</div>
 
 It will simplify later algebra to define a new unit vector based on this equation:
 
-<span class="display-latex">
+<div class="display-latex">
   g \equiv \frac{ s + w }{|s + w|}
-</span>
+</div>
 
-<span class="display-latex">g^2 = 1</span>
+<div class="display-latex">g^2 = 1</div>
 
 so that the reflection condition becomes
 
-<span class="math-label">(3')</span> <span class="display-latex">r_2 g = |r_2| |g| I = |r_2| I = \rho I</span>
+<span class="math-label">(3')</span>
+<div class="display-latex">r_2 g = |r_2| |g| I = |r_2| I = \rho I</div>
 
 ### Solving for the Earth's radius
 
@@ -229,72 +239,73 @@ Now that we have rewritten our main geometric conditions in terms of the geometr
 
 First, eliminate <span class="mathquill-embedded-latex">p</span> and set the left hand sides of (1a) and (1b) equal to one another{%marginnote 'quadrilateral-equation' """This equation involving a sum of four vectors is a \"quadrilateral equation\" in exactly the same sense as our earlier triangle equations: it expresses the fact that the red vectors and green vectors in our diagram form a quadrilateral."""%}:
 
-<span class="display-latex">r_1 - |d_1| t = r_2 - |d_2| w</span>
+<div class="display-latex">r_1 - |d_1| t = r_2 - |d_2| w</div>
 
 The magnitude <span class="mathquill-embedded-latex">|d_2|</span> is unknown, so we could proceed by solving for it, but it is more efficient to simply eliminate it in the following way. First, multiply both sides of the equation on the right by <span class="mathquill-embedded-latex">w</span>:
 
-<span class="display-latex">r_1 w - |d_1| t w = r_2 w - |d_2| w^2</span>
+<div class="display-latex">r_1 w - |d_1| t w = r_2 w - |d_2| w^2</div>
 
 Now we can use "grade separation" to separately consider the scalar and bivector parts of this equation. Since <span class="mathquill-embedded-latex">w^2</span> is a scalar, the <span class="mathquill-embedded-latex">|d_2|</span> dependence drops out of the bivector part:
 
-<span class="display-latex">\left\langle r_1 w - |d_1| t w \right\rangle_2 = \left\langle r_2 w \right\rangle_2</span>
+<div class="display-latex">\left\langle r_1 w - |d_1| t w \right\rangle_2 = \left\langle r_2 w \right\rangle_2</div>
 
 Rearranging to isolate the <span class="mathquill-embedded-latex">|d_1|</span> term gives
 
-<span class="display-latex">|d_1| \left\langle t w \right\rangle_2 = \left\langle r_1 w - r_2 w \right\rangle_2</span>
+<div class="display-latex">|d_1| \left\langle t w \right\rangle_2 = \left\langle r_1 w - r_2 w \right\rangle_2</div>
 
 We can now take advantage of the horizon and reflection conditions to rewrite the unknown products <span class="mathquill-embedded-latex"> r_1 w</span> and <span class="mathquill-embedded-latex">r_2 w</span> in terms of known products by inserting factors of <span class="mathquill-embedded-latex">t t = 1</span> and <span class="mathquill-embedded-latex">g g = 1</span> and re-associating (this is the second "super power" from the introduction above):
 
-<span class="display-latex">|d_1|\left\langle t w \right\rangle_2 = \left\langle r_1 t t w -  r_2 g g w \right\rangle_2</span>
+<div class="display-latex">|d_1|\left\langle t w \right\rangle_2 = \left\langle r_1 t t w -  r_2 g g w \right\rangle_2</div>
 
 We can simplify both <span class="mathquill-embedded-latex">r_1 t</span> and <span class="mathquill-embedded-latex">r_2 g</span> to <span class="mathquill-embedded-latex">\rho I</span> using the horizon (2') and reflection (3') conditions:
 
-<span class="display-latex">|d_1| \left\langle t w \right\rangle_2 = \rho \left\langle I t w - I g w \right\rangle_2</span>
+<div class="display-latex">|d_1| \left\langle t w \right\rangle_2 = \rho \left\langle I t w - I g w \right\rangle_2</div>
 
 Now expanding the geometric products of vectors into dot and wedge product gives
 
-<span class="display-latex">|d_1| t \wedge w = \rho I (g \cdot w - t \cdot w)</span>
+<div class="display-latex">|d_1| t \wedge w = \rho I (g \cdot w - t \cdot w)</div>
 
 where I have dropped terms like <span class="mathquill-embedded-latex">\left\langle t \cdot w\right\rangle_2 = 0</span> and <span class="mathquill-embedded-latex">\left\langle I (t \wedge w - g \wedge w)\right\rangle_2 = 0</span> because they contain no part with grade 2.
 
 We can take advantage of the known length <span class="mathquill-embedded-latex">|d_1|^2</span> derived as (4d) by taking the magnitude squared of both sides:
 
-<span class="display-latex">
-  \begin{aligned*}
-  |d_1|^2 |t \wedge w|^2 &amp; = \rho^2 \left(g \cdot w - t \cdot w\right)^2 \\\\
+<div class="display-latex">
+  \begin{aligned}
+  |d_1|^2 |t \wedge w|^2 &amp; = \rho^2 \left(g \cdot w - t \cdot w\right)^2 \\
   |d_1|^2 &amp; = \rho^2 \left[ \frac{\left(g \cdot w - t \cdot w\right)^2}{|t \wedge w|^2}\right]
-  \end{aligned*}
-</span>
+  \end{aligned}
+</div>
 
 To simplify further algebra, for the term in brackets, introduce
 
-<span class="display-latex">\epsilon^2 \equiv \frac{(g \cdot w - t \cdot w)^2}{|t \wedge w|^2}</span>
+<div class="display-latex">\epsilon^2 \equiv \frac{(g \cdot w - t \cdot w)^2}{|t \wedge w|^2}</div>
 
 which is written entirely in terms of known products of directions. This gives
 
-<span class="display-latex">|d_1|^2 = \rho^2 \epsilon^2</span>
+<div class="display-latex">|d_1|^2 = \rho^2 \epsilon^2</div>
 
 Now substituting from (4d) for <span class="mathquill-embedded-latex">|d_1|^2</span> gives
 
-<span class="display-latex">(\rho + \delta)^2 - \rho^2 = \rho^2 \epsilon^2</span>
+<div class="display-latex">(\rho + \delta)^2 - \rho^2 = \rho^2 \epsilon^2</div>
 
 and dividing through by <span class="mathquill-embedded-latex">\rho^2</span> gives
 
-<span class="display-latex">\left(1 + \frac{\delta}{\rho}\right)^2 - 1 = \epsilon^2</span>
+<div class="display-latex">\left(1 + \frac{\delta}{\rho}\right)^2 - 1 = \epsilon^2</div>
 
 and finally, we are able to solve for <span class="mathquill-embedded-latex">\rho</span>, the radius of the earth{%marginnote 'positive-root' """I (and Vanderbei) have chosen a positive square root here. What, if anything, does the negative square root represent?"""%}
 
-<span class="math-label">(5)</span> <span class="display-latex">\rho = \frac{\delta}{\sqrt{1 + \epsilon^2} - 1}</span>
+<span class="math-label">(5)</span>
+<div class="display-latex">\rho = \frac{\delta}{\sqrt{1 + \epsilon^2} - 1}</div>
 
 We can recover Vanderbei's final answer by rewriting <span class="mathquill-embedded-latex">\epsilon^2</span> in terms of angles using the following relationships:
 
-<span class="display-latex">
-  \begin{aligned*}
-    t \cdot w &amp; = \cos(\beta) \\\\
-    t \wedge w &amp; = \sin(\beta) I \\\\
+<div class="display-latex">
+  \begin{aligned}
+    t \cdot w &amp; = \cos(\beta) \\
+    t \wedge w &amp; = \sin(\beta) I \\
     g \cdot w &amp; = \cos(\gamma) = \cos\left(\frac{\alpha + \beta}{2}\right)
-  \end{aligned*}
-</span>
+  \end{aligned}
+</div>
 
 so
 
@@ -308,17 +319,18 @@ First, a small angle form.
 
 Using the general approximations
 
-<span class="display-latex">
-  \begin{aligned*}
-  \sqrt{1+x^2} &amp;\approx 1 + x^2/2 &amp;\mathrm{for}\quad x \ll 1 \\\\
-  \sin{\theta} &amp;\approx \theta &amp;\mathrm{for}\quad \theta \ll 1 \\\\
-  \cos{\theta} &amp;\approx 1 - \theta^2/2 &amp;\mathrm{for}\quad \theta \ll 1 \\\\
-  \end{aligned*}
-</span>
+<div class="display-latex">
+  \begin{aligned}
+  \sqrt{1+x^2} &amp;\approx 1 + x^2/2 &amp;\mathrm{for}\quad x \ll 1 \\
+  \sin{\theta} &amp;\approx \theta &amp;\mathrm{for}\quad \theta \ll 1 \\
+  \cos{\theta} &amp;\approx 1 - \theta^2/2 &amp;\mathrm{for}\quad \theta \ll 1 \\
+  \end{aligned}
+</div>
 
 we can simplify (5) to
 
-<span class="math-label">(5')</span> <span class="display-latex">\rho \approx \frac{2}{\epsilon^2}\delta \approx \frac{8\beta^2}{\left(\beta^2 - \gamma^2\right)^2} \delta</span>
+<span class="math-label">(5')</span>
+<div class="display-latex">\rho \approx \frac{2}{\epsilon^2}\delta \approx \frac{8\beta^2}{\left(\beta^2 - \gamma^2\right)^2} \delta</div>
 
 The angles in Vanderbei's photo are quite small, so this approximation is accurate to better than one part in a million{%marginnote 'simpler-approximation' """It's also simpler than other small angle approximations previously given by Vanderbei."""%}. Since the uncertainty in the angles and camera height are about 10% each, this small angle approximation is certainly sufficient.
 
@@ -326,15 +338,16 @@ In fact, when calculating with rounded (floating point) arithmetic, the small an
 
 We can get rid of one place such cancellation occurs by multiplying the numerator and denominator of our exact expression (5) by <span class="mathquill-embedded-latex">1 + \sqrt{1 + \epsilon^2}</span> to get
 
-<span class="math-label">(5'')</span> <span class="display-latex">\rho = \frac{ \sqrt{ 1 + \epsilon^2 } + 1 }{\epsilon^2}\delta</span>
+<span class="math-label">(5'')</span>
+<div class="display-latex">\rho = \frac{ \sqrt{ 1 + \epsilon^2 } + 1 }{\epsilon^2}\delta</div>
 
 and we can get rid of another source of cancelation by replacing the difference of cosines in our expression for <span class="mathquill-embedded-latex">\epsilon^2</span> with a difference of sines using the general trigonometric identity{%marginnote 'versine' """This identity is related to the classical [Haversine Formula](https://en.wikipedia.org/wiki/Haversine_formula) from spherical trigonometry. Evelyn Lamb has written a wonderful blog post on this and other creatures in the zoo of [forgotten trigonometry functions](https://blogs.scientificamerican.com/roots-of-unity/10-secret-trig-functions-your-math-teachers-never-taught-you/)."""%}
 
-<span class="display-latex">\cos(\theta) = 1-2\sin ^2\left(\frac{\theta}{2}\right)</span>
+<div class="display-latex">\cos(\theta) = 1-2\sin ^2\left(\frac{\theta}{2}\right)</div>
 
 so that:
 
-<span class="display-latex">\epsilon^2 = 4 \frac{\left(\sin^2\left(\frac{\gamma}{2}\right) - \sin^2\left(\frac{\beta}{2}\right)\right)^2}{\sin(\beta)^2}</span>
+<div class="display-latex">\epsilon^2 = 4 \frac{\left(\sin^2\left(\frac{\gamma}{2}\right) - \sin^2\left(\frac{\beta}{2}\right)\right)^2}{\sin(\beta)^2}</div>
 
 This is helpful because we're now subtracting two numbers that are very close to 0 instead of very close to 1, and intermediate rounding to a fixed number of digits throws away less information for numbers that are close to 0 than for numbers that are close to 1.
 
@@ -342,16 +355,16 @@ Plugging this expression for <span class="mathquill-embedded-latex">\epsilon^2</
 
 To evaluate <span class="mathquill-embedded-latex">\rho</span> in terms of measured parameters, insert the following values into either (5') or (5'')
 
-<span class="display-latex">
-  \begin{aligned*}
-    \alpha &amp;= 69\ \mathrm{px} \cdot 0.5^{\circ}/317\ \mathrm{px} &amp;=&amp; 0.001899\ \mathrm{rad}\\\\
-    \beta &amp;= 29\ \mathrm{px} \cdot 0.5^{\circ}/317\ \mathrm{px}  &amp;=&amp; 0.0007983\ \mathrm{rad}\\\\
-    \gamma &amp;= \frac{\alpha + \beta}{2} &amp;=&amp; 0.001349\ \mathrm{rad}\\\\
-    \epsilon^2 &amp;= 5.482 \times 10^{-7} \\\\
-    \delta &amp;= 7\ \mathrm{ft} \\\\
+<div class="display-latex">
+  \begin{aligned}
+    \alpha &amp;= 69\ \mathrm{px} \cdot 0.5^{\circ}/317\ \mathrm{px} &amp;=&amp; 0.001899\ \mathrm{rad}\\
+    \beta &amp;= 29\ \mathrm{px} \cdot 0.5^{\circ}/317\ \mathrm{px}  &amp;=&amp; 0.0007983\ \mathrm{rad}\\
+    \gamma &amp;= \frac{\alpha + \beta}{2} &amp;=&amp; 0.001349\ \mathrm{rad}\\
+    \epsilon^2 &amp;= 5.482 \times 10^{-7} \\
+    \delta &amp;= 7\ \mathrm{ft} \\
     \rho &amp;= 2.55 \times 10^{7}\ \mathrm{ft} &amp;=&amp; 4836\ \mathrm{mi}
-  \end{aligned*}
-</span>
+  \end{aligned}
+</div>
 
 This is 20% larger than the true value, 3960 mi{%marginnote 'rounding-error' """It's also different in the second digit from the answer [given by Vanderbei](http://orfe.princeton.edu/u/rvdb/tex/talks/sunset/sunsetTalk_RutgersREU_small.pdf) (slide 28). I think this is attributable to the \"catastrophic cancellation\" discussed above, combined with low precision calculation."""%}. Not too bad.
 
@@ -365,11 +378,11 @@ But the classical trigonometry analysis of this problem is *hard*. Harder than t
 
 The subtlest part of Vanderbei's formulation of the problem involves noticing a non-trivial relationship between 4 angles:
 
-<span class="display-latex">\phi + \beta = \theta + \gamma</span>
+<div class="display-latex">\phi + \beta = \theta + \gamma</div>
 
 and the subtlest part of solving the problem involves solving the trigonometric equation{%marginnote 'trigonometric-equation' """This equation is transcendental in the angles, but turns out to be algebraic (quadratic) in <span class=\"mathquill-embedded-latex\">\\cos(\\phi)</span>."""%}
 
-<span class="display-latex">\cos(\phi + \beta) = \cos(\phi)\cos(\gamma)</span>
+<div class="display-latex">\cos(\phi + \beta) = \cos(\phi)\cos(\gamma)</div>
 
 for <span class="mathquill-embedded-latex">\cos(\phi)</span>.
 
@@ -387,17 +400,17 @@ You could stick to Gibbs' vector analysis (dot products and cross products), and
 
 Alternatively, you could use complex numbers, and this works very well for problems in the plane. Like geometric algebra, complex numbers provide an associative and invertible product between directed magnitudes in the plane, and there are analogues to all the algebraic tricks we used here. The following mapping is useful for understanding the relationship between systems:
 
-<span class="display-latex">
-  \begin{aligned*}
-  a \cdot b &amp;\longleftrightarrow \mathrm{Re}\left(a b^{\dagger}\right) \\\\
-  a \wedge b &amp;\longleftrightarrow \mathrm{Im}\left(a b^{\dagger}\right) \\\\
+<div class="display-latex">
+  \begin{aligned}
+  a \cdot b &amp;\longleftrightarrow \mathrm{Re}\left(a b^{\dagger}\right) \\
+  a \wedge b &amp;\longleftrightarrow \mathrm{Im}\left(a b^{\dagger}\right) \\
   a b &amp;\longleftrightarrow a b^{\dagger}
-  \end{aligned*}
-</span>
+  \end{aligned}
+</div>
 
 The main deficiencies of complex numbers are that they don't extend well to three or more dimensions, and that they single out the real axis as a special direction in the plane in a way that isn't appropriate to problems with rotational symmetry. I also think there isn't as much of a culture of viewing and understanding complex numbers geometrically as there is for Gibbs vector analysis or geometric algebra. For example, did you know that if two complex numbers are oriented along orthogonal directions, then
 
-<span class="display-latex">\mathrm{Re}\left(a b^{\dagger}\right) = 0</span>
+<div class="display-latex">\mathrm{Re}\left(a b^{\dagger}\right) = 0</div>
 
 This is an important geometric idea, but I only know it because it falls out of the mapping to geometric algebra.
 
