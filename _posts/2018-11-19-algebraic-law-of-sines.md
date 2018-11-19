@@ -48,7 +48,7 @@ and in a picture, it is
 
 A plane region traversed clockwise is considered to have opposite directed area as the same region traversed counter-clockwise. The concept of negative area is useful for similar reasons that negative numbers are useful: the difference of two areas can continue to be represented geometrically even if the second area is bigger than the first{%marginnote 'euclidean-geometry-orientation' """In my opinion, the missing concept of sign/orientation for edges, areas, and angles is one of the biggest deficiencies of classical Greek Euclidean geometry. It leads to more special cases in theorems, like having to consider acute and obtuse angles separately in the [inscribed angle theorem](https://en.wikipedia.org/wiki/Inscribed_angle)."""%}.
 
-Consider the incoming and outgoing edges in vertices in the diagram above, starting from the bottom right vertex of the <span class="mathquill-embedded-latex">a \wedge b</span> parallelogram. If the wedge product at each vertex is to be consistent, we must have
+Consider the incoming and outgoing edges at each vertex in the diagram above, starting from the bottom right vertex of the <span class="mathquill-embedded-latex">a \wedge b</span> parallelogram. If the wedge product at each vertex is to be consistent, we must have
 
 <div class="display-latex">a \wedge b = b \wedge (-a) = (-a) \wedge (-b) = (-b) \wedge a</div>
 
