@@ -311,8 +311,8 @@
 &lt;div class=&quot;display-latex&quot;&gt;
   \begin{aligned}
   a \wedge b = 0 &amp;amp;\Leftrightarrow b \wedge c = 0 \\
-  a \propto b = 0 &amp;amp;\Leftrightarrow b \propto c = 0 \\
-  a \parallel b = 0 &amp;amp;\Leftrightarrow b \parallel c = 0 \\
+  a \propto b &amp;amp;\Leftrightarrow b \propto c \\
+  a \parallel b &amp;amp;\Leftrightarrow b \parallel c \\
   \end{aligned}
 &lt;/div&gt;
 
