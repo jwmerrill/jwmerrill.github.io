@@ -317,8 +317,8 @@ If the wedge product of two vectors is zero, <span class="mathquill-embedded-lat
 <div class="display-latex">
   \begin{aligned}
   a \wedge b = 0 &amp;\Leftrightarrow b \wedge c = 0 \\
-  a \propto b = 0 &amp;\Leftrightarrow b \propto c = 0 \\
-  a \parallel b = 0 &amp;\Leftrightarrow b \parallel c = 0 \\
+  a \propto b &amp;\Leftrightarrow b \propto c \\
+  a \parallel b &amp;\Leftrightarrow b \parallel c \\
   \end{aligned}
 </div>
 
