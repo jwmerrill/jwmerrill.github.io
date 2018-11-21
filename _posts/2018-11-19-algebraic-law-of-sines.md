@@ -27,7 +27,7 @@ In understanding the law of cosines, the dot product of two vectors, <span class
 
 ### Properties of the wedge product
 
-Let's review what the wedge product is, since it's probably less familiar than the dot product. Geometrically, the wedge product of two vectors represents the area of the parallelogram spanned by the two vectors{%marginnote 'dot-product-relationship' """There is a similar interpretation of the dot product as the area of a parallelogram discussed in [Geometry, Algebra, and Intuition](/2017/02/28/geometry-algebra-intuition/): instead of forming a parallelogram from the two vectors directly, the parallelogram is formed from a copy of one of the vectors rotated by 90 degrees, and an unrotated copy of the other vector. I'll say more about the connection between these products another time."""%}:
+Let's review what the wedge product is, since it's probably less familiar than the dot product. Geometrically, the wedge product of two vectors represents the area of the parallelogram spanned by the two vectors{%marginnote 'dot-product-relationship' """There is a similar interpretation of the dot product as the area of a parallelogram discussed in [Geometry, Algebra, and Intuition](/2017/02/28/geometry-algebra-intuition/): instead of forming a parallelogram from the two vectors directly, the parallelogram is formed from one of the vectors and a copy of the other rotated 90 degrees. I'll say more about the connection between these products another time."""%}:
 
 <figure class="mainfig">
   <img alt="Wedge product of a and b represented as a parallelogram" src="/img/algebraic-law-of-sines/wedge.png"
