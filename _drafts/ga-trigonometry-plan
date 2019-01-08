@@ -1,17 +1,42 @@
 - [x] Law of Cosines and dot product
-- [ ] Law of Sines and wedge product
+- [x] Law of Sines and wedge product
 - [ ] Geometric product, angle composition, duality
 - [ ] Diagonals theorems for rhombus and rectangle, Thales theorems
+  * "Today only, two for one on theorems"
+  * (a + b) \cdot (a - b) = a^2 - b^2 (diagonals of a rhombus are perpendicular, Thales theorem)
+  * (a + b)^2 - (a - b)^2 = 4 a \cdot b (diagonals of a rectangle are equal, median of an equilateral triangle is perpendicular to opposite leg)
+  * (a + b)^2 + (a - b)^2 = 2(a^2 + b^2) (sums of squares of diagonals is twice sums of squares of sides)
+  * (a + b) \wedge (a - b) = 2 a \wedge b (diagonals form parallelogram with twice the area as the original)
+  * Can we prove that if one angle of a parallelogram is 90 degrees, then other is?
+    - abb(-a)= - a^2 b^2 always
+    - If ab = a \wedge b, then b(-a) = b \wedge (-a) = a \wedge b
 - [ ] Proving Theorems about angles without angles (inscribed angle theorem)
-- [ ] n ways of representing condition that vectors are perpendicular
+- [ * n ways of representing condition that vectors are perpendicular
+    * Take a and b as unit vectors
+    * (ab)(ab) = -1 (angle bisects straight angle)
+    * a(bab) = -1 => bab = -a (reflecting a across b reverses it)
+    * (aba)b = -1 => aba = -b (reflecting b across a reverses it)
+    * ab = -ba (reversing angle negates it; this one is a little weird to interpret)
+    * ab + ba = 0 => a \cdot b = 0 (vectors have zero dot product)
+    * (a + b)^2 = a^2 + b^2 + a \cdot b = a^2 + b^2 (sides of a triangle satisfy pythagorean theorem)
+    * (alpha a + beta b) = (alpha a)^2 + (beta b)^2 (every triangle with legs proportional to a and b satisfies pythagorean theorem)
+- [ ] (Maybe), techniques for solving triangles
+    - Constraint on side vector ratios of a triangle:
+      * a + b + c = 0
+      * a b^{-1} + 1 + c b^{-1} = 0
+      * b c^{-1} = - \left(1 + a b^{-1}\right)^{-1}
 - [ ] Summary of trigonometry using vectors
 - [ ] Quadrilaterals
-    a + b + c + d = 0
-    a + c = - (b + d)
-    "The parallelogram equation"
-    (a - c)(a + c)(b - d) = - (a - c)(b + d)(b - d)
-    "Cycilc quadrilateral equation"
-    (a + b) \dot (b + c) = (a^2 - b^2 - (c^2 - d^2))
+    * a + b + c + d = 0
+    * a + c = - (b + d)
+    * "The parallelogram equation"
+    * (a - c)(a + c)(b - d) = - (a - c)(b + d)(b - d)
+    * "Cycilc quadrilateral equation"
+    * (a + b) \dot (b + c) = (a^2 - b^2 - (c^2 - d^2))
 - [ ] Translating between complex numbers and GA
     Argand diagram--pick a reference vector
     Should be able to prove everything about plane geometry using a weaker algebra where the reference vector is not in the plane
+- [ ] ... something about 3D
+  * e1(e1+e2)e2(Ee2+e3)e3(e3+e1) = e1(e1+e2)(e2+e3)(e3+e1) = (e1+e2)(e2+e3)(e3+e1)e1
+  * As two sided rotation, e1 is an eigenvector, rotates in e2 \wedge e3 plane
+  * Scalar when (e1+e2)(e2+e3)(e3+e1) is planar, (i.e. when e1, e2, e3 are)

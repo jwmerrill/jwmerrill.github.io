@@ -216,3 +216,9 @@ blockquote {
     display: block;
   }
 }
+
+@media print {
+  body {
+    zoom: 0.8;
+  }
+}
