@@ -43,6 +43,10 @@ body {
   color: #555;
 }
 
+.main h2 {
+  max-width:65%
+}
+
 .main p, .main ul, .main ol, .main .highlight, .main .p, .main hr, .mainfig, .display-latex {
   line-height: 1.4em;
   font-size: 18px;
@@ -155,6 +159,10 @@ blockquote {
     margin-right: 1em;
   }
 
+  .main h2 {
+    max-width: 60%;
+  }
+
   .main p, .main ul, .main ol, .main .highlight, .main .p, .mainfig, .display-latex {
     line-height: 1.4em;
     font-size: 1.1em;
@@ -175,6 +183,10 @@ blockquote {
   .main {
     margin-left: 1em;
     margin-right: 1em;
+  }
+
+  .main h2 {
+    max-width: 100%;
   }
 
   .main p, .main ul, .main ol, .main .highlight, .main .p, .mainfig, .display-latex {

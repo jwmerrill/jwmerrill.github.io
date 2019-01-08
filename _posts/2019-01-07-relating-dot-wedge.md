@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Visualizing geometric product relationships
+title: Visualizing geometric product relationships in plane geometry
 ---
 
 In previous posts, I have shown how to visualize both the [dot product](/2017/02/28/geometry-algebra-intuition/) and the [wedge product](/2018/11/19/algebraic-law-of-sines/) of two vectors as parallelogram areas. In this post, I will show how the dot product and the wedge product are related through a third algebraic product: the geometric product. Along the way, we will see that the geometric product provides a simple way to algebraically model all of the major geometric relationships between vectors: rotations, reflections, and projections.
