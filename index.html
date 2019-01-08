@@ -22,6 +22,57 @@
   <div class="main">
     
   <div class="post">
+    <h2><a href="/2019/01/07/relating-dot-wedge/">Visualizing geometric product relationships</a></h2>
+    <abbr class="date">07 Jan 2019</abbr>
+    <p><p>In previous posts, I have shown how to visualize both the <a href="/2017-02-28-geometry-algebra-intuition.md">dot product</a> and the <a href="/2018-11-19-algebraic-law-of-sines.md">wedge product</a> of two vectors as parallelogram areas. In this post, I will show how the dot product and the wedge product are related through a third algebraic product: the geometric product. Along the way, we will see that the geometric product provides a simple way to algebraically model all of the major geometric relationships between vectors: rotations, reflections, and projections.</p>
+
+<p>Before introducing the geometric product, let’s review the wedge and dot products and their interpretation in terms of parallelogram areas.</p>
+
+<p>Given two vectors, <span class="mathquill-embedded-latex">a</span> and <span class="mathquill-embedded-latex">b</span>, their wedge product, <span class="mathquill-embedded-latex">a \wedge b</span>, is straightforwardly visualized as the area of the parallelogram spanned by these vectors:</p>
+
+<figure class="mainfig">
+  <img alt="Wedge product of vectors a and b" src="/img/relating-dot-wedge/wedge-product.png" style="width: 345px;" />
+</figure>
+
+<p>Recall that algebraically, the wedge product <span class="mathquill-embedded-latex">a \wedge b</span> produces an object called a bivector that represents the size and direction (but not the shape or location) of a plane segment in a similar way that a vector represents the size and direction (but not the location) of a line segment.</p>
+
+<p>The dot product of the same two vectors, <span class="mathquill-embedded-latex">a \cdot b</span>, can be visualized as a parallelogram formed by one of the vectors and a copy of the other that has been rotated by <span class="mathquill-embedded-latex">90</span> degrees:</p>
+
+<figure class="mainfig">
+  <img alt="Dot product of vectors a and b" src="/img/relating-dot-wedge/dot-product.png" style="width: 223px;" />
+</figure>
+
+<p>Well, almost. When I originally wrote about this area interpretation of the dot product, I didn’t want to get into a discussion of bivectors, but once you have the concept of bivector as directed plane segment, it’s best to say that what this parallelogram depicts is not quite the dot product, <span class="mathquill-embedded-latex">a \cdot b</span>, which is a scalar (real number), but rather the bivector <span class="mathquill-embedded-latex">(a \cdot b) I</span> where <span class="mathquill-embedded-latex">I</span> is a unit bivector.</p>
+
+<figure class="mainfig">
+  <img alt="Dot product of vectors a and b as a parallelogram should include a factor of I" src="/img/relating-dot-wedge/dot-product-with-i.png" style="width: 225px;" />
+</figure>
+
+<p>The scalar <span class="mathquill-embedded-latex">a \cdot b</span> <em>scales</em> the unit bivector <span class="mathquill-embedded-latex">I</span> to produce a bivector with magnitude/area <span class="mathquill-embedded-latex">a \cdot b</span>. It’s hard to draw a scalar on a piece of paper without some version of this trick. Once you’re looking for it, you’ll see that graphical depictions of real numbers/scalars almost always show how they scale some reference object. It could be a unit segment of an axis or a scale bar; here it is instead a unit area  <span class="mathquill-embedded-latex">I</span>.</p>
+
+<p>Examining the way that the dot product and the wedge product can be represented by parallelograms suggests an algebraic relationship between them:</p>
+
+<div class="display-latex">
+  (a \cdot b) I = b \wedge a_\perp
+</div>
+
+<p>where <span class="mathquill-embedded-latex">a_\perp</span> represents the result of rotating <span class="mathquill-embedded-latex">a</span> by <span class="mathquill-embedded-latex">90</span> degrees. Since the dot product is symmetric, we also have</p>
+
+<div class="display-latex">
+  (a \cdot b) I = a \wedge b_\perp
+</div>
+
+<figure class="mainfig">
+  <img alt="Relationship between dot and wedge product" src="/img/relating-dot-wedge/dot-wedge-relationship.png" style="width: 560px;" />
+</figure>
+
+<p>To really understand this relationship, we’ll need an algebraic way to represent how <span class="mathquill-embedded-latex">a_\perp</span> is related to <span class="mathquill-embedded-latex">a</span>; in other words, we’ll need to figure out how to represent rotations algebraically.</p>
+
+</p>
+    <p><a href="/2019/01/07/relating-dot-wedge/">more...</a></p>
+  </div>
+
+  <div class="post">
     <h2><a href="/2018/11/19/algebraic-law-of-sines/">An algebraic approach to the law of sines</a></h2>
     <abbr class="date">19 Nov 2018</abbr>
     <p><p>A visual way of expressing that three vectors, <span class="mathquill-embedded-latex">a</span>, <span class="mathquill-embedded-latex">b</span>, and <span class="mathquill-embedded-latex">c</span>, form a triangle is</p>

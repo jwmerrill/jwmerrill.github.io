@@ -7,6 +7,745 @@
     <atom:link href="http://www.shapeoperator.com/feed.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Visualizing geometric product relationships</title>
+      <description>&lt;p&gt;In previous posts, I have shown how to visualize both the &lt;a href=&quot;/2017-02-28-geometry-algebra-intuition.md&quot;&gt;dot product&lt;/a&gt; and the &lt;a href=&quot;/2018-11-19-algebraic-law-of-sines.md&quot;&gt;wedge product&lt;/a&gt; of two vectors as parallelogram areas. In this post, I will show how the dot product and the wedge product are related through a third algebraic product: the geometric product. Along the way, we will see that the geometric product provides a simple way to algebraically model all of the major geometric relationships between vectors: rotations, reflections, and projections.&lt;/p&gt;
+
+&lt;p&gt;Before introducing the geometric product, let’s review the wedge and dot products and their interpretation in terms of parallelogram areas.&lt;/p&gt;
+
+&lt;p&gt;Given two vectors, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt;, their wedge product, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a \wedge b&lt;/span&gt;, is straightforwardly visualized as the area of the parallelogram spanned by these vectors:&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Wedge product of vectors a and b&quot; src=&quot;/img/relating-dot-wedge/wedge-product.png&quot; style=&quot;width: 345px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Recall that algebraically, the wedge product &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a \wedge b&lt;/span&gt; produces an object called a bivector that represents the size and direction (but not the shape or location) of a plane segment in a similar way that a vector represents the size and direction (but not the location) of a line segment.&lt;/p&gt;
+
+&lt;p&gt;The dot product of the same two vectors, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a \cdot b&lt;/span&gt;, can be visualized as a parallelogram formed by one of the vectors and a copy of the other that has been rotated by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;90&lt;/span&gt; degrees:&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Dot product of vectors a and b&quot; src=&quot;/img/relating-dot-wedge/dot-product.png&quot; style=&quot;width: 223px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Well, almost. When I originally wrote about this area interpretation of the dot product, I didn’t want to get into a discussion of bivectors, but once you have the concept of bivector as directed plane segment, it’s best to say that what this parallelogram depicts is not quite the dot product, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a \cdot b&lt;/span&gt;, which is a scalar (real number), but rather the bivector &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;(a \cdot b) I&lt;/span&gt; where &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I&lt;/span&gt; is a unit bivector.&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Dot product of vectors a and b as a parallelogram should include a factor of I&quot; src=&quot;/img/relating-dot-wedge/dot-product-with-i.png&quot; style=&quot;width: 225px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;The scalar &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a \cdot b&lt;/span&gt; &lt;em&gt;scales&lt;/em&gt; the unit bivector &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I&lt;/span&gt; to produce a bivector with magnitude/area &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a \cdot b&lt;/span&gt;. It’s hard to draw a scalar on a piece of paper without some version of this trick. Once you’re looking for it, you’ll see that graphical depictions of real numbers/scalars almost always show how they scale some reference object. It could be a unit segment of an axis or a scale bar; here it is instead a unit area  &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I&lt;/span&gt;.&lt;/p&gt;
+
+&lt;p&gt;Examining the way that the dot product and the wedge product can be represented by parallelograms suggests an algebraic relationship between them:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  (a \cdot b) I = b \wedge a_\perp
+&lt;/div&gt;
+
+&lt;p&gt;where &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a_\perp&lt;/span&gt; represents the result of rotating &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt; by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;90&lt;/span&gt; degrees. Since the dot product is symmetric, we also have&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  (a \cdot b) I = a \wedge b_\perp
+&lt;/div&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Relationship between dot and wedge product&quot; src=&quot;/img/relating-dot-wedge/dot-wedge-relationship.png&quot; style=&quot;width: 560px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;To really understand this relationship, we’ll need an algebraic way to represent how &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a_\perp&lt;/span&gt; is related to &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt;; in other words, we’ll need to figure out how to represent rotations algebraically.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;To work towards an algebraic representation of rotations, recall how the dot product and wedge product can be expressed in terms of lengths and angles:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+  a \cdot b &amp;amp;= |a| |b| \cos(\theta_{ab}) \\
+  a \wedge b &amp;amp;= |a| |b| \sin(\theta_{ab}) I
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;If you’re familiar with complex numbers, then adding these two products together produces a very suggestive result:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+  a \cdot b + a \wedge b &amp;amp;= |a| |b| (\cos(\theta_{ab}) + \sin(\theta_{ab}) I) \\
+   &amp;amp;= |a| |b| \exp(\theta_{ab} I)
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;where the second line is an expression of &lt;a href=&quot;https://en.wikipedia.org/wiki/Euler%27s_formula&quot;&gt;Euler’s Formula&lt;/a&gt;&lt;label for=&quot;exponentiating-i&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;exponentiating-i&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;At this point, it probably isn’t so clear what it could mean to exponentiate a bivector. Suspend disbelief, I’ll come back to this.&lt;/span&gt;.&lt;/p&gt;
+
+&lt;p&gt;In words, the sum of the dot product and the wedge product of two vectors is the product of their lengths, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;|a|&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;|b|&lt;/span&gt;, and a factor representing the rotation between their directions, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\exp(\theta_{ab} I)&lt;/span&gt;. This sum is so geometrically meaningful that Geometric Algebra gives it its own name: the geometric product, and its own notation, simple juxtaposition of vectors:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  a b = a \cdot b + a \wedge b = |a||b| \exp(\theta_{ab} I)
+&lt;/div&gt;
+
+&lt;p&gt;Since the dot product is symmetric, but the wedge product is anti-symmetric, the order of the factors in a geometric product matters. The reverse of this product is&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+  b a &amp;amp;= b \cdot a + b \wedge a \\
+  &amp;amp;= a \cdot b - a \wedge b = |a||b| \exp(-\theta_{ab} I)
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;These product formulas can be solved in order to represent the dot product and wedge product in terms of the geometric product&lt;label for=&quot;defining-dot-and-wedge&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;defining-dot-and-wedge&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;As an alternative, it is possible to &lt;em&gt;define&lt;/em&gt; the geometric product as a linear, associative product between vectors such that the square of a vector is a scalar, and then define the dot product and wedge product as the symmetric and anti-symmetric parts of the geometric product.&lt;/span&gt;,&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+  a \cdot b &amp;amp;= \frac12(ab + ba) \\
+  a \wedge b &amp;amp;= \frac12(ab - ba)
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;In other words, the dot and wedge products are half the symmetric and anti-symmetric sums of the geometric product and its reverse.&lt;/p&gt;
+
+&lt;p&gt;Using these relations gives a very interesting way to characterize parallel and perpendicular vectors: vectors are parallel when their wedge product is zero, so that the geometric product commutes:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  a \parallel b \Leftrightarrow a \wedge b = 0 \Leftrightarrow a b = b a
+&lt;/div&gt;
+
+&lt;p&gt;and they are perpendicular when their dot product is zero, so that the geometric product anti-commutes:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  a \perp b \Leftrightarrow a \cdot b = 0 \Leftrightarrow a b = - b a
+&lt;/div&gt;
+
+&lt;p&gt;In general, for vectors that are neither perpendicular nor parallel, the geometric product is neither commutative nor anti-commutative. For this reason, it’s important to keep track of the order of terms in a multiplication when using the geometric product. We’ll see that with the geometric product, you can get an awful lot of geometry done by thinking about when the order of various symbols can be swapped.&lt;/p&gt;
+
+&lt;h3 id=&quot;properties-of-the-geometric-product&quot;&gt;Properties of the geometric product&lt;/h3&gt;
+
+&lt;h4 id=&quot;vectors-square-to-scalars&quot;&gt;Vectors square to scalars&lt;/h4&gt;
+
+&lt;p&gt;Since the wedge product of a vector with itself is always &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;0&lt;/span&gt;, the geometric product of a vector with itself is equal to the dot product of that vector with itself:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  a a = a^2 = a \cdot a = |a|^2
+&lt;/div&gt;
+
+&lt;h4 id=&quot;associative&quot;&gt;Associative&lt;/h4&gt;
+
+&lt;p&gt;The geometric product has another property that is less obvious from its decomposition as the sum of the dot and wedge products: it is associative,&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  (a b) c = a (b c) = a b c
+&lt;/div&gt;
+
+&lt;p&gt;Associativity is extremely useful algebraically. Combined with the fact that vectors square to real numbers (scalars), associativity means that equations involving products of vectors can be solved. For example, given&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  a b = c d
+&lt;/div&gt;
+
+&lt;p&gt;if we know &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt;, we can solve for &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt; by first multiplying on the right by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt;&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+  a b b &amp;amp;= c d b \\
+  a b^2 &amp;amp;= c d b \\
+  a |b|^2 &amp;amp;= c d b
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;and then dividing through by the scalar &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;|b|^2&lt;/span&gt;&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  a = c d \frac{b}{|b|^2}
+&lt;/div&gt;
+
+&lt;h4 id=&quot;invertible&quot;&gt;Invertible&lt;/h4&gt;
+
+&lt;p&gt;Another way to say that we can solve equations involving geometric products is to say that under the geometric product, vectors have unique inverses. This is a consequence of associativity and the fact that vectors square to scalars.&lt;/p&gt;
+
+&lt;p&gt;For an inverse of vector &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt;, we require&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  b b^{-1} = 1
+&lt;/div&gt;
+
+&lt;p&gt;Multiplying both sides of this equation by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; gives&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  b^2 b^{-1} = b
+&lt;/div&gt;
+
+&lt;p&gt;and dividing by the scalar &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b^2 = |b|^2&lt;/span&gt; gives a formula for the inverse of a vector:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  b^{-1} = \frac{b}{b^2} = \frac{b}{|b|^2}
+&lt;/div&gt;
+
+&lt;p&gt;In other words, to find the inverse of a vector, divide the vector by the square of its length.&lt;/p&gt;
+
+&lt;p&gt;Since the order of geometric multiplications matters in general, we should check that &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b^{-1} b&lt;/span&gt; also equals &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;1&lt;/span&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  b^{-1} b = \frac{b}{b^2} b = \frac{b^2}{b^2} = 1
+&lt;/div&gt;
+
+&lt;p&gt;Neither the wedge product nor the dot product alone admit unique inverses, but their sum, the geometric product, contains just the right information to admit a unique inverse.&lt;/p&gt;
+
+&lt;h3 id=&quot;interpreting-the-geometric-product-geometrically&quot;&gt;Interpreting the geometric product geometrically&lt;/h3&gt;
+
+&lt;p&gt;Algebraically, the geometric product has some very useful properties, but how can we interpret it geometrically?&lt;/p&gt;
+
+&lt;p&gt;To simplify, let’s first consider the geometric product of two unit vectors. I’ll use the notation &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{a}&lt;/span&gt; to represent the unit vector in the same direction as &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \hat{a} = \frac{a}{|a|}
+&lt;/div&gt;
+
+&lt;p&gt;so that&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  |\hat{a}| = \frac{|a|}{|a|} = 1
+&lt;/div&gt;
+
+&lt;p&gt;and&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \hat{a}^2 = |\hat{a}|^2 = 1
+&lt;/div&gt;
+
+&lt;p&gt;We will use the fact that the square of a unit vector is &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;1&lt;/span&gt; in the process of simplifying several expressions below.&lt;/p&gt;
+
+&lt;p&gt;Recalling the lengths-and-angles formula for the geometric product,&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  a b = |a| |b| (\cos(\theta_{ab}) + \sin(\theta_{ab}) I) = |a| |b| \exp(\theta_{ab} I)
+&lt;/div&gt;
+
+&lt;p&gt;we can see that the geometric product of two unit vectors effectively represents the rotation between them:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \hat{a} \hat{b} = \cos(\theta_{ab}) + \sin(\theta_{ab}) I = \exp(\theta_{ab} I)
+&lt;/div&gt;
+
+&lt;p&gt;The rotation represented by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{a}\hat{b}&lt;/span&gt; can be applied to another vector in the plane, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;v&lt;/span&gt;, by multiplying on the right (remember, order matters) to form &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;v\hat{a}\hat{b}&lt;/span&gt;&lt;label for=&quot;higher-dimensional-rotation&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;higher-dimensional-rotation&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Some care is required for rotations in more than two dimensions. When &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;v&lt;/span&gt; is not in the same plane as &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b,&lt;/span&gt; then &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;v\hat{a}\hat{b}&lt;/span&gt; no longer represents a rotation of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;v&lt;/span&gt;. A closely related formula does generalize: &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{b}\hat{a}v\hat{a}\hat{b}&lt;/span&gt; is a rotation of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;v&lt;/span&gt; by twice the angle between &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; in any number of dimensions even when &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;v,&lt;/span&gt; &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a,&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; are not all in the same plane.&lt;/span&gt;:.&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Applying a rotation to a vector&quot; src=&quot;/img/relating-dot-wedge/applying-a-rotation.png&quot; style=&quot;width: 521px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;As a check,&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \hat{a} (\hat{a} \hat{b}) = (\hat{a} \hat{a}) \hat{b} = \hat{b}
+&lt;/div&gt;
+
+&lt;p&gt;so right multiplication by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{a}\hat{b}&lt;/span&gt; rotates &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{a}&lt;/span&gt; to &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{b}.&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;Reversing the order of factors in a geometric product of unit vectors reverses the sense of rotation, so that &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{b}\hat{a}&lt;/span&gt; is a rotation in the opposite direction as &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{a}\hat{b}.&lt;/span&gt; As a check,&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \hat{b} (\hat{b} \hat{a}) = (\hat{b}\hat{b}) \hat{a} = \hat{a}
+&lt;/div&gt;
+
+&lt;p&gt;To &lt;em&gt;compose&lt;/em&gt; two rotations represented as geometric products, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{a} \hat{b}&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{b} \hat{c}&lt;/span&gt;, we simply multiply them:&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Composition of two rotations&quot; src=&quot;/img/relating-dot-wedge/rotation-composition.png&quot; style=&quot;width: 665px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+  (\hat{a} \hat{b}) (\hat{b} \hat{c})
+   &amp;amp;= \hat{a} \hat{b} \hat{b} \hat{c} \\
+   &amp;amp;= \hat{a} (\hat{b} \hat {b}) \hat{c} \\
+   &amp;amp;= \hat{a} \hat{c}
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;In terms of angles, this represents the same calculation as&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+  \exp(\theta_{ab} I) \exp(\theta_{bc} I) &amp;amp;= \exp((\theta_{ab}+\theta_{bc}) I) \\
+  &amp;amp;= \exp(\theta_{ac} I)
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;h3 id=&quot;triangle-angle-sum-laws&quot;&gt;Triangle angle sum laws&lt;/h3&gt;
+
+&lt;p&gt;This is enough to start to give geometric product interpretations to some familiar facts about triangles. Given a triangle with edge vectors &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt;, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt;, and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;c&lt;/span&gt;,&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Triangle a b c&quot; src=&quot;/img/relating-dot-wedge/triangle-abc.png&quot; style=&quot;width: 230px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;the rotations through the exterior angles are represented by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{a}\hat{b}&lt;/span&gt;, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{b}\hat{c}&lt;/span&gt;, and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{c}\hat{a}&lt;/span&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Composition of exterior angles is an identity angle&quot; src=&quot;/img/relating-dot-wedge/exterior-angle-composition.png&quot; style=&quot;width: 516px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;The composition of exterior angles is a full rotation, which is simply an identity operation for vectors.&lt;/p&gt;
+
+&lt;p&gt;To show this algebraically, we simply multiply the geometric products representing each rotation to compose the rotations, and then re-associate:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+  &amp;amp;(\hat{a} \hat{b})(\hat{b} \hat{c})(\hat{c} \hat{a}) \\
+  &amp;amp;= \hat{a} (\hat{b} \hat{b}) (\hat{c} \hat{c}) \hat{a} \\
+  &amp;amp;= \hat{a} \hat{a} \\
+  &amp;amp;= 1
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;A “straight angle”, i.e. a rotation by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;180&lt;/span&gt; degrees, is the rotation between &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{a}&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;-\hat{a}&lt;/span&gt;, which is simply&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \hat{a} (- \hat{a}) = -\hat{a}\hat{a} = -1
+&lt;/div&gt;
+
+&lt;p&gt;If the exterior angle rotations of a triangle are &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{a}\hat{b}&lt;/span&gt;, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{b}\hat{c}&lt;/span&gt;, and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{c}\hat{a}&lt;/span&gt;, then the interior angle rotations are simply the negatives of each of these, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;-\hat{a}\hat{b}&lt;/span&gt;, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;-\hat{b}\hat{c}&lt;/span&gt;, and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;-\hat{c}\hat{a}&lt;/span&gt;, and so the composition of the interior angles is&lt;label for=&quot;interior-angle-sum&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;interior-angle-sum&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;One way to visually see that these angles add up to a half-turn is to notice that every sector of the circle has an equal missing sector on the opposite side.&lt;/span&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Composition of interior angles is a straight angle&quot; src=&quot;/img/relating-dot-wedge/interior-angle-composition.png&quot; style=&quot;width: 521px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+  &amp;amp;(-\hat{a} \hat{b})(-\hat{b} \hat{c})(-\hat{c} \hat{a}) \\
+  &amp;amp;= - \hat{a} \hat{b} \hat{b} \hat{c} \hat{c} \hat{a} \\
+  &amp;amp;= -1
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;which is a straight angle. In other words, the composition of the interior angles of a triangle is a straight angle, i.e. a &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;180&lt;/span&gt; degree angle.&lt;/p&gt;
+
+&lt;h3 id=&quot;right-angles&quot;&gt;Right angles&lt;/h3&gt;
+
+&lt;p&gt;If two unit vectors have zero dot product, so that they anti-commute under the geometric product,&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+  \hat{a} \cdot \hat{b} &amp;amp;= 0 \\
+  \frac12 (\hat{a} \hat{b} + \hat{b} \hat{a}) &amp;amp;= 0 \\
+  \hat{a} \hat{b} &amp;amp;= -\hat{b}\hat{a}
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Right angle&quot; src=&quot;/img/relating-dot-wedge/right-angle.png&quot; style=&quot;width: 300px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;then multiplying both sides on the right by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{a}\hat{b}&lt;/span&gt; gives&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  (\hat{a} \hat{b})^2 = -\hat{b}\hat{a} \hat{a} \hat{b} = -1
+&lt;/div&gt;
+
+&lt;p&gt;which we can interpret geometrically as saying that the composition of a right angle with itself is a straight angle. The above manipulation is an algebraic way of representing the fact that the following statements are all equivalent:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;two vectors are perpendicular&lt;/li&gt;
+  &lt;li&gt;two vectors have zero dot product&lt;/li&gt;
+  &lt;li&gt;two vectors anti-commute under the geometric product&lt;/li&gt;
+  &lt;li&gt;the angle between two vectors bisects a straight angle&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;dilations&quot;&gt;Dilations&lt;/h3&gt;
+
+&lt;p&gt;For vectors that are not unit vectors, it’s a little easier to supply a geometric interpretation for the geometric ratio, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a^{-1}b&lt;/span&gt;&lt;label for=&quot;unit-vector-ratio&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;unit-vector-ratio&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Note that for unit vectors, there is no distinction between ratios and products because a unit vector is its own inverse: &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{a}^{-1}=\hat{a}&lt;/span&gt;.&lt;/span&gt;, than the geometric product &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;ab.&lt;/span&gt; In terms of lengths and angles, the geometric ratio is&lt;/p&gt;
+&lt;div class=&quot;display-latex&quot;&gt;
+  a^{-1} b = \frac{|b|}{|a|} \left(\cos(\theta_{ab}) + \sin(\theta_{ab}) I\right) = \frac{|b|}{|a|} \exp(\theta_{ab} I)
+&lt;/div&gt;
+
+&lt;p&gt;This is a composition of the rotation that takes the direction of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt; to the direction of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; with the dilation that takes the length of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt; to the length of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b.&lt;/span&gt;&lt;label for=&quot;amplitwist&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;amplitwist&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;In the &lt;a href=&quot;https://en.wikipedia.org/wiki/Complex_plane#Argand_diagram&quot;&gt;Argand diagram&lt;/a&gt; picture of complex arithmetic, multiplying by a complex number has exactly this same effect of dilation and scaling. In &lt;a href=&quot;https://www.amazon.com/Visual-Complex-Analysis-Tristan-Needham/dp/0198534469&quot;&gt;Visual Complex Analysis&lt;/a&gt;, Needham calls this an “amplitwist” for “amplification” and “twist”.&lt;br /&gt;&lt;br /&gt;Ratios of vectors in the plane behave in exactly the same way as complex numbers; the Argand diagram effectively models vectors in the plane as complex numbers by forming ratios of every vector with a constant unit vector pointing along the “real axis”.&lt;/span&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Geometric ratio of a and b&quot; src=&quot;/img/relating-dot-wedge/geometric-ratio.png&quot; style=&quot;width: 294px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;As a check,&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  a (a^{-1} b) = (a a^{-1}) b = b
+&lt;/div&gt;
+
+&lt;p&gt;Applying the geometric ratio repeatedly produces a sequence of vectors lying on a logarithmic spiral, with adjacent pairs of vectors forming the legs of a sequence of similar triangles.&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Geometric ratio spiral&quot; src=&quot;/img/relating-dot-wedge/geometric-ratio-spiral.png&quot; style=&quot;width: 334px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;h3 id=&quot;rotation-reflection-projection-rejection&quot;&gt;Rotation, Reflection, Projection, Rejection&lt;/h3&gt;
+
+&lt;p&gt;Reversing the order of the terms in the geometric ratio from &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a^{-1}b&lt;/span&gt; to &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;ba^{-1}&lt;/span&gt; reverses the sense of rotation, but leaves the dilation unchanged&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  b a^{-1} = \frac{|b|}{|a|} \left(\cos(\theta_{ab}) - \sin(\theta_{ab}) I\right) = \frac{|b|}{|a|} \exp(-\theta_{ab} I)
+&lt;/div&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Reflection of b over a&quot; src=&quot;/img/relating-dot-wedge/reflection.png&quot; style=&quot;width: 253px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Examining this picture suggests that &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;aba^{-1}&lt;/span&gt; is the reflection of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; across &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a.&lt;/span&gt; This representation of a reflection is sometimes referred to as a “sandwich product” because &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; is sandwiched between &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt; and its inverse. It can equivalently be written as &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{a}b\hat{a}&lt;/span&gt; because&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+  aba^{-1} &amp;amp;= a b \left(\frac{a}{|a|^2}\right) \\
+  &amp;amp;= \left(\frac{a}{|a|}\right) b \left(\frac{a}{|a|}\right) \\
+  &amp;amp;= \hat{a} b \hat{a}
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;Notice that &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;aba^{-1}&lt;/span&gt; is linear in &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt;, but independent of the scale of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt;, as expected for a reflection of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; across &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;This sandwich product expression for reflection makes it particularly evident that a vector and its reflection have the same length. If&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  b_\mathrm{refl} = a b a^{-1}
+&lt;/div&gt;
+
+&lt;p&gt;then&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+  b_\mathrm{refl}^2 &amp;amp;= (a b a^{-1}) (a b a^{-1}) \\
+  &amp;amp;= a b (a^{-1} a) b a^{-1} \\
+  &amp;amp;= a b^2 a^{-1} \\
+  &amp;amp;= b^2 a a^{-1} \\
+  &amp;amp;= b^2
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;where we have made use of the fact that &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b^2&lt;/span&gt; is a scalar and so it can be moved freely within a geometric product.&lt;/p&gt;
+
+&lt;p&gt;Left multiplying &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;aba^{-1}&lt;/span&gt; by the unit factor &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;bb^{-1}&lt;/span&gt; gives another representation for the reflection of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; across &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+  aba^{-1} &amp;amp;= (bb^{-1}) (a b a^{-1}) \\
+  &amp;amp;= b \left(\frac{b}{|b|^2}\right) a b \left(\frac{a}{|a|^2}\right) \\
+  &amp;amp;= b \frac{b}{|b|}\frac{a}{|a|}\frac{b}{|b|}\frac{a}{|a|} \\
+  &amp;amp;= b (\hat{b}\hat{a})(\hat{b}\hat{a}) \\
+  &amp;amp;= b (\hat{b}\hat{a})^2
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;The last line represents applying the rotation between  &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt; to the vector &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; twice. In other words, to reflect &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; across &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt;, rotate &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; through twice the angle between &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt;.&lt;/p&gt;
+
+&lt;p&gt;There is a simple relationship between the reflection of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; across &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt; and the parallel and perpendicular components (i.e. the projection and “rejection”) of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; relative to &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt;: the projection and rejection are the half symmetric and anti-symmetric sums of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; and its reflection in &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Relationship of reflection, projection, and rejection&quot; src=&quot;/img/relating-dot-wedge/reflection-projection-rejection.png&quot; style=&quot;width: 236px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;In other words, the sum of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; and its reflection across &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt; is twice the projection of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; onto &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Parallel part as reflection sum&quot; src=&quot;/img/relating-dot-wedge/reflection-parallel.png&quot; style=&quot;width: 228px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  b_{\parallel a} = \frac12 \left(b + aba^{-1}\right)
+&lt;/div&gt;
+
+&lt;p&gt;and the difference of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; and its reflection across &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt; is twice the rejection of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; from &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Parallel part as reflection difference&quot; src=&quot;/img/relating-dot-wedge/reflection-perpendicular.png&quot; style=&quot;width: 232px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  b_{\perp a} = \frac12 \left(b - aba^{-1}\right)
+&lt;/div&gt;
+
+&lt;p&gt;Using the freedom to insert the unit factor &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;aa^{-1}&lt;/span&gt; into the equation for &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b_\parallel&lt;/span&gt; and re-associating gives&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+  b_{\parallel a} &amp;amp;= \frac12 \left(b\left(aa^{-1}\right) + aba^{-1}\right) \\
+  &amp;amp;= \frac12 \left(ba + ab\right)a^{-1} \\
+  &amp;amp;= (b \cdot a) a^{-1} \\
+  &amp;amp;= (b \cdot \hat{a}) \hat{a}
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;which is a familiar way to interpret the dot product in terms of a projection, and similarly,&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+  b_{\perp a} &amp;amp;= \frac12 \left(b\left(aa^{-1}\right) - aba^{-1}\right) \\
+  &amp;amp;= \frac12 \left(ba - ab\right)a^{-1} \\
+  &amp;amp;= (b \wedge a) a^{-1} \\
+  &amp;amp;= (b \wedge \hat{a} ) \hat{a}
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;which is a probably less familiar way to interpret the wedge product in terms of rejection.&lt;/p&gt;
+
+&lt;p&gt;We can check that combining these components gives back the whole vector &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+  b &amp;amp;= b(aa^{-1}) \\
+    &amp;amp;= (ba)a^{-1} \\
+    &amp;amp;= (b \cdot a + b \wedge a) a^{-1} \\
+    &amp;amp;= (b \cdot a) a^{-1} + (b \wedge a) a^{-1} \\
+    &amp;amp;= b_{\parallel a} + b_{\perp a}
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;h3 id=&quot;planarity&quot;&gt;Planarity&lt;/h3&gt;
+
+&lt;p&gt;We have seen that the condition that three vectors form a triangle is&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  a + b + c = 0
+&lt;/div&gt;
+
+&lt;p&gt;A similar but weaker condition on three vectors is that they are in the same plane, and the traditional way to state this condition algebraically is in terms of linear dependence:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \alpha a + \beta b + \gamma c = 0
+&lt;/div&gt;
+
+&lt;p&gt;for some set of scalars &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\alpha&lt;/span&gt;, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\beta&lt;/span&gt;, and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\gamma&lt;/span&gt; that are not all &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;0&lt;/span&gt;. In words:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;A weighted sum of the vectors is &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;0&lt;/span&gt;&lt;/li&gt;
+  &lt;li&gt;It is possible to scale the vectors so that they form a triangle&lt;/li&gt;
+  &lt;li&gt;At least one of the vectors can be written as a weighted sum of the other two&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Geometric Algebra provides two ways to restate the planarity condition without the need for introducing extra scalar parameters. Suppose (without loss of generality) that &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\alpha&lt;/span&gt; is non-zero, and wedge on the right by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b \wedge c&lt;/span&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+    (\alpha a + \beta b + \gamma c) \wedge (b \wedge c) &amp;amp;= 0 \\
+    \alpha (a \wedge b \wedge c) + \beta (b \wedge b \wedge c) + \gamma (c \wedge b \wedge c) &amp;amp;= 0
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;The last two terms are &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;0&lt;/span&gt; by anti-symmetry of the wedge product, and so, after dividing through by the non-zero scalar &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\alpha&lt;/span&gt;, we have&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  a \wedge b \wedge c = 0
+&lt;/div&gt;
+
+&lt;p&gt;as a restatement of the condition that &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt;, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt;, and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;c&lt;/span&gt; are in the same plane. A geometrical interpretation of this formula is that the vectors span a parallelepiped with no volume&lt;label for=&quot;general-wedge-condition&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;general-wedge-condition&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;In general, the wedge product of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;n&lt;/span&gt; vectors is &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;0&lt;/span&gt; if and only if the vectors all lie in an &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;n-1&lt;/span&gt; dimensional linear subspace. The wedge product of two vectors is &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;0&lt;/span&gt; when they are directed along the same line, the wedge product of three vectors is &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;0&lt;/span&gt; when they are in the same plane, and so on.&lt;/span&gt;.&lt;/p&gt;
+
+&lt;p&gt;There is a further alternative statement of the condition of planarity of three vectors using the geometric product that is very useful for proofs in plane geometry. Again starting from&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \alpha a + \beta b + \gamma c = 0
+&lt;/div&gt;
+
+&lt;p&gt;and assuming that &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\alpha&lt;/span&gt; is non-zero, multiplying on the right by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;bc&lt;/span&gt; gives&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \alpha abc + \beta b^2c + \gamma cbc = 0
+&lt;/div&gt;
+
+&lt;p&gt;and alternatively, multiplying on the left by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;cb&lt;/span&gt; gives&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \alpha cba + \beta cb^2 + \gamma cbc = 0
+&lt;/div&gt;
+
+&lt;p&gt;Subtracting this equation from the previous one and noting that &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b^2c = c b^2&lt;/span&gt; because &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b^2&lt;/span&gt; is a scalar gives&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+\alpha (abc - cba) = 0
+&lt;/div&gt;
+
+&lt;p&gt;and dividing by the non-zero scalar &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\alpha&lt;/span&gt; and re-arranging gives&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  abc = cba
+&lt;/div&gt;
+
+&lt;p&gt;as a third way of stating the condition that three vectors are in the same plane. This condition is harder to extend to other dimensions, but it’s very useful in computations because it means that we’re always free to reverse the geometric product of any three vectors that are in the same plane.&lt;/p&gt;
+
+&lt;p&gt;We’ve seen that in order to rotate a vector &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;c&lt;/span&gt; by the angle between two other vectors, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt;, we can form&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  c_\mathrm{rot} = c\hat{a}\hat{b}
+&lt;/div&gt;
+
+&lt;p&gt;and using the planarity condition above to reverse the three vectors shows that multiplying on the right by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{a}\hat{b}&lt;/span&gt; is equivalent to multiplying on the left by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{b}\hat{a}&lt;/span&gt;&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  c_\mathrm{rot} = \hat{b}\hat{a}c
+&lt;/div&gt;
+
+&lt;p&gt;This freedom to reverse triples of vectors in the plane makes it easy to check that rotation preserves length:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+  c_\mathrm{rot}^2 &amp;amp;= (c\hat{a}\hat{b})(c\hat{a}\hat{b}) \\
+  &amp;amp;= (c\hat{a}\hat{b})(\hat{b}\hat{a}c) \\
+  &amp;amp;= c\hat{a}\hat{b}^2\hat{a}c \\
+  &amp;amp;= c\hat{a}^2c \\
+  &amp;amp;= c^2
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;Multiplying on both the left by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{b}\hat{a}&lt;/span&gt; and on the right by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{a}\hat{b}&lt;/span&gt; applies the rotation twice, and re-associating shows that this is equivalent to reflecting first in &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt; and then in &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt;&lt;label for=&quot;double-reflection&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;double-reflection&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;This double-reflection formula for rotation is the form that works in any dimension; i.e. applies to vectors that may not lie completely in the plane of rotation.&lt;/span&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  c_{\mathrm{rot} \times 2} = (\hat{b}\hat{a})c(\hat{a}\hat{b}) = \hat{b}(\hat{a}c\hat{a})\hat{b}
+&lt;/div&gt;
+
+&lt;p&gt;Applying the planarity condition twice to a product of four vectors shows that products of pairs of vectors in the same plane commute with one another:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+  (ab)(cd)  &amp;amp;= (abc)d \\
+  &amp;amp;=(cba)d \\
+  &amp;amp;= c(bad) \\
+  &amp;amp;= c(dab) \\
+  &amp;amp;= (cd)(ab)
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;For exactly the same reason, ratios of pairs of vectors in the plane also commute:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  ab^{-1}cd^{-1} = cd^{-1}ab^{-1}
+&lt;/div&gt;
+
+&lt;p&gt;We have seen above that ratios of vectors in the plane behave similarly to complex numbers, so it’s comforting to see that they are commutative.&lt;/p&gt;
+
+&lt;h3 id=&quot;coordinates&quot;&gt;Coordinates&lt;/h3&gt;
+
+&lt;p&gt;To better understand how the directed unit plane segment (unit bivector), &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I&lt;/span&gt;, behaves under the geometric product, it is useful to introduce a pair of orthogonal (perpendicular) unit vectors, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;e_1&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;e_2&lt;/span&gt;, which can serve as coordinate basis vectors. Then &lt;span class=&quot;mathquill-embedded-latex&quot;&gt; I = e_1 e_2 = e_1 \wedge e_2&lt;/span&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;I is spaned by unit vectors&quot; src=&quot;/img/relating-dot-wedge/unit-vectors.png&quot; style=&quot;width: 410px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;The condition that these are unit vectors is that they square to &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;1&lt;/span&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  e_1^2 = e_2^2 = 1
+&lt;/div&gt;
+
+&lt;p&gt;and the condition that they are orthogonal is that they anti-commute, so that their geometric product is equal to their wedge product:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  e_1 e_2 = - e_2 e_1 = e_1 \wedge e_2 = I
+&lt;/div&gt;
+
+&lt;p&gt;Since &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I&lt;/span&gt; can be written as a product of unit vectors, we expect that multiplying vectors in the plane by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I&lt;/span&gt; will rotate them. Let’s consider what happens when we multiply the coordinate vectors on the right by I:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+  e_1 I &amp;amp;= e_1 e_1 e_2 = e_2 \\
+  e_2 I &amp;amp;= e_2 e_1 e_2 = - e_1 e_2 e_2  = - e_1
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;so right multiplication by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I&lt;/span&gt; rotates both unit vectors counter-clockwise by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;90&lt;/span&gt; degrees. Any other vector in the plane can be written as a linear combination of these unit vectors, so right multiplication by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I&lt;/span&gt; rotates &lt;em&gt;any&lt;/em&gt; vector in the plane by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;90&lt;/span&gt; degrees counter-clockwise.&lt;/p&gt;
+
+&lt;p&gt;As expected for a right-angle rotation, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I^2 = -1&lt;/span&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+  I^2 &amp;amp;= e_1 e_2 e_1 e_2 \\
+  &amp;amp;= e_1 (-e_1 e_2) e_2 \\
+  &amp;amp;= -e_1^2 e_2^2 \\
+  &amp;amp;= -1
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;which suggests why &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I&lt;/span&gt; behaved so similarly to the imaginary unit in some earlier formulas&lt;label for=&quot;exponentiating-i&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;exponentiating-i&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;The fact that &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I&lt;/span&gt; squares to one lets us make sense of expressions like &lt;span class=&quot;display-latex&quot;&gt;\exp(I \theta) = \cos(\theta) + I\sin(\theta)&lt;/span&gt; Just as for &lt;a href=&quot;https://en.wikipedia.org/wiki/Exponential_function#Complex_plane&quot;&gt;complex numbers&lt;/a&gt;, the strategy is to expand the exponential as a power series, reduce all higher powers of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I&lt;/span&gt; using &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I^2 = -1&lt;/span&gt; and then recognize the series for &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\sin&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\cos&lt;/span&gt;.&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;Furthermore, we can show that &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I&lt;/span&gt; anti-commutes with any vector in the plane using the planarity condition to reverse products of three vectors in the plane, and anti-commutativity of orthogonal vectors to reverse &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;e_1&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;e_2&lt;/span&gt;&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+  a I &amp;amp;= a e_1 e_2 \\
+  &amp;amp;= e_2 e_1 a \\
+  &amp;amp;= - e_1 e_2 a \\
+  &amp;amp;= - I a
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;Since &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I&lt;/span&gt; is a product of a pair of vectors in the plane, it commutes with other products of pairs of vectors in the plane.&lt;/p&gt;
+
+&lt;h3 id=&quot;duality&quot;&gt;Duality&lt;/h3&gt;
+
+&lt;p&gt;With this, we finally have enough preparation to understand the relationship between the parallelogram representations of the dot product and wedge product.&lt;/p&gt;
+
+&lt;p&gt;We set out to understand why&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Duality of dot product and wedge product&quot; src=&quot;/img/relating-dot-wedge/duality-recap.png&quot; style=&quot;width: 285px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  (a \cdot b) I = a \wedge b_\perp
+&lt;/div&gt;
+
+&lt;p&gt;and we can now prove this result algebraically:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \begin{aligned}
+  (a \cdot b) I &amp;amp;= \frac12 (ab + ba) I \\
+  &amp;amp;= \frac12 (abI + ba I) \\
+  &amp;amp;= \frac12 (abI - bIa) \\
+  &amp;amp;= \frac12 (a (bI) - (bI) a) \\
+  &amp;amp;= a \wedge (bI) \\
+  &amp;amp;= a \wedge b_\perp
+  \end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;Let’s go through this calculation line by line&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Expand the dot product as the symmetric part of the geometric product&lt;/li&gt;
+  &lt;li&gt;Distributivity of the geometric product&lt;/li&gt;
+  &lt;li&gt;&lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I&lt;/span&gt; anti-commutes with vectors in the plane, so it anti-commutes with &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt;&lt;/li&gt;
+  &lt;li&gt;The geometric product is associative&lt;/li&gt;
+  &lt;li&gt;Recognize the anti-symmetric part of the geometric product as the wedge product&lt;/li&gt;
+  &lt;li&gt;Right-multiplication of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I&lt;/span&gt; rotates &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; counter-clockwise by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;90&lt;/span&gt; degrees, so we can identify &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;bI&lt;/span&gt; with &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b_\perp&lt;/span&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In the fifth step,&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  (a \cdot b) I = a \wedge (bI)
+&lt;/div&gt;
+
+&lt;p&gt;the unit bivector &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;I&lt;/span&gt; acts in two interestingly different ways: on the left hand side, it is &lt;em&gt;scaled&lt;/em&gt; by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a \cdot b&lt;/span&gt; to make a bivector with the right magnitude; on the right hand side, it &lt;em&gt;rotates&lt;/em&gt; &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; counter-clockwise by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;90&lt;/span&gt; degrees to produce a parallelogram spanned by vectors with the right direction relationship.&lt;/p&gt;
+
+&lt;p&gt;This relationship between the dot product and the wedge product is called “duality” because it gives a way of exchanging one kind of product for the other.&lt;/p&gt;
+
+&lt;h3 id=&quot;scaling-constrains-what-is-easily-visualized&quot;&gt;Scaling constrains what is easily visualized&lt;/h3&gt;
+
+&lt;p&gt;The reason that this duality relationship is useful for visualizing the dot product is that the dot product depends linearly on two vectors, and if we draw the vectors as arrows on the page, then their dot product naturally has units of area on the page. Duality gives us a natural way to convert the scalar result of the dot product to a bivector, so that the grade matches the units.&lt;/p&gt;
+
+&lt;p&gt;This turns out to be a generally useful constraint: if you want to visualize some object built out of vectors on the page, its grade should match its units&lt;label for=&quot;missing-grade&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;missing-grade&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Most introductory-level discussions of geometry don’t really have the language to discuss grade, and frequently choose not to emphasize units either, so there is a fair amount of confusion about these points. In physics, it’s basically impossible to draw a “to scale” representation of the cross product of two vectors represented as arrows, because the cross product produces a vector (grade &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;1&lt;/span&gt;) with units of area.&lt;/span&gt;. This is why the dot product &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a \cdot b&lt;/span&gt; is very often visualized through one of the related projections &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;(a \cdot \hat{b}) \hat{b}&lt;/span&gt; or &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;(b \cdot \hat{a}) \hat{a}&lt;/span&gt;. The dot product alone is not easily visualizable because it is a scalar (grade &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;0&lt;/span&gt;), but it has units of area. The projections are visualizable because they are vectors (grade &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;1&lt;/span&gt;) with units of length.&lt;/p&gt;
+
+&lt;p&gt;The geometric product of two vectors contains a scalar (grade &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;0&lt;/span&gt;) and a bivector (grade &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;2&lt;/span&gt;), so if we want to visualize it, we need it to be unitless. This is why it’s easier to visualize the geometric ratio of two vectors (which is unitless) than the geometric product of two vectors (which has units of area).&lt;/p&gt;
+
+&lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;
+
+&lt;p&gt;The geometric product is an important unifying concept for representing Euclidean geometry algebraically. It combines the more familiar dot and wedge products into a single associative and invertible product, and clarifies their relationship. The geometric product represents rotations, reflections, and dilations through simple products or ratios of vectors, allows composing these operations with multiplication, and often allows simplifying these compositions by re-associating within the products. In this post, we were able to use this same trick over and over again to show that&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The exterior angle rotations of a triangle compose to a full turn&lt;/li&gt;
+  &lt;li&gt;The interior angles of a triangle compose to a half turn&lt;/li&gt;
+  &lt;li&gt;Rotations and reflections preserve the length of vectors&lt;/li&gt;
+  &lt;li&gt;The composition of two reflections is a rotation&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;and the geometric product makes it possible to reduce many more geometric proofs to algebra without ever needing to introduce coordinates or parameterizations of angles and trigonometric functions.&lt;/p&gt;
+
+&lt;p&gt;Thanks you to Jaime George for editing this post.&lt;/p&gt;
+</description>
+      <pubDate>Mon, 07 Jan 2019 00:00:00 -0800</pubDate>
+      <link>http://www.shapeoperator.com/2019/01/07/relating-dot-wedge/</link>
+      <guid isPermaLink="true">http://www.shapeoperator.com/2019/01/07/relating-dot-wedge/</guid>
+    </item>
+    
+    <item>
       <title>An algebraic approach to the law of sines</title>
       <description>&lt;p&gt;A visual way of expressing that three vectors, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt;, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt;, and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;c&lt;/span&gt;, form a triangle is&lt;/p&gt;
 
