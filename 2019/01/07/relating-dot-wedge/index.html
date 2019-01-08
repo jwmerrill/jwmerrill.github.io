@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title>Visualizing geometric product relationships</title>
+   <meta name="author" content="Jason Merrill" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+   <link rel="stylesheet" href="/css/vendor/katex.min.css" type="text/css" />
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/pygments/default.css" type="text/css" />
+
+   
+</head>
+<body class="post">
+  <div class="header">
+    <div class="header-inner">
+      <h3><a href="/">Shape Operator</a></h2>
+      <div class="byline">by Jason Merrill<br /><a href="mailto:jason@shapeoperator.com">jason@shapeoperator.com</a></div>
+    </div>
+  </div>
+  <article class="main">
+    <h1><a href="/2019/01/07/relating-dot-wedge/">Visualizing geometric product relationships</a></h1>
+    <abbr class="date">07 Jan 2019</abbr>
+    <p>In previous posts, I have shown how to visualize both the <a href="/2017-02-28-geometry-algebra-intuition.md">dot product</a> and the <a href="/2018-11-19-algebraic-law-of-sines.md">wedge product</a> of two vectors as parallelogram areas. In this post, I will show how the dot product and the wedge product are related through a third algebraic product: the geometric product. Along the way, we will see that the geometric product provides a simple way to algebraically model all of the major geometric relationships between vectors: rotations, reflections, and projections.</p>
+
+<p>Before introducing the geometric product, let’s review the wedge and dot products and their interpretation in terms of parallelogram areas.</p>
+
+<p>Given two vectors, <span class="mathquill-embedded-latex">a</span> and <span class="mathquill-embedded-latex">b</span>, their wedge product, <span class="mathquill-embedded-latex">a \wedge b</span>, is straightforwardly visualized as the area of the parallelogram spanned by these vectors:</p>
+
+<figure class="mainfig">
+  <img alt="Wedge product of vectors a and b" src="/img/relating-dot-wedge/wedge-product.png" style="width: 345px;" />
+</figure>
+
+<p>Recall that algebraically, the wedge product <span class="mathquill-embedded-latex">a \wedge b</span> produces an object called a bivector that represents the size and direction (but not the shape or location) of a plane segment in a similar way that a vector represents the size and direction (but not the location) of a line segment.</p>
+
+<p>The dot product of the same two vectors, <span class="mathquill-embedded-latex">a \cdot b</span>, can be visualized as a parallelogram formed by one of the vectors and a copy of the other that has been rotated by <span class="mathquill-embedded-latex">90</span> degrees:</p>
+
+<figure class="mainfig">
+  <img alt="Dot product of vectors a and b" src="/img/relating-dot-wedge/dot-product.png" style="width: 223px;" />
+</figure>
+
+<p>Well, almost. When I originally wrote about this area interpretation of the dot product, I didn’t want to get into a discussion of bivectors, but once you have the concept of bivector as directed plane segment, it’s best to say that what this parallelogram depicts is not quite the dot product, <span class="mathquill-embedded-latex">a \cdot b</span>, which is a scalar (real number), but rather the bivector <span class="mathquill-embedded-latex">(a \cdot b) I</span> where <span class="mathquill-embedded-latex">I</span> is a unit bivector.</p>
+
+<figure class="mainfig">
+  <img alt="Dot product of vectors a and b as a parallelogram should include a factor of I" src="/img/relating-dot-wedge/dot-product-with-i.png" style="width: 225px;" />
+</figure>
+
+<p>The scalar <span class="mathquill-embedded-latex">a \cdot b</span> <em>scales</em> the unit bivector <span class="mathquill-embedded-latex">I</span> to produce a bivector with magnitude/area <span class="mathquill-embedded-latex">a \cdot b</span>. It’s hard to draw a scalar on a piece of paper without some version of this trick. Once you’re looking for it, you’ll see that graphical depictions of real numbers/scalars almost always show how they scale some reference object. It could be a unit segment of an axis or a scale bar; here it is instead a unit area  <span class="mathquill-embedded-latex">I</span>.</p>
+
+<p>Examining the way that the dot product and the wedge product can be represented by parallelograms suggests an algebraic relationship between them:</p>
+
+<div class="display-latex">
+  (a \cdot b) I = b \wedge a_\perp
+</div>
+
+<p>where <span class="mathquill-embedded-latex">a_\perp</span> represents the result of rotating <span class="mathquill-embedded-latex">a</span> by <span class="mathquill-embedded-latex">90</span> degrees. Since the dot product is symmetric, we also have</p>
+
+<div class="display-latex">
+  (a \cdot b) I = a \wedge b_\perp
+</div>
+
+<figure class="mainfig">
+  <img alt="Relationship between dot and wedge product" src="/img/relating-dot-wedge/dot-wedge-relationship.png" style="width: 560px;" />
+</figure>
+
+<p>To really understand this relationship, we’ll need an algebraic way to represent how <span class="mathquill-embedded-latex">a_\perp</span> is related to <span class="mathquill-embedded-latex">a</span>; in other words, we’ll need to figure out how to represent rotations algebraically.</p>
+
+<!--more-->
+
+<p>To work towards an algebraic representation of rotations, recall how the dot product and wedge product can be expressed in terms of lengths and angles:</p>
+
+<div class="display-latex">
+  \begin{aligned}
+  a \cdot b &amp;= |a| |b| \cos(\theta_{ab}) \\
+  a \wedge b &amp;= |a| |b| \sin(\theta_{ab}) I
+  \end{aligned}
+</div>
+
+<p>If you’re familiar with complex numbers, then adding these two products together produces a very suggestive result:</p>
+
+<div class="display-latex">
+  \begin{aligned}
+  a \cdot b + a \wedge b &amp;= |a| |b| (\cos(\theta_{ab}) + \sin(\theta_{ab}) I) \\
+   &amp;= |a| |b| \exp(\theta_{ab} I)
+  \end{aligned}
+</div>
+
+<p>where the second line is an expression of <a href="https://en.wikipedia.org/wiki/Euler%27s_formula">Euler’s Formula</a><label for="exponentiating-i" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="exponentiating-i" class="margin-toggle" /><span class="marginnote">At this point, it probably isn’t so clear what it could mean to exponentiate a bivector. Suspend disbelief, I’ll come back to this.</span>.</p>
+
+<p>In words, the sum of the dot product and the wedge product of two vectors is the product of their lengths, <span class="mathquill-embedded-latex">|a|</span> and <span class="mathquill-embedded-latex">|b|</span>, and a factor representing the rotation between their directions, <span class="mathquill-embedded-latex">\exp(\theta_{ab} I)</span>. This sum is so geometrically meaningful that Geometric Algebra gives it its own name: the geometric product, and its own notation, simple juxtaposition of vectors:</p>
+
+<div class="display-latex">
+  a b = a \cdot b + a \wedge b = |a||b| \exp(\theta_{ab} I)
+</div>
+
+<p>Since the dot product is symmetric, but the wedge product is anti-symmetric, the order of the factors in a geometric product matters. The reverse of this product is</p>
+
+<div class="display-latex">
+  \begin{aligned}
+  b a &amp;= b \cdot a + b \wedge a \\
+  &amp;= a \cdot b - a \wedge b = |a||b| \exp(-\theta_{ab} I)
+  \end{aligned}
+</div>
+
+<p>These product formulas can be solved in order to represent the dot product and wedge product in terms of the geometric product<label for="defining-dot-and-wedge" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="defining-dot-and-wedge" class="margin-toggle" /><span class="marginnote">As an alternative, it is possible to <em>define</em> the geometric product as a linear, associative product between vectors such that the square of a vector is a scalar, and then define the dot product and wedge product as the symmetric and anti-symmetric parts of the geometric product.</span>,</p>
+
+<div class="display-latex">
+  \begin{aligned}
+  a \cdot b &amp;= \frac12(ab + ba) \\
+  a \wedge b &amp;= \frac12(ab - ba)
+  \end{aligned}
+</div>
+
+<p>In other words, the dot and wedge products are half the symmetric and anti-symmetric sums of the geometric product and its reverse.</p>
+
+<p>Using these relations gives a very interesting way to characterize parallel and perpendicular vectors: vectors are parallel when their wedge product is zero, so that the geometric product commutes:</p>
+
+<div class="display-latex">
+  a \parallel b \Leftrightarrow a \wedge b = 0 \Leftrightarrow a b = b a
+</div>
+
+<p>and they are perpendicular when their dot product is zero, so that the geometric product anti-commutes:</p>
+
+<div class="display-latex">
+  a \perp b \Leftrightarrow a \cdot b = 0 \Leftrightarrow a b = - b a
+</div>
+
+<p>In general, for vectors that are neither perpendicular nor parallel, the geometric product is neither commutative nor anti-commutative. For this reason, it’s important to keep track of the order of terms in a multiplication when using the geometric product. We’ll see that with the geometric product, you can get an awful lot of geometry done by thinking about when the order of various symbols can be swapped.</p>
+
+<h3 id="properties-of-the-geometric-product">Properties of the geometric product</h3>
+
+<h4 id="vectors-square-to-scalars">Vectors square to scalars</h4>
+
+<p>Since the wedge product of a vector with itself is always <span class="mathquill-embedded-latex">0</span>, the geometric product of a vector with itself is equal to the dot product of that vector with itself:</p>
+
+<div class="display-latex">
+  a a = a^2 = a \cdot a = |a|^2
+</div>
+
+<h4 id="associative">Associative</h4>
+
+<p>The geometric product has another property that is less obvious from its decomposition as the sum of the dot and wedge products: it is associative,</p>
+
+<div class="display-latex">
+  (a b) c = a (b c) = a b c
+</div>
+
+<p>Associativity is extremely useful algebraically. Combined with the fact that vectors square to real numbers (scalars), associativity means that equations involving products of vectors can be solved. For example, given</p>
+
+<div class="display-latex">
+  a b = c d
+</div>
+
+<p>if we know <span class="mathquill-embedded-latex">b</span>, we can solve for <span class="mathquill-embedded-latex">a</span> by first multiplying on the right by <span class="mathquill-embedded-latex">b</span></p>
+
+<div class="display-latex">
+  \begin{aligned}
+  a b b &amp;= c d b \\
+  a b^2 &amp;= c d b \\
+  a |b|^2 &amp;= c d b
+  \end{aligned}
+</div>
+
+<p>and then dividing through by the scalar <span class="mathquill-embedded-latex">|b|^2</span></p>
+
+<div class="display-latex">
+  a = c d \frac{b}{|b|^2}
+</div>
+
+<h4 id="invertible">Invertible</h4>
+
+<p>Another way to say that we can solve equations involving geometric products is to say that under the geometric product, vectors have unique inverses. This is a consequence of associativity and the fact that vectors square to scalars.</p>
+
+<p>For an inverse of vector <span class="mathquill-embedded-latex">b</span>, we require</p>
+
+<div class="display-latex">
+  b b^{-1} = 1
+</div>
+
+<p>Multiplying both sides of this equation by <span class="mathquill-embedded-latex">b</span> gives</p>
+
+<div class="display-latex">
+  b^2 b^{-1} = b
+</div>
+
+<p>and dividing by the scalar <span class="mathquill-embedded-latex">b^2 = |b|^2</span> gives a formula for the inverse of a vector:</p>
+
+<div class="display-latex">
+  b^{-1} = \frac{b}{b^2} = \frac{b}{|b|^2}
+</div>
+
+<p>In other words, to find the inverse of a vector, divide the vector by the square of its length.</p>
+
+<p>Since the order of geometric multiplications matters in general, we should check that <span class="mathquill-embedded-latex">b^{-1} b</span> also equals <span class="mathquill-embedded-latex">1</span>:</p>
+
+<div class="display-latex">
+  b^{-1} b = \frac{b}{b^2} b = \frac{b^2}{b^2} = 1
+</div>
+
+<p>Neither the wedge product nor the dot product alone admit unique inverses, but their sum, the geometric product, contains just the right information to admit a unique inverse.</p>
+
+<h3 id="interpreting-the-geometric-product-geometrically">Interpreting the geometric product geometrically</h3>
+
+<p>Algebraically, the geometric product has some very useful properties, but how can we interpret it geometrically?</p>
+
+<p>To simplify, let’s first consider the geometric product of two unit vectors. I’ll use the notation <span class="mathquill-embedded-latex">\hat{a}</span> to represent the unit vector in the same direction as <span class="mathquill-embedded-latex">a</span>:</p>
+
+<div class="display-latex">
+  \hat{a} = \frac{a}{|a|}
+</div>
+
+<p>so that</p>
+
+<div class="display-latex">
+  |\hat{a}| = \frac{|a|}{|a|} = 1
+</div>
+
+<p>and</p>
+
+<div class="display-latex">
+  \hat{a}^2 = |\hat{a}|^2 = 1
+</div>
+
+<p>We will use the fact that the square of a unit vector is <span class="mathquill-embedded-latex">1</span> in the process of simplifying several expressions below.</p>
+
+<p>Recalling the lengths-and-angles formula for the geometric product,</p>
+
+<div class="display-latex">
+  a b = |a| |b| (\cos(\theta_{ab}) + \sin(\theta_{ab}) I) = |a| |b| \exp(\theta_{ab} I)
+</div>
+
+<p>we can see that the geometric product of two unit vectors effectively represents the rotation between them:</p>
+
+<div class="display-latex">
+  \hat{a} \hat{b} = \cos(\theta_{ab}) + \sin(\theta_{ab}) I = \exp(\theta_{ab} I)
+</div>
+
+<p>The rotation represented by <span class="mathquill-embedded-latex">\hat{a}\hat{b}</span> can be applied to another vector in the plane, <span class="mathquill-embedded-latex">v</span>, by multiplying on the right (remember, order matters) to form <span class="mathquill-embedded-latex">v\hat{a}\hat{b}</span><label for="higher-dimensional-rotation" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="higher-dimensional-rotation" class="margin-toggle" /><span class="marginnote">Some care is required for rotations in more than two dimensions. When <span class="mathquill-embedded-latex">v</span> is not in the same plane as <span class="mathquill-embedded-latex">a</span> and <span class="mathquill-embedded-latex">b,</span> then <span class="mathquill-embedded-latex">v\hat{a}\hat{b}</span> no longer represents a rotation of <span class="mathquill-embedded-latex">v</span>. A closely related formula does generalize: <span class="mathquill-embedded-latex">\hat{b}\hat{a}v\hat{a}\hat{b}</span> is a rotation of <span class="mathquill-embedded-latex">v</span> by twice the angle between <span class="mathquill-embedded-latex">a</span> and <span class="mathquill-embedded-latex">b</span> in any number of dimensions even when <span class="mathquill-embedded-latex">v,</span> <span class="mathquill-embedded-latex">a,</span> and <span class="mathquill-embedded-latex">b</span> are not all in the same plane.</span>:.</p>
+
+<figure class="mainfig">
+  <img alt="Applying a rotation to a vector" src="/img/relating-dot-wedge/applying-a-rotation.png" style="width: 521px;" />
+</figure>
+
+<p>As a check,</p>
+
+<div class="display-latex">
+  \hat{a} (\hat{a} \hat{b}) = (\hat{a} \hat{a}) \hat{b} = \hat{b}
+</div>
+
+<p>so right multiplication by <span class="mathquill-embedded-latex">\hat{a}\hat{b}</span> rotates <span class="mathquill-embedded-latex">\hat{a}</span> to <span class="mathquill-embedded-latex">\hat{b}.</span></p>
+
+<p>Reversing the order of factors in a geometric product of unit vectors reverses the sense of rotation, so that <span class="mathquill-embedded-latex">\hat{b}\hat{a}</span> is a rotation in the opposite direction as <span class="mathquill-embedded-latex">\hat{a}\hat{b}.</span> As a check,</p>
+
+<div class="display-latex">
+  \hat{b} (\hat{b} \hat{a}) = (\hat{b}\hat{b}) \hat{a} = \hat{a}
+</div>
+
+<p>To <em>compose</em> two rotations represented as geometric products, <span class="mathquill-embedded-latex">\hat{a} \hat{b}</span> and <span class="mathquill-embedded-latex">\hat{b} \hat{c}</span>, we simply multiply them:</p>
+
+<figure class="mainfig">
+  <img alt="Composition of two rotations" src="/img/relating-dot-wedge/rotation-composition.png" style="width: 665px;" />
+</figure>
+
+<div class="display-latex">
+  \begin{aligned}
+  (\hat{a} \hat{b}) (\hat{b} \hat{c})
+   &amp;= \hat{a} \hat{b} \hat{b} \hat{c} \\
+   &amp;= \hat{a} (\hat{b} \hat {b}) \hat{c} \\
+   &amp;= \hat{a} \hat{c}
+  \end{aligned}
+</div>
+
+<p>In terms of angles, this represents the same calculation as</p>
+
+<div class="display-latex">
+  \begin{aligned}
+  \exp(\theta_{ab} I) \exp(\theta_{bc} I) &amp;= \exp((\theta_{ab}+\theta_{bc}) I) \\
+  &amp;= \exp(\theta_{ac} I)
+  \end{aligned}
+</div>
+
+<h3 id="triangle-angle-sum-laws">Triangle angle sum laws</h3>
+
+<p>This is enough to start to give geometric product interpretations to some familiar facts about triangles. Given a triangle with edge vectors <span class="mathquill-embedded-latex">a</span>, <span class="mathquill-embedded-latex">b</span>, and <span class="mathquill-embedded-latex">c</span>,</p>
+
+<figure class="mainfig">
+  <img alt="Triangle a b c" src="/img/relating-dot-wedge/triangle-abc.png" style="width: 230px;" />
+</figure>
+
+<p>the rotations through the exterior angles are represented by <span class="mathquill-embedded-latex">\hat{a}\hat{b}</span>, <span class="mathquill-embedded-latex">\hat{b}\hat{c}</span>, and <span class="mathquill-embedded-latex">\hat{c}\hat{a}</span>.</p>
+
+<figure class="mainfig">
+  <img alt="Composition of exterior angles is an identity angle" src="/img/relating-dot-wedge/exterior-angle-composition.png" style="width: 516px;" />
+</figure>
+
+<p>The composition of exterior angles is a full rotation, which is simply an identity operation for vectors.</p>
+
+<p>To show this algebraically, we simply multiply the geometric products representing each rotation to compose the rotations, and then re-associate:</p>
+
+<div class="display-latex">
+  \begin{aligned}
+  &amp;(\hat{a} \hat{b})(\hat{b} \hat{c})(\hat{c} \hat{a}) \\
+  &amp;= \hat{a} (\hat{b} \hat{b}) (\hat{c} \hat{c}) \hat{a} \\
+  &amp;= \hat{a} \hat{a} \\
+  &amp;= 1
+  \end{aligned}
+</div>
+
+<p>A “straight angle”, i.e. a rotation by <span class="mathquill-embedded-latex">180</span> degrees, is the rotation between <span class="mathquill-embedded-latex">\hat{a}</span> and <span class="mathquill-embedded-latex">-\hat{a}</span>, which is simply</p>
+
+<div class="display-latex">
+  \hat{a} (- \hat{a}) = -\hat{a}\hat{a} = -1
+</div>
+
+<p>If the exterior angle rotations of a triangle are <span class="mathquill-embedded-latex">\hat{a}\hat{b}</span>, <span class="mathquill-embedded-latex">\hat{b}\hat{c}</span>, and <span class="mathquill-embedded-latex">\hat{c}\hat{a}</span>, then the interior angle rotations are simply the negatives of each of these, <span class="mathquill-embedded-latex">-\hat{a}\hat{b}</span>, <span class="mathquill-embedded-latex">-\hat{b}\hat{c}</span>, and <span class="mathquill-embedded-latex">-\hat{c}\hat{a}</span>, and so the composition of the interior angles is<label for="interior-angle-sum" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="interior-angle-sum" class="margin-toggle" /><span class="marginnote">One way to visually see that these angles add up to a half-turn is to notice that every sector of the circle has an equal missing sector on the opposite side.</span></p>
+
+<figure class="mainfig">
+  <img alt="Composition of interior angles is a straight angle" src="/img/relating-dot-wedge/interior-angle-composition.png" style="width: 521px;" />
+</figure>
+
+<div class="display-latex">
+  \begin{aligned}
+  &amp;(-\hat{a} \hat{b})(-\hat{b} \hat{c})(-\hat{c} \hat{a}) \\
+  &amp;= - \hat{a} \hat{b} \hat{b} \hat{c} \hat{c} \hat{a} \\
+  &amp;= -1
+  \end{aligned}
+</div>
+
+<p>which is a straight angle. In other words, the composition of the interior angles of a triangle is a straight angle, i.e. a <span class="mathquill-embedded-latex">180</span> degree angle.</p>
+
+<h3 id="right-angles">Right angles</h3>
+
+<p>If two unit vectors have zero dot product, so that they anti-commute under the geometric product,</p>
+
+<div class="display-latex">
+  \begin{aligned}
+  \hat{a} \cdot \hat{b} &amp;= 0 \\
+  \frac12 (\hat{a} \hat{b} + \hat{b} \hat{a}) &amp;= 0 \\
+  \hat{a} \hat{b} &amp;= -\hat{b}\hat{a}
+  \end{aligned}
+</div>
+
+<figure class="mainfig">
+  <img alt="Right angle" src="/img/relating-dot-wedge/right-angle.png" style="width: 300px;" />
+</figure>
+
+<p>then multiplying both sides on the right by <span class="mathquill-embedded-latex">\hat{a}\hat{b}</span> gives</p>
+
+<div class="display-latex">
+  (\hat{a} \hat{b})^2 = -\hat{b}\hat{a} \hat{a} \hat{b} = -1
+</div>
+
+<p>which we can interpret geometrically as saying that the composition of a right angle with itself is a straight angle. The above manipulation is an algebraic way of representing the fact that the following statements are all equivalent:</p>
+
+<ul>
+  <li>two vectors are perpendicular</li>
+  <li>two vectors have zero dot product</li>
+  <li>two vectors anti-commute under the geometric product</li>
+  <li>the angle between two vectors bisects a straight angle</li>
+</ul>
+
+<h3 id="dilations">Dilations</h3>
+
+<p>For vectors that are not unit vectors, it’s a little easier to supply a geometric interpretation for the geometric ratio, <span class="mathquill-embedded-latex">a^{-1}b</span><label for="unit-vector-ratio" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="unit-vector-ratio" class="margin-toggle" /><span class="marginnote">Note that for unit vectors, there is no distinction between ratios and products because a unit vector is its own inverse: <span class="mathquill-embedded-latex">\hat{a}^{-1}=\hat{a}</span>.</span>, than the geometric product <span class="mathquill-embedded-latex">ab.</span> In terms of lengths and angles, the geometric ratio is</p>
+<div class="display-latex">
+  a^{-1} b = \frac{|b|}{|a|} \left(\cos(\theta_{ab}) + \sin(\theta_{ab}) I\right) = \frac{|b|}{|a|} \exp(\theta_{ab} I)
+</div>
+
+<p>This is a composition of the rotation that takes the direction of <span class="mathquill-embedded-latex">a</span> to the direction of <span class="mathquill-embedded-latex">b</span> with the dilation that takes the length of <span class="mathquill-embedded-latex">a</span> to the length of <span class="mathquill-embedded-latex">b.</span><label for="amplitwist" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="amplitwist" class="margin-toggle" /><span class="marginnote">In the <a href="https://en.wikipedia.org/wiki/Complex_plane#Argand_diagram">Argand diagram</a> picture of complex arithmetic, multiplying by a complex number has exactly this same effect of dilation and scaling. In <a href="https://www.amazon.com/Visual-Complex-Analysis-Tristan-Needham/dp/0198534469">Visual Complex Analysis</a>, Needham calls this an “amplitwist” for “amplification” and “twist”.<br /><br />Ratios of vectors in the plane behave in exactly the same way as complex numbers; the Argand diagram effectively models vectors in the plane as complex numbers by forming ratios of every vector with a constant unit vector pointing along the “real axis”.</span></p>
+
+<figure class="mainfig">
+  <img alt="Geometric ratio of a and b" src="/img/relating-dot-wedge/geometric-ratio.png" style="width: 294px;" />
+</figure>
+
+<p>As a check,</p>
+
+<div class="display-latex">
+  a (a^{-1} b) = (a a^{-1}) b = b
+</div>
+
+<p>Applying the geometric ratio repeatedly produces a sequence of vectors lying on a logarithmic spiral, with adjacent pairs of vectors forming the legs of a sequence of similar triangles.</p>
+
+<figure class="mainfig">
+  <img alt="Geometric ratio spiral" src="/img/relating-dot-wedge/geometric-ratio-spiral.png" style="width: 334px;" />
+</figure>
+
+<h3 id="rotation-reflection-projection-rejection">Rotation, Reflection, Projection, Rejection</h3>
+
+<p>Reversing the order of the terms in the geometric ratio from <span class="mathquill-embedded-latex">a^{-1}b</span> to <span class="mathquill-embedded-latex">ba^{-1}</span> reverses the sense of rotation, but leaves the dilation unchanged</p>
+
+<div class="display-latex">
+  b a^{-1} = \frac{|b|}{|a|} \left(\cos(\theta_{ab}) - \sin(\theta_{ab}) I\right) = \frac{|b|}{|a|} \exp(-\theta_{ab} I)
+</div>
+
+<figure class="mainfig">
+  <img alt="Reflection of b over a" src="/img/relating-dot-wedge/reflection.png" style="width: 253px;" />
+</figure>
+
+<p>Examining this picture suggests that <span class="mathquill-embedded-latex">aba^{-1}</span> is the reflection of <span class="mathquill-embedded-latex">b</span> across <span class="mathquill-embedded-latex">a.</span> This representation of a reflection is sometimes referred to as a “sandwich product” because <span class="mathquill-embedded-latex">b</span> is sandwiched between <span class="mathquill-embedded-latex">a</span> and its inverse. It can equivalently be written as <span class="mathquill-embedded-latex">\hat{a}b\hat{a}</span> because</p>
+
+<div class="display-latex">
+  \begin{aligned}
+  aba^{-1} &amp;= a b \left(\frac{a}{|a|^2}\right) \\
+  &amp;= \left(\frac{a}{|a|}\right) b \left(\frac{a}{|a|}\right) \\
+  &amp;= \hat{a} b \hat{a}
+  \end{aligned}
+</div>
+
+<p>Notice that <span class="mathquill-embedded-latex">aba^{-1}</span> is linear in <span class="mathquill-embedded-latex">b</span>, but independent of the scale of <span class="mathquill-embedded-latex">a</span>, as expected for a reflection of <span class="mathquill-embedded-latex">b</span> across <span class="mathquill-embedded-latex">a</span></p>
+
+<p>This sandwich product expression for reflection makes it particularly evident that a vector and its reflection have the same length. If</p>
+
+<div class="display-latex">
+  b_\mathrm{refl} = a b a^{-1}
+</div>
+
+<p>then</p>
+
+<div class="display-latex">
+  \begin{aligned}
+  b_\mathrm{refl}^2 &amp;= (a b a^{-1}) (a b a^{-1}) \\
+  &amp;= a b (a^{-1} a) b a^{-1} \\
+  &amp;= a b^2 a^{-1} \\
+  &amp;= b^2 a a^{-1} \\
+  &amp;= b^2
+  \end{aligned}
+</div>
+
+<p>where we have made use of the fact that <span class="mathquill-embedded-latex">b^2</span> is a scalar and so it can be moved freely within a geometric product.</p>
+
+<p>Left multiplying <span class="mathquill-embedded-latex">aba^{-1}</span> by the unit factor <span class="mathquill-embedded-latex">bb^{-1}</span> gives another representation for the reflection of <span class="mathquill-embedded-latex">b</span> across <span class="mathquill-embedded-latex">a</span>:</p>
+
+<div class="display-latex">
+  \begin{aligned}
+  aba^{-1} &amp;= (bb^{-1}) (a b a^{-1}) \\
+  &amp;= b \left(\frac{b}{|b|^2}\right) a b \left(\frac{a}{|a|^2}\right) \\
+  &amp;= b \frac{b}{|b|}\frac{a}{|a|}\frac{b}{|b|}\frac{a}{|a|} \\
+  &amp;= b (\hat{b}\hat{a})(\hat{b}\hat{a}) \\
+  &amp;= b (\hat{b}\hat{a})^2
+  \end{aligned}
+</div>
+
+<p>The last line represents applying the rotation between  <span class="mathquill-embedded-latex">b</span> and <span class="mathquill-embedded-latex">a</span> to the vector <span class="mathquill-embedded-latex">b</span> twice. In other words, to reflect <span class="mathquill-embedded-latex">b</span> across <span class="mathquill-embedded-latex">a</span>, rotate <span class="mathquill-embedded-latex">b</span> through twice the angle between <span class="mathquill-embedded-latex">b</span> and <span class="mathquill-embedded-latex">a</span>.</p>
+
+<p>There is a simple relationship between the reflection of <span class="mathquill-embedded-latex">b</span> across <span class="mathquill-embedded-latex">a</span> and the parallel and perpendicular components (i.e. the projection and “rejection”) of <span class="mathquill-embedded-latex">b</span> relative to <span class="mathquill-embedded-latex">a</span>: the projection and rejection are the half symmetric and anti-symmetric sums of <span class="mathquill-embedded-latex">b</span> and its reflection in <span class="mathquill-embedded-latex">a</span></p>
+
+<figure class="mainfig">
+  <img alt="Relationship of reflection, projection, and rejection" src="/img/relating-dot-wedge/reflection-projection-rejection.png" style="width: 236px;" />
+</figure>
+
+<p>In other words, the sum of <span class="mathquill-embedded-latex">b</span> and its reflection across <span class="mathquill-embedded-latex">a</span> is twice the projection of <span class="mathquill-embedded-latex">b</span> onto <span class="mathquill-embedded-latex">a</span></p>
+
+<figure class="mainfig">
+  <img alt="Parallel part as reflection sum" src="/img/relating-dot-wedge/reflection-parallel.png" style="width: 228px;" />
+</figure>
+
+<div class="display-latex">
+  b_{\parallel a} = \frac12 \left(b + aba^{-1}\right)
+</div>
+
+<p>and the difference of <span class="mathquill-embedded-latex">b</span> and its reflection across <span class="mathquill-embedded-latex">a</span> is twice the rejection of <span class="mathquill-embedded-latex">b</span> from <span class="mathquill-embedded-latex">a</span></p>
+
+<figure class="mainfig">
+  <img alt="Parallel part as reflection difference" src="/img/relating-dot-wedge/reflection-perpendicular.png" style="width: 232px;" />
+</figure>
+
+<div class="display-latex">
+  b_{\perp a} = \frac12 \left(b - aba^{-1}\right)
+</div>
+
+<p>Using the freedom to insert the unit factor <span class="mathquill-embedded-latex">aa^{-1}</span> into the equation for <span class="mathquill-embedded-latex">b_\parallel</span> and re-associating gives</p>
+
+<div class="display-latex">
+  \begin{aligned}
+  b_{\parallel a} &amp;= \frac12 \left(b\left(aa^{-1}\right) + aba^{-1}\right) \\
+  &amp;= \frac12 \left(ba + ab\right)a^{-1} \\
+  &amp;= (b \cdot a) a^{-1} \\
+  &amp;= (b \cdot \hat{a}) \hat{a}
+  \end{aligned}
+</div>
+
+<p>which is a familiar way to interpret the dot product in terms of a projection, and similarly,</p>
+
+<div class="display-latex">
+  \begin{aligned}
+  b_{\perp a} &amp;= \frac12 \left(b\left(aa^{-1}\right) - aba^{-1}\right) \\
+  &amp;= \frac12 \left(ba - ab\right)a^{-1} \\
+  &amp;= (b \wedge a) a^{-1} \\
+  &amp;= (b \wedge \hat{a} ) \hat{a}
+  \end{aligned}
+</div>
+
+<p>which is a probably less familiar way to interpret the wedge product in terms of rejection.</p>
+
+<p>We can check that combining these components gives back the whole vector <span class="mathquill-embedded-latex">b</span>:</p>
+
+<div class="display-latex">
+  \begin{aligned}
+  b &amp;= b(aa^{-1}) \\
+    &amp;= (ba)a^{-1} \\
+    &amp;= (b \cdot a + b \wedge a) a^{-1} \\
+    &amp;= (b \cdot a) a^{-1} + (b \wedge a) a^{-1} \\
+    &amp;= b_{\parallel a} + b_{\perp a}
+  \end{aligned}
+</div>
+
+<h3 id="planarity">Planarity</h3>
+
+<p>We have seen that the condition that three vectors form a triangle is</p>
+
+<div class="display-latex">
+  a + b + c = 0
+</div>
+
+<p>A similar but weaker condition on three vectors is that they are in the same plane, and the traditional way to state this condition algebraically is in terms of linear dependence:</p>
+
+<div class="display-latex">
+  \alpha a + \beta b + \gamma c = 0
+</div>
+
+<p>for some set of scalars <span class="mathquill-embedded-latex">\alpha</span>, <span class="mathquill-embedded-latex">\beta</span>, and <span class="mathquill-embedded-latex">\gamma</span> that are not all <span class="mathquill-embedded-latex">0</span>. In words:</p>
+
+<ul>
+  <li>A weighted sum of the vectors is <span class="mathquill-embedded-latex">0</span></li>
+  <li>It is possible to scale the vectors so that they form a triangle</li>
+  <li>At least one of the vectors can be written as a weighted sum of the other two</li>
+</ul>
+
+<p>Geometric Algebra provides two ways to restate the planarity condition without the need for introducing extra scalar parameters. Suppose (without loss of generality) that <span class="mathquill-embedded-latex">\alpha</span> is non-zero, and wedge on the right by <span class="mathquill-embedded-latex">b \wedge c</span>:</p>
+
+<div class="display-latex">
+  \begin{aligned}
+    (\alpha a + \beta b + \gamma c) \wedge (b \wedge c) &amp;= 0 \\
+    \alpha (a \wedge b \wedge c) + \beta (b \wedge b \wedge c) + \gamma (c \wedge b \wedge c) &amp;= 0
+  \end{aligned}
+</div>
+
+<p>The last two terms are <span class="mathquill-embedded-latex">0</span> by anti-symmetry of the wedge product, and so, after dividing through by the non-zero scalar <span class="mathquill-embedded-latex">\alpha</span>, we have</p>
+
+<div class="display-latex">
+  a \wedge b \wedge c = 0
+</div>
+
+<p>as a restatement of the condition that <span class="mathquill-embedded-latex">a</span>, <span class="mathquill-embedded-latex">b</span>, and <span class="mathquill-embedded-latex">c</span> are in the same plane. A geometrical interpretation of this formula is that the vectors span a parallelepiped with no volume<label for="general-wedge-condition" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="general-wedge-condition" class="margin-toggle" /><span class="marginnote">In general, the wedge product of <span class="mathquill-embedded-latex">n</span> vectors is <span class="mathquill-embedded-latex">0</span> if and only if the vectors all lie in an <span class="mathquill-embedded-latex">n-1</span> dimensional linear subspace. The wedge product of two vectors is <span class="mathquill-embedded-latex">0</span> when they are directed along the same line, the wedge product of three vectors is <span class="mathquill-embedded-latex">0</span> when they are in the same plane, and so on.</span>.</p>
+
+<p>There is a further alternative statement of the condition of planarity of three vectors using the geometric product that is very useful for proofs in plane geometry. Again starting from</p>
+
+<div class="display-latex">
+  \alpha a + \beta b + \gamma c = 0
+</div>
+
+<p>and assuming that <span class="mathquill-embedded-latex">\alpha</span> is non-zero, multiplying on the right by <span class="mathquill-embedded-latex">bc</span> gives</p>
+
+<div class="display-latex">
+  \alpha abc + \beta b^2c + \gamma cbc = 0
+</div>
+
+<p>and alternatively, multiplying on the left by <span class="mathquill-embedded-latex">cb</span> gives</p>
+
+<div class="display-latex">
+  \alpha cba + \beta cb^2 + \gamma cbc = 0
+</div>
+
+<p>Subtracting this equation from the previous one and noting that <span class="mathquill-embedded-latex">b^2c = c b^2</span> because <span class="mathquill-embedded-latex">b^2</span> is a scalar gives</p>
+
+<div class="display-latex">
+\alpha (abc - cba) = 0
+</div>
+
+<p>and dividing by the non-zero scalar <span class="mathquill-embedded-latex">\alpha</span> and re-arranging gives</p>
+
+<div class="display-latex">
+  abc = cba
+</div>
+
+<p>as a third way of stating the condition that three vectors are in the same plane. This condition is harder to extend to other dimensions, but it’s very useful in computations because it means that we’re always free to reverse the geometric product of any three vectors that are in the same plane.</p>
+
+<p>We’ve seen that in order to rotate a vector <span class="mathquill-embedded-latex">c</span> by the angle between two other vectors, <span class="mathquill-embedded-latex">a</span> and <span class="mathquill-embedded-latex">b</span>, we can form</p>
+
+<div class="display-latex">
+  c_\mathrm{rot} = c\hat{a}\hat{b}
+</div>
+
+<p>and using the planarity condition above to reverse the three vectors shows that multiplying on the right by <span class="mathquill-embedded-latex">\hat{a}\hat{b}</span> is equivalent to multiplying on the left by <span class="mathquill-embedded-latex">\hat{b}\hat{a}</span></p>
+
+<div class="display-latex">
+  c_\mathrm{rot} = \hat{b}\hat{a}c
+</div>
+
+<p>This freedom to reverse triples of vectors in the plane makes it easy to check that rotation preserves length:</p>
+
+<div class="display-latex">
+  \begin{aligned}
+  c_\mathrm{rot}^2 &amp;= (c\hat{a}\hat{b})(c\hat{a}\hat{b}) \\
+  &amp;= (c\hat{a}\hat{b})(\hat{b}\hat{a}c) \\
+  &amp;= c\hat{a}\hat{b}^2\hat{a}c \\
+  &amp;= c\hat{a}^2c \\
+  &amp;= c^2
+  \end{aligned}
+</div>
+
+<p>Multiplying on both the left by <span class="mathquill-embedded-latex">\hat{b}\hat{a}</span> and on the right by <span class="mathquill-embedded-latex">\hat{a}\hat{b}</span> applies the rotation twice, and re-associating shows that this is equivalent to reflecting first in <span class="mathquill-embedded-latex">a</span> and then in <span class="mathquill-embedded-latex">b</span><label for="double-reflection" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="double-reflection" class="margin-toggle" /><span class="marginnote">This double-reflection formula for rotation is the form that works in any dimension; i.e. applies to vectors that may not lie completely in the plane of rotation.</span>:</p>
+
+<div class="display-latex">
+  c_{\mathrm{rot} \times 2} = (\hat{b}\hat{a})c(\hat{a}\hat{b}) = \hat{b}(\hat{a}c\hat{a})\hat{b}
+</div>
+
+<p>Applying the planarity condition twice to a product of four vectors shows that products of pairs of vectors in the same plane commute with one another:</p>
+
+<div class="display-latex">
+  \begin{aligned}
+  (ab)(cd)  &amp;= (abc)d \\
+  &amp;=(cba)d \\
+  &amp;= c(bad) \\
+  &amp;= c(dab) \\
+  &amp;= (cd)(ab)
+  \end{aligned}
+</div>
+
+<p>For exactly the same reason, ratios of pairs of vectors in the plane also commute:</p>
+
+<div class="display-latex">
+  ab^{-1}cd^{-1} = cd^{-1}ab^{-1}
+</div>
+
+<p>We have seen above that ratios of vectors in the plane behave similarly to complex numbers, so it’s comforting to see that they are commutative.</p>
+
+<h3 id="coordinates">Coordinates</h3>
+
+<p>To better understand how the directed unit plane segment (unit bivector), <span class="mathquill-embedded-latex">I</span>, behaves under the geometric product, it is useful to introduce a pair of orthogonal (perpendicular) unit vectors, <span class="mathquill-embedded-latex">e_1</span> and <span class="mathquill-embedded-latex">e_2</span>, which can serve as coordinate basis vectors. Then <span class="mathquill-embedded-latex"> I = e_1 e_2 = e_1 \wedge e_2</span>.</p>
+
+<figure class="mainfig">
+  <img alt="I is spaned by unit vectors" src="/img/relating-dot-wedge/unit-vectors.png" style="width: 410px;" />
+</figure>
+
+<p>The condition that these are unit vectors is that they square to <span class="mathquill-embedded-latex">1</span>:</p>
+
+<div class="display-latex">
+  e_1^2 = e_2^2 = 1
+</div>
+
+<p>and the condition that they are orthogonal is that they anti-commute, so that their geometric product is equal to their wedge product:</p>
+
+<div class="display-latex">
+  e_1 e_2 = - e_2 e_1 = e_1 \wedge e_2 = I
+</div>
+
+<p>Since <span class="mathquill-embedded-latex">I</span> can be written as a product of unit vectors, we expect that multiplying vectors in the plane by <span class="mathquill-embedded-latex">I</span> will rotate them. Let’s consider what happens when we multiply the coordinate vectors on the right by I:</p>
+
+<div class="display-latex">
+  \begin{aligned}
+  e_1 I &amp;= e_1 e_1 e_2 = e_2 \\
+  e_2 I &amp;= e_2 e_1 e_2 = - e_1 e_2 e_2  = - e_1
+  \end{aligned}
+</div>
+
+<p>so right multiplication by <span class="mathquill-embedded-latex">I</span> rotates both unit vectors counter-clockwise by <span class="mathquill-embedded-latex">90</span> degrees. Any other vector in the plane can be written as a linear combination of these unit vectors, so right multiplication by <span class="mathquill-embedded-latex">I</span> rotates <em>any</em> vector in the plane by <span class="mathquill-embedded-latex">90</span> degrees counter-clockwise.</p>
+
+<p>As expected for a right-angle rotation, <span class="mathquill-embedded-latex">I^2 = -1</span>:</p>
+
+<div class="display-latex">
+  \begin{aligned}
+  I^2 &amp;= e_1 e_2 e_1 e_2 \\
+  &amp;= e_1 (-e_1 e_2) e_2 \\
+  &amp;= -e_1^2 e_2^2 \\
+  &amp;= -1
+  \end{aligned}
+</div>
+
+<p>which suggests why <span class="mathquill-embedded-latex">I</span> behaved so similarly to the imaginary unit in some earlier formulas<label for="exponentiating-i" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="exponentiating-i" class="margin-toggle" /><span class="marginnote">The fact that <span class="mathquill-embedded-latex">I</span> squares to one lets us make sense of expressions like <span class="display-latex">\exp(I \theta) = \cos(\theta) + I\sin(\theta)</span> Just as for <a href="https://en.wikipedia.org/wiki/Exponential_function#Complex_plane">complex numbers</a>, the strategy is to expand the exponential as a power series, reduce all higher powers of <span class="mathquill-embedded-latex">I</span> using <span class="mathquill-embedded-latex">I^2 = -1</span> and then recognize the series for <span class="mathquill-embedded-latex">\sin</span> and <span class="mathquill-embedded-latex">\cos</span>.</span></p>
+
+<p>Furthermore, we can show that <span class="mathquill-embedded-latex">I</span> anti-commutes with any vector in the plane using the planarity condition to reverse products of three vectors in the plane, and anti-commutativity of orthogonal vectors to reverse <span class="mathquill-embedded-latex">e_1</span> and <span class="mathquill-embedded-latex">e_2</span></p>
+
+<div class="display-latex">
+  \begin{aligned}
+  a I &amp;= a e_1 e_2 \\
+  &amp;= e_2 e_1 a \\
+  &amp;= - e_1 e_2 a \\
+  &amp;= - I a
+  \end{aligned}
+</div>
+
+<p>Since <span class="mathquill-embedded-latex">I</span> is a product of a pair of vectors in the plane, it commutes with other products of pairs of vectors in the plane.</p>
+
+<h3 id="duality">Duality</h3>
+
+<p>With this, we finally have enough preparation to understand the relationship between the parallelogram representations of the dot product and wedge product.</p>
+
+<p>We set out to understand why</p>
+
+<figure class="mainfig">
+  <img alt="Duality of dot product and wedge product" src="/img/relating-dot-wedge/duality-recap.png" style="width: 285px;" />
+</figure>
+
+<div class="display-latex">
+  (a \cdot b) I = a \wedge b_\perp
+</div>
+
+<p>and we can now prove this result algebraically:</p>
+
+<div class="display-latex">
+  \begin{aligned}
+  (a \cdot b) I &amp;= \frac12 (ab + ba) I \\
+  &amp;= \frac12 (abI + ba I) \\
+  &amp;= \frac12 (abI - bIa) \\
+  &amp;= \frac12 (a (bI) - (bI) a) \\
+  &amp;= a \wedge (bI) \\
+  &amp;= a \wedge b_\perp
+  \end{aligned}
+</div>
+
+<p>Let’s go through this calculation line by line</p>
+
+<ol>
+  <li>Expand the dot product as the symmetric part of the geometric product</li>
+  <li>Distributivity of the geometric product</li>
+  <li><span class="mathquill-embedded-latex">I</span> anti-commutes with vectors in the plane, so it anti-commutes with <span class="mathquill-embedded-latex">a</span></li>
+  <li>The geometric product is associative</li>
+  <li>Recognize the anti-symmetric part of the geometric product as the wedge product</li>
+  <li>Right-multiplication of <span class="mathquill-embedded-latex">b</span> by <span class="mathquill-embedded-latex">I</span> rotates <span class="mathquill-embedded-latex">b</span> counter-clockwise by <span class="mathquill-embedded-latex">90</span> degrees, so we can identify <span class="mathquill-embedded-latex">bI</span> with <span class="mathquill-embedded-latex">b_\perp</span></li>
+</ol>
+
+<p>In the fifth step,</p>
+
+<div class="display-latex">
+  (a \cdot b) I = a \wedge (bI)
+</div>
+
+<p>the unit bivector <span class="mathquill-embedded-latex">I</span> acts in two interestingly different ways: on the left hand side, it is <em>scaled</em> by <span class="mathquill-embedded-latex">a \cdot b</span> to make a bivector with the right magnitude; on the right hand side, it <em>rotates</em> <span class="mathquill-embedded-latex">b</span> counter-clockwise by <span class="mathquill-embedded-latex">90</span> degrees to produce a parallelogram spanned by vectors with the right direction relationship.</p>
+
+<p>This relationship between the dot product and the wedge product is called “duality” because it gives a way of exchanging one kind of product for the other.</p>
+
+<h3 id="scaling-constrains-what-is-easily-visualized">Scaling constrains what is easily visualized</h3>
+
+<p>The reason that this duality relationship is useful for visualizing the dot product is that the dot product depends linearly on two vectors, and if we draw the vectors as arrows on the page, then their dot product naturally has units of area on the page. Duality gives us a natural way to convert the scalar result of the dot product to a bivector, so that the grade matches the units.</p>
+
+<p>This turns out to be a generally useful constraint: if you want to visualize some object built out of vectors on the page, its grade should match its units<label for="missing-grade" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="missing-grade" class="margin-toggle" /><span class="marginnote">Most introductory-level discussions of geometry don’t really have the language to discuss grade, and frequently choose not to emphasize units either, so there is a fair amount of confusion about these points. In physics, it’s basically impossible to draw a “to scale” representation of the cross product of two vectors represented as arrows, because the cross product produces a vector (grade <span class="mathquill-embedded-latex">1</span>) with units of area.</span>. This is why the dot product <span class="mathquill-embedded-latex">a \cdot b</span> is very often visualized through one of the related projections <span class="mathquill-embedded-latex">(a \cdot \hat{b}) \hat{b}</span> or <span class="mathquill-embedded-latex">(b \cdot \hat{a}) \hat{a}</span>. The dot product alone is not easily visualizable because it is a scalar (grade <span class="mathquill-embedded-latex">0</span>), but it has units of area. The projections are visualizable because they are vectors (grade <span class="mathquill-embedded-latex">1</span>) with units of length.</p>
+
+<p>The geometric product of two vectors contains a scalar (grade <span class="mathquill-embedded-latex">0</span>) and a bivector (grade <span class="mathquill-embedded-latex">2</span>), so if we want to visualize it, we need it to be unitless. This is why it’s easier to visualize the geometric ratio of two vectors (which is unitless) than the geometric product of two vectors (which has units of area).</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>The geometric product is an important unifying concept for representing Euclidean geometry algebraically. It combines the more familiar dot and wedge products into a single associative and invertible product, and clarifies their relationship. The geometric product represents rotations, reflections, and dilations through simple products or ratios of vectors, allows composing these operations with multiplication, and often allows simplifying these compositions by re-associating within the products. In this post, we were able to use this same trick over and over again to show that</p>
+
+<ul>
+  <li>The exterior angle rotations of a triangle compose to a full turn</li>
+  <li>The interior angles of a triangle compose to a half turn</li>
+  <li>Rotations and reflections preserve the length of vectors</li>
+  <li>The composition of two reflections is a rotation</li>
+</ul>
+
+<p>and the geometric product makes it possible to reduce many more geometric proofs to algebra without ever needing to introduce coordinates or parameterizations of angles and trigonometric functions.</p>
+
+<p>Thanks you to Jaime George for editing this post.</p>
+
+  </article>
+  <script src="/js/vendor/katex.min.js"></script>
+<script src="/js/render-katex.js"></script>
+
+  
+</body>
+</html>
