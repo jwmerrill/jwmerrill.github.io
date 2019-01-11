@@ -743,4 +743,4 @@ The geometric product is an important unifying concept for representing Euclidea
 
 and the geometric product makes it possible to reduce many more geometric proofs to algebra without ever needing to introduce coordinates or parameterizations of angles and trigonometric functions.
 
-Thanks you to Jaime George for editing this post.
+Thanks as usual to Jaime George for editing this post.
