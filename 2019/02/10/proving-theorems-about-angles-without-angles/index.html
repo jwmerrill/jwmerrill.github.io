@@ -16,7 +16,11 @@
   <div class="header">
     <div class="header-inner">
       <h3><a href="/">Shape Operator</a></h2>
-      <div class="byline">by Jason Merrill<br /><a href="mailto:jason@shapeoperator.com">jason@shapeoperator.com</a></div>
+      <div class="byline">
+          by Jason Merrill<br />
+          <a href="mailto:jason@shapeoperator.com">jason@shapeoperator.com</a><br />
+          <a href="https://twitter.com/shapeoperator">@shapeoperator</a>
+      </div>
     </div>
   </div>
   <article class="main">
@@ -46,7 +50,7 @@
   a \wedge b = b \wedge c = c \wedge a
 </div>
 
-<p>and <a href="/2019/01/07/relating-dot-wedge/">rotations and reflections can be represented</a> using geometric products of vectors. For vectors in the plane, the rotation of a vector <span class="mathquill-embedded-latex">v</span> through the angle between vectors <span class="mathquill-embedded-latex">a</span> and <span class="mathquill-embedded-latex">b</span> can be represented by right multiplying by the product <span class="mathquill-embedded-latex">\hat{a}\hat{b}</span><label for="notation" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="notation" class="margin-toggle" /><span class="marginnote">Reminder on notation: in these posts, lower case latin letters like <span class="mathquill-embedded-latex">a</span> and <span class="mathquill-embedded-latex">b</span> represent vectors, greek letters like <span class="mathquill-embedded-latex">\theta</span> and <span class="mathquill-embedded-latex">\phi</span> represent real numbers such as lengths or angles, and <span class="mathquill-embedded-latex">\hat{a}</span> represents a unit vector directed along <span class="mathquill-embedded-latex">a</span>, so that <span class="mathquill-embedded-latex">\hat{a}^2=1</span> and <span class="mathquill-embedded-latex">\hat{a} \wedge a = 0</span>. Juxtaposition of vectors represents their geometric product, so that <span class="mathquill-embedded-latex">ab</span> is the geometric product between vectors <span class="mathquill-embedded-latex">a</span> and <span class="mathquill-embedded-latex">b</span>, and the geometric product is non-commutative, so the order of terms is important.</span></p>
+<p>and <a href="/2019/01/07/relating-dot-wedge/">rotations and reflections can be represented</a> using geometric products of vectors. For vectors in the plane, the rotation of a vector <span class="mathquill-embedded-latex">v</span> through the angle between vectors <span class="mathquill-embedded-latex">a</span> and <span class="mathquill-embedded-latex">b</span> can be represented by right multiplying by the product <span class="mathquill-embedded-latex">\hat{a}\hat{b}</span><label for="notation" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="notation" class="margin-toggle" /><span class="marginnote">Reminder on notation: in these posts, lower case latin letters like <span class="mathquill-embedded-latex">a</span> and <span class="mathquill-embedded-latex">b</span> represent vectors, greek letters like <span class="mathquill-embedded-latex">\theta</span> and <span class="mathquill-embedded-latex">\phi</span> represent real numbers such as lengths or angles, and <span class="mathquill-embedded-latex">\hat{a}</span> represents a unit vector directed along <span class="mathquill-embedded-latex">a</span>, so that <span class="mathquill-embedded-latex">\hat{a}^2=1</span> and <span class="mathquill-embedded-latex">a = |a|\hat{a}</span>. Juxtaposition of vectors represents their geometric product, so that <span class="mathquill-embedded-latex">ab</span> is the geometric product between vectors <span class="mathquill-embedded-latex">a</span> and <span class="mathquill-embedded-latex">b</span>, and the geometric product is non-commutative, so the order of terms is important.</span></p>
 
 <div class="display-latex">
 v_\mathrm{rot.} = v \hat{a}\hat{b}
@@ -352,7 +356,7 @@ r_1^2 = r_2^2 &amp;= r_3^2
 
 <ul>
   <li><a href="/2017/02/28/geometry-algebra-intuition/">Law of cosines</a>: solve for c, square both sides</li>
-  <li><a href="/2018/11/19/algebraic-law-of-sines/">Law of sines</a>: form the wedge product of the triangle equation with one of the vectors, solve for one of the two remaining terms</li>
+  <li><a href="/2018/11/19/algebraic-law-of-sines/">Law of sines</a>: form the wedge product of the triangle equation with one of the vectors, solve for one of the two non-zero terms</li>
   <li>Equal isosceles base angles (shown in this post): multiply on the left by one of the vectors and alternatively on the right by a different vector and subtract the two results; then two equal lengths imply two equal angles</li>
 </ul>
 
