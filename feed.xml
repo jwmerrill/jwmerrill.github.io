@@ -3,8 +3,8 @@
   <channel>
     <title>Shape Operator</title>
     <description>Thoughts on physics, math, and computers.</description>
-    <link>http://localhost:4000</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    <link>http://www.shapeoperator.com</link>
+    <atom:link href="http://www.shapeoperator.com/feed.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Proving theorems about angles without angles</title>
@@ -450,8 +450,8 @@ c_2 - r_2 + r_3 &amp;amp;= 0
 &lt;p&gt;For this reason, a useful heuristic is to prefer using commutation relationships (e.g. between parallel or perpendicular vectors, or between vectors that all lie in a single plane) to re-arrange a geometric product. When it works, this is better than expanding products, hoping that some terms will cancel, and then attempting to factor the result. When it is necessary to expand a product, it can be useful to expand as few terms as possible and then try to factor again before further expansions in preference to expanding the entire product at once&lt;label for=&quot;li-breefs&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;li-breefs&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Hongbo Li elaborates this idea extensively in his &lt;a href=&quot;https://www.amazon.com/Invariant-Algebras-Geometric-Reasoning-Hongbo/dp/9812708081&quot;&gt;book&lt;/a&gt;. For a briefer introduction, see this &lt;a href=&quot;https://arxiv.org/abs/math/0701762&quot;&gt;paper&lt;/a&gt; or these &lt;a href=&quot;http://www.issac-conference.org/2017/assets/tutorial_slides/Li.pdf&quot;&gt;tutorial slides&lt;/a&gt;.&lt;/span&gt;.&lt;/p&gt;
 </description>
       <pubDate>Sun, 10 Feb 2019 00:00:00 -0800</pubDate>
-      <link>http://localhost:4000/2019/02/10/proving-theorems-about-angles-without-angles/</link>
-      <guid isPermaLink="true">http://localhost:4000/2019/02/10/proving-theorems-about-angles-without-angles/</guid>
+      <link>http://www.shapeoperator.com/2019/02/10/proving-theorems-about-angles-without-angles/</link>
+      <guid isPermaLink="true">http://www.shapeoperator.com/2019/02/10/proving-theorems-about-angles-without-angles/</guid>
     </item>
     
     <item>
@@ -1189,8 +1189,8 @@ c_2 - r_2 + r_3 &amp;amp;= 0
 &lt;p&gt;Thanks as usual to Jaime George for editing this post.&lt;/p&gt;
 </description>
       <pubDate>Mon, 07 Jan 2019 00:00:00 -0800</pubDate>
-      <link>http://localhost:4000/2019/01/07/relating-dot-wedge/</link>
-      <guid isPermaLink="true">http://localhost:4000/2019/01/07/relating-dot-wedge/</guid>
+      <link>http://www.shapeoperator.com/2019/01/07/relating-dot-wedge/</link>
+      <guid isPermaLink="true">http://www.shapeoperator.com/2019/01/07/relating-dot-wedge/</guid>
     </item>
     
     <item>
@@ -1520,8 +1520,8 @@ c_2 - r_2 + r_3 &amp;amp;= 0
 &lt;p&gt;Thank you to Jaime George for editing this post, and in particular, for helping me re-think the section on coordinates.&lt;/p&gt;
 </description>
       <pubDate>Mon, 19 Nov 2018 00:00:00 -0800</pubDate>
-      <link>http://localhost:4000/2018/11/19/algebraic-law-of-sines/</link>
-      <guid isPermaLink="true">http://localhost:4000/2018/11/19/algebraic-law-of-sines/</guid>
+      <link>http://www.shapeoperator.com/2018/11/19/algebraic-law-of-sines/</link>
+      <guid isPermaLink="true">http://www.shapeoperator.com/2018/11/19/algebraic-law-of-sines/</guid>
     </item>
     
     <item>
@@ -1638,8 +1638,8 @@ c_2 - r_2 + r_3 &amp;amp;= 0
 &lt;p&gt;Bonus idea: what if the mower and the peg lived on the surface of a sphere instead of on the plane?&lt;/p&gt;
 </description>
       <pubDate>Sun, 23 Apr 2017 00:00:00 -0700</pubDate>
-      <link>http://localhost:4000/2017/04/23/lawnmower-puzzle-solution/</link>
-      <guid isPermaLink="true">http://localhost:4000/2017/04/23/lawnmower-puzzle-solution/</guid>
+      <link>http://www.shapeoperator.com/2017/04/23/lawnmower-puzzle-solution/</link>
+      <guid isPermaLink="true">http://www.shapeoperator.com/2017/04/23/lawnmower-puzzle-solution/</guid>
     </item>
     
     <item>
@@ -1665,8 +1665,8 @@ c_2 - r_2 + r_3 &amp;amp;= 0
 &lt;p&gt;Update: &lt;a href=&quot;/2017/04/23/lawnmower-puzzle-solution/&quot;&gt;my solution&lt;/a&gt; is now available.&lt;/p&gt;
 </description>
       <pubDate>Sat, 08 Apr 2017 00:00:00 -0700</pubDate>
-      <link>http://localhost:4000/2017/04/08/lawnmower-puzzle/</link>
-      <guid isPermaLink="true">http://localhost:4000/2017/04/08/lawnmower-puzzle/</guid>
+      <link>http://www.shapeoperator.com/2017/04/08/lawnmower-puzzle/</link>
+      <guid isPermaLink="true">http://www.shapeoperator.com/2017/04/08/lawnmower-puzzle/</guid>
     </item>
     
     <item>
@@ -1897,8 +1897,8 @@ c_2 - r_2 + r_3 &amp;amp;= 0
 &lt;!--Note to self, geo tool state used to generate these diagrams lives at https://www.desmos.com/geometry?state=a410c2210e33--&gt;
 </description>
       <pubDate>Tue, 28 Feb 2017 00:00:00 -0800</pubDate>
-      <link>http://localhost:4000/2017/02/28/geometry-algebra-intuition/</link>
-      <guid isPermaLink="true">http://localhost:4000/2017/02/28/geometry-algebra-intuition/</guid>
+      <link>http://www.shapeoperator.com/2017/02/28/geometry-algebra-intuition/</link>
+      <guid isPermaLink="true">http://www.shapeoperator.com/2017/02/28/geometry-algebra-intuition/</guid>
     </item>
     
     <item>
@@ -2406,8 +2406,8 @@ c_2 - r_2 + r_3 &amp;amp;= 0
 &lt;p&gt;Here’s a page spelling out the &lt;a href=&quot;http://www.astro.princeton.edu/~dns/teachersguide/MeasECAct.html&quot;&gt;relevant calculations&lt;/a&gt;. If you live on the West Coast, like me, you don’t even have to wake up early to try this.&lt;/p&gt;
 </description>
       <pubDate>Mon, 12 Dec 2016 00:00:00 -0800</pubDate>
-      <link>http://localhost:4000/2016/12/12/sunset-geometry/</link>
-      <guid isPermaLink="true">http://localhost:4000/2016/12/12/sunset-geometry/</guid>
+      <link>http://www.shapeoperator.com/2016/12/12/sunset-geometry/</link>
+      <guid isPermaLink="true">http://www.shapeoperator.com/2016/12/12/sunset-geometry/</guid>
     </item>
     
     <item>
@@ -3099,8 +3099,8 @@ solution digit sets in a &lt;code class=&quot;highlighter-rouge&quot;&gt;Set&lt;
   &lt;span class=&quot;n&quot;&gt;LLVM&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;libLLVM&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;3.3&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 </description>
       <pubDate>Mon, 02 Nov 2015 00:00:00 -0800</pubDate>
-      <link>http://localhost:4000/2015/11/02/optimizing-kakuro-in-julia/</link>
-      <guid isPermaLink="true">http://localhost:4000/2015/11/02/optimizing-kakuro-in-julia/</guid>
+      <link>http://www.shapeoperator.com/2015/11/02/optimizing-kakuro-in-julia/</link>
+      <guid isPermaLink="true">http://www.shapeoperator.com/2015/11/02/optimizing-kakuro-in-julia/</guid>
     </item>
     
     <item>
@@ -3318,8 +3318,8 @@ solution digit sets in a &lt;code class=&quot;highlighter-rouge&quot;&gt;Set&lt;
 &lt;p&gt;I recently worked with John Verzani to get code very much like this final version of &lt;code class=&quot;highlighter-rouge&quot;&gt;bisect_root&lt;/code&gt; into the &lt;a href=&quot;https://github.com/JuliaLang/Roots.jl&quot;&gt;Roots.jl&lt;/a&gt; package. As of this writing, the &lt;a href=&quot;https://github.com/JuliaLang/Roots.jl/pull/12&quot;&gt;pull request&lt;/a&gt; is currently awaiting review.&lt;/p&gt;
 </description>
       <pubDate>Sat, 22 Feb 2014 00:00:00 -0800</pubDate>
-      <link>http://localhost:4000/2014/02/22/bisecting-floats/</link>
-      <guid isPermaLink="true">http://localhost:4000/2014/02/22/bisecting-floats/</guid>
+      <link>http://www.shapeoperator.com/2014/02/22/bisecting-floats/</link>
+      <guid isPermaLink="true">http://www.shapeoperator.com/2014/02/22/bisecting-floats/</guid>
     </item>
     
   </channel>
