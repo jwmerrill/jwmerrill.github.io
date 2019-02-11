@@ -376,7 +376,7 @@ Applying the geometric ratio repeatedly produces a sequence of vectors lying on 
   style="width: 334px;"/>
 </figure>
 
-### Rotation, Reflection, Projection, Rejection
+<h3 id="rotation-reflection-projection-rejection">Rotation, Reflection, Projection, Rejection</h3>
 
 Reversing the order of the terms in the geometric ratio from <span class="mathquill-embedded-latex">a^{-1}b</span> to <span class="mathquill-embedded-latex">ba^{-1}</span> reverses the sense of rotation, but leaves the dilation unchanged
 
@@ -500,7 +500,7 @@ We can check that combining these components gives back the whole vector <span c
   \end{aligned}
 </div>
 
-### Planarity
+<h3 id="planarity">Planarity</h3>
 
 We have seen that the condition that three vectors form a triangle is
 
