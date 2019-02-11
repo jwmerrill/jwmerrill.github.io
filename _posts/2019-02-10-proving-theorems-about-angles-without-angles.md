@@ -404,7 +404,7 @@ I will sketch a way to distinguish these cases and prove the full theorem, witho
 If <span class="mathquill-embedded-latex">c_1</span> and <span class="mathquill-embedded-latex">c_2</span> are vectors from two points on a line to a given point not on the line, then the sign of the unit bivector
 
 <div class="display-latex">
-  \frac{\hat{c}_1 \wedge \hat{c}_2}{|\hat{c}_1 \wedge \hat{c}_2|}
+  \frac{c_1 \wedge c_2}{|c_1 \wedge c_2|}
 </div>
 
 determines which side of the line the given point is on. Given equal squares of products of vectors,
@@ -416,7 +416,7 @@ determines which side of the line the given point is on. Given equal squares of 
 then the products are equal if the corresponding unit bivectors are equal
 
 <div class="display-latex">
-  \frac{\hat{c}_1 \wedge \hat{c}_2}{|\hat{c}_1 \wedge \hat{c}_2|} = \frac{\hat{c}_3 \wedge \hat{c}_4}{|\hat{c}_3 \wedge \hat{c}_4|}
+  \frac{c_1 \wedge c_2}{|c_1 \wedge c_2|} = \frac{c_3 \wedge c_4}{|c_3 \wedge c_4|}
 </div>
 
 and otherwise the products differ by a sign.
