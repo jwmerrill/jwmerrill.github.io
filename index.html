@@ -6,7 +6,7 @@
    <title>Shape Operator by Jason Merrill</title>
    <meta name="author" content="Jason Merrill" />
    <meta name="viewport" content="width=device-width"/>
-   <link rel="alternate" type="application/rss+xml" title="Shape Operator" href="http://www.shapeoperator.com/feed.xml">
+   <link rel="alternate" type="application/rss+xml" title="Shape Operator" href="http://localhost:4000/feed.xml">
    <link rel="stylesheet" href="/css/vendor/katex.min.css" type="text/css" />
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/pygments/default.css" type="text/css" />
@@ -21,6 +21,57 @@
   </div>
   <div class="main">
     
+  <div class="post">
+    <h2><a href="/2019/02/10/proving-theorems-about-angles-without-angles/">Proving theorems about angles without angles</a></h2>
+    <abbr class="date">10 Feb 2019</abbr>
+    <p><p>In several recent posts, I have been exploring a way of doing trigonometry using vectors and their various products while de-emphasizing angle measures and trigonometric functions.</p>
+
+<p>In this system, triangles are represented as sets of three vectors that add to <span class="mathquill-embedded-latex">0</span></p>
+
+<figure class="mainfig">
+  <img alt="Triangle a b c" src="/img/proving-theorems-about-angles-without-angles/triangle-abc.png" style="width: 230px;" />
+</figure>
+
+<div class="display-latex">
+  a + b + c = 0
+</div>
+
+<p>The traditional <a href="/2017/02/28/geometry-algebra-intuition/">law of cosines can be replaced</a> with a vector equation that uses the dot product</p>
+
+<div class="display-latex">
+  c^2 = a^2 + b^2 + 2 a\cdot b
+</div>
+
+<p>the <a href="/2018/11/19/algebraic-law-of-sines/">law of sines can be replaced</a> with a vector equation that uses the wedge product</p>
+
+<div class="display-latex">
+  a \wedge b = b \wedge c = c \wedge a
+</div>
+
+<p>and <a href="/2019/01/07/relating-dot-wedge/">rotations and reflections can be represented</a> using geometric products of vectors. For vectors in the plane, the rotation of a vector <span class="mathquill-embedded-latex">v</span> through the angle between vectors <span class="mathquill-embedded-latex">a</span> and <span class="mathquill-embedded-latex">b</span> can be represented by right multiplying by the product <span class="mathquill-embedded-latex">\hat{a}\hat{b}</span><label for="notation" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="notation" class="margin-toggle" /><span class="marginnote">Reminder on notation: in these posts, lower case latin letters like <span class="mathquill-embedded-latex">a</span> and <span class="mathquill-embedded-latex">b</span> represent vectors, greek letters like <span class="mathquill-embedded-latex">\theta</span> and <span class="mathquill-embedded-latex">\phi</span> represent real numbers such as lengths or angles, and <span class="mathquill-embedded-latex">\hat{a}</span> represents a unit vector directed along <span class="mathquill-embedded-latex">a</span>, so that <span class="mathquill-embedded-latex">\hat{a}^2=1</span> and <span class="mathquill-embedded-latex">\hat{a} \wedge a = 0</span>. Juxtaposition of vectors represents their geometric product, so that <span class="mathquill-embedded-latex">ab</span> is the geometric product between vectors <span class="mathquill-embedded-latex">a</span> and <span class="mathquill-embedded-latex">b</span>, and the geometric product is non-commutative, so the order of terms is important.</span></p>
+
+<div class="display-latex">
+v_\mathrm{rot.} = v \hat{a}\hat{b}
+</div>
+
+<p>and the reflection of <span class="mathquill-embedded-latex">v</span> in any vector <span class="mathquill-embedded-latex">c</span> can be represented as the “sandwich product”</p>
+
+<div class="display-latex">
+v_\mathrm{refl.} = c v c^{-1} = \hat{c} v \hat{c}
+</div>
+
+<p>Notice that none of these formulae make direct reference to any angle measures.</p>
+
+<p>But without angle measures, won’t it be hard to state and prove theorems that are explicitly about angles?</p>
+
+<p>Not really. Relationships between directions that can be represented by addition and subtraction of angle measures can be represented just as well using products and ratios of vectors with the geometric product. And the geometric product is better at representing reflections, which can sometimes provide fresh insights into familiar topics.</p>
+
+<p>We’ll take as our example the <em>inscribed angle theorem</em>, because it is one of the simplest theorems about angles that doesn’t seem intuitively obvious (at least, it doesn’t seem obvious to me…).</p>
+
+</p>
+    <p><a href="/2019/02/10/proving-theorems-about-angles-without-angles/">more...</a></p>
+  </div>
+
   <div class="post">
     <h2><a href="/2019/01/07/relating-dot-wedge/">Visualizing geometric product relationships in plane geometry</a></h2>
     <abbr class="date">07 Jan 2019</abbr>

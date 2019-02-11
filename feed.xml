@@ -3,8 +3,456 @@
   <channel>
     <title>Shape Operator</title>
     <description>Thoughts on physics, math, and computers.</description>
-    <link>http://www.shapeoperator.com</link>
-    <atom:link href="http://www.shapeoperator.com/feed.xml" rel="self" type="application/rss+xml" />
+    <link>http://localhost:4000</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Proving theorems about angles without angles</title>
+      <description>&lt;p&gt;In several recent posts, I have been exploring a way of doing trigonometry using vectors and their various products while de-emphasizing angle measures and trigonometric functions.&lt;/p&gt;
+
+&lt;p&gt;In this system, triangles are represented as sets of three vectors that add to &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;0&lt;/span&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Triangle a b c&quot; src=&quot;/img/proving-theorems-about-angles-without-angles/triangle-abc.png&quot; style=&quot;width: 230px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  a + b + c = 0
+&lt;/div&gt;
+
+&lt;p&gt;The traditional &lt;a href=&quot;/2017/02/28/geometry-algebra-intuition/&quot;&gt;law of cosines can be replaced&lt;/a&gt; with a vector equation that uses the dot product&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  c^2 = a^2 + b^2 + 2 a\cdot b
+&lt;/div&gt;
+
+&lt;p&gt;the &lt;a href=&quot;/2018/11/19/algebraic-law-of-sines/&quot;&gt;law of sines can be replaced&lt;/a&gt; with a vector equation that uses the wedge product&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  a \wedge b = b \wedge c = c \wedge a
+&lt;/div&gt;
+
+&lt;p&gt;and &lt;a href=&quot;/2019/01/07/relating-dot-wedge/&quot;&gt;rotations and reflections can be represented&lt;/a&gt; using geometric products of vectors. For vectors in the plane, the rotation of a vector &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;v&lt;/span&gt; through the angle between vectors &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; can be represented by right multiplying by the product &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{a}\hat{b}&lt;/span&gt;&lt;label for=&quot;notation&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;notation&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Reminder on notation: in these posts, lower case latin letters like &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; represent vectors, greek letters like &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\theta&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\phi&lt;/span&gt; represent real numbers such as lengths or angles, and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{a}&lt;/span&gt; represents a unit vector directed along &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt;, so that &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{a}^2=1&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{a} \wedge a = 0&lt;/span&gt;. Juxtaposition of vectors represents their geometric product, so that &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;ab&lt;/span&gt; is the geometric product between vectors &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt;, and the geometric product is non-commutative, so the order of terms is important.&lt;/span&gt;&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+v_\mathrm{rot.} = v \hat{a}\hat{b}
+&lt;/div&gt;
+
+&lt;p&gt;and the reflection of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;v&lt;/span&gt; in any vector &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;c&lt;/span&gt; can be represented as the “sandwich product”&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+v_\mathrm{refl.} = c v c^{-1} = \hat{c} v \hat{c}
+&lt;/div&gt;
+
+&lt;p&gt;Notice that none of these formulae make direct reference to any angle measures.&lt;/p&gt;
+
+&lt;p&gt;But without angle measures, won’t it be hard to state and prove theorems that are explicitly about angles?&lt;/p&gt;
+
+&lt;p&gt;Not really. Relationships between directions that can be represented by addition and subtraction of angle measures can be represented just as well using products and ratios of vectors with the geometric product. And the geometric product is better at representing reflections, which can sometimes provide fresh insights into familiar topics.&lt;/p&gt;
+
+&lt;p&gt;We’ll take as our example the &lt;em&gt;inscribed angle theorem&lt;/em&gt;, because it is one of the simplest theorems about angles that doesn’t seem intuitively obvious (at least, it doesn’t seem obvious to me…).&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;The inscribed angle theorem says that every angle inscribed on a circle that subtends the same arc has the same angle measure&lt;label for=&quot;inscribed-terminology&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;inscribed-terminology&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Terminology: an &lt;em&gt;inscribed angle&lt;/em&gt; of a circle is an interior angle of a triangle with 3 vertices lying on the circle’s circumference. Roughly speaking, an angle at a point &lt;em&gt;subtends&lt;/em&gt; the things that you could see from the point if your field of view was limited to the given angle. In the figure, the blue inscribed angles all subtend the same purple arc.&lt;/span&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;A set of equal angles inscribed in a cirlce that subtend the same arc&quot; src=&quot;/img/proving-theorems-about-angles-without-angles/equal-inscribed-angles.png&quot; style=&quot;width: 285px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;and that a central angle that subtends the same arc as an inscribed angle has twice the angle measure as the inscribed angle:&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;The central angle that subtends the same arc of a circle as an inscribed angle has twice the angle measure&quot; src=&quot;/img/proving-theorems-about-angles-without-angles/half-central-angle.png&quot; style=&quot;width: 291px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Let’s first go over a traditional proof of the inscribed angle theorem to gain some familiarity. The key is to draw in one more radius of the circle to form a pair of isosceles triangles that share a leg&lt;label for=&quot;isosceles-terminology&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;isosceles-terminology&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;&lt;img alt=&quot;Isosceles terminology&quot; src=&quot;/img/proving-theorems-about-angles-without-angles/isosceles-terminology.png&quot; style=&quot;width: 300px; margin: auto;&quot; /&gt;&lt;br /&gt;Terminology: an &lt;em&gt;isosceles&lt;/em&gt; triangle is a triangle with two sides of equal length. The two equal length sides are called &lt;em&gt;legs&lt;/em&gt; and the third side is called the &lt;em&gt;base&lt;/em&gt;. The legs meet at the &lt;em&gt;vertex&lt;/em&gt; and the interior angle at the vertex is the &lt;em&gt;vertex angle&lt;/em&gt;. The interior angles formed by the base and each leg are the &lt;em&gt;base angles&lt;/em&gt;.&lt;/span&gt;:&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Drawing a third radius vector helps prove the inscribed angle theorem&quot; src=&quot;/img/proving-theorems-about-angles-without-angles/additional-radius.png&quot; style=&quot;width: 295px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;The two base angles of an isosceles triangle are equal, so we can label angles on the figure as follows:&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Labeled angles for proving the inscribed angle theorem&quot; src=&quot;/img/proving-theorems-about-angles-without-angles/labeled-angles.png&quot; style=&quot;width: 285px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;where &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\phi_1&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\phi_2&lt;/span&gt; are base angles of two equilateral triangles, their sum, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\phi_1 + \phi_2&lt;/span&gt;, is an inscribed angle on the circle, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\theta_1&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\theta_2&lt;/span&gt; are vertex angles of the isosceles triangles and also central angles of the circle, and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\theta_3&lt;/span&gt; is the central angle that subtends the same arc as the inscribed angle &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\phi_1 + \phi_2.&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;The three central angles add up to a full turn&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \theta_1 + \theta_2 + \theta_3 = 2 \pi
+&lt;/div&gt;
+
+&lt;p&gt;and the interior angles of the triangles each add up to a half turn (because interior angles of a triangle always add up to a half turn, or &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;180&lt;/span&gt; degrees)&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+\begin{aligned}
+  \theta_1 + 2\phi_1 &amp;amp;= \pi \\
+  \theta_2 + 2\phi_2 &amp;amp;= \pi
+\end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;Adding the previous two expressions and re-arranging gives&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+2(\phi_1 + \phi_2) = 2 \pi - (\theta_1 + \theta_2)
+&lt;/div&gt;
+
+&lt;p&gt;and recognizing that the right hand side is equal to &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\theta_3&lt;/span&gt; gives&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  2(\phi_1 + \phi_2) = \theta_3
+&lt;/div&gt;
+
+&lt;p&gt;This proves the theorem&lt;label for=&quot;angle-ambiguity&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;angle-ambiguity&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Technically, this only proves the second part of the theorem. See &lt;a href=&quot;#appendix-a&quot;&gt;Appendix A&lt;/a&gt;.&lt;/span&gt; because the left hand side is twice the inscribed angle, and the right hand side is the corresponding central angle.&lt;/p&gt;
+
+&lt;p&gt;This proof depended on the theorem that the base angles of an isosceles triangle are equal. Do you remember how to prove this?&lt;/p&gt;
+
+&lt;p&gt;Here’s one way: drop a median from the vertex to the midpoint of the base:&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;A median from the vertex of an isosceles triangle to the midpoint of the base&quot; src=&quot;/img/proving-theorems-about-angles-without-angles/equilateral-median.png&quot; style=&quot;width: 314px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;This produces two triangles that are congruent because they have three equal sides, and the base angles are corresponding angles in these congruent triangles, so they are equal.&lt;/p&gt;
+
+&lt;p&gt;Do you remember why triangles with equal sets of side lengths are congruent? I find that it’s pretty easy to memorize facts like this but forget exactly why they must be true&lt;label for=&quot;euclid&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;euclid&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;If you want to remember how Euclid did all these things, Nicholas Rougeux has published a gorgeous new &lt;a href=&quot;https://www.c82.net/euclid/&quot;&gt;online edition of Byrne’s Euclid&lt;/a&gt;. The distinctive feature of Byrne’s Euclid, originally published in 1847, is that it uses small color-coded pictograms throughout the text to reference diagrams instead of letters, which gives it an appealing concreteness.&lt;br /&gt;&lt;br /&gt;Euclid actually proves that the base angles of an isosceles triangle are equal (&lt;a href=&quot;https://www.c82.net/euclid/book1/#prop5&quot;&gt;proposition V&lt;/a&gt;) a different way without referencing the theorem that triangles with equal sides are congruent, and then later uses this theorem as part of the proof that triangles with equal sides are congruent (&lt;a href=&quot;https://www.c82.net/euclid/book1/#prop7&quot;&gt;proposition VII&lt;/a&gt; and &lt;a href=&quot;https://www.c82.net/euclid/book1/#prop8&quot;&gt;proposition VIII&lt;/a&gt;).&lt;/span&gt;.&lt;/p&gt;
+
+&lt;p&gt;Geometric algebra provides an interesting algebraic way to prove that the base angles of an isosceles triangle are equal, embedded as a special case of an equation that is true for all triangles. As usual, we begin with the condition that three vectors form a triangle&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Triangle a b c&quot; src=&quot;/img/proving-theorems-about-angles-without-angles/triangle-abc.png&quot; style=&quot;width: 230px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  a + b + c = 0
+&lt;/div&gt;
+
+&lt;p&gt;Left multiplying the triangle equation by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt; gives&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  a^2 + ab + ac = 0
+&lt;/div&gt;
+
+&lt;p&gt;and alternatively, right multiplying by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; gives&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  ab + b^2 + cb = 0
+&lt;/div&gt;
+
+&lt;p&gt;Subtracting these two equations gives&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \left(a^2 - b^2\right) + (ac - cb) = 0
+&lt;/div&gt;
+
+&lt;p&gt;and in the special case that the lengths of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; are equal so that the triangle is isosceles, the first term vanishes leaving&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  ac = cb
+&lt;/div&gt;
+
+&lt;p&gt;Dividing by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;|a||c| = |b||c|&lt;/span&gt; gives&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+\frac{a}{|a|}\frac{c}{|c|} = \frac{c}{|c|}\frac{b}{|b|}
+&lt;/div&gt;
+
+&lt;p&gt;or&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \hat{a}\hat{c} = \hat{c}\hat{b}
+&lt;/div&gt;
+
+&lt;p&gt;which is an equation for the equal rotations through the equal base angles, represented as products of unit vectors&lt;label for=&quot;interior-vs-exterior&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;interior-vs-exterior&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;&lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{a}\hat{c}&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{c}\hat{b}&lt;/span&gt; represent plane rotations through exterior angles; the corresponding interior angle rotations are &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;-\hat{a}\hat{c}&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;-\hat{c}\hat{b}&lt;/span&gt;.&lt;/span&gt;.&lt;/p&gt;
+
+&lt;p&gt;The equation&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  ac = cb
+&lt;/div&gt;
+
+&lt;p&gt;also allows solving for &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a&lt;/span&gt; in terms of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;c&lt;/span&gt; by multiplying on the right by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;c^{-1}&lt;/span&gt;&lt;label for=&quot;ga-solving&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;ga-solving&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;The ability to solve equations of products of vectors like this is one of the special advantages of geometric algebra.&lt;/span&gt;,&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  a = cbc^{-1}
+&lt;/div&gt;
+
+&lt;p&gt;The right hand side is the &lt;a href=&quot;/2019/01/07/relating-dot-wedge/#rotation-reflection-projection-rejection&quot;&gt;sandwich product representation of the reflection&lt;/a&gt; of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;b&lt;/span&gt; in &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;c&lt;/span&gt;, so in words, this equation says that reflecting one of the leg vectors of an isosceles triangle across the base vector gives the remaining leg vector&lt;label for=&quot;vector-equality&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;vector-equality&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Recall that equality of vectors implies they have the same length and direction, but implies nothing about location; vectors are not considered to have a location, and may be freely translated without change.&lt;/span&gt;. This is a fact about isosceles triangles that I had not considered until doing this manipulation.&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;The reflection of a leg vector of an isosceles triangle across the base is equal to the other leg vector&quot; src=&quot;/img/proving-theorems-about-angles-without-angles/equilateral-leg-reflection.png&quot; style=&quot;width: 328px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;With this preparation, we are ready to prove the inscribed angle theorem using geometric algebra.&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Labeld vectors representing chords and radii of a circle&quot; src=&quot;/img/proving-theorems-about-angles-without-angles/labeled-vectors.png&quot; style=&quot;width: 299px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Call chord vectors through a point on the circumference of a circle &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;c_1&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;c_2&lt;/span&gt;, radius vectors subtending the corresponding central angle &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;r_1&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;r_2&lt;/span&gt;, and the radius vector from the circle’s center to the shared point of the two chords &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;r_3&lt;/span&gt;.&lt;/p&gt;
+
+&lt;p&gt;Then the plane rotation through the central angle is&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \hat{r}_1 \hat{r}_2
+&lt;/div&gt;
+
+&lt;p&gt;and we’re seeking a relationship between this rotation and the plane rotation through the inscribed angle,&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \hat{c}_1 \hat{c}_2
+&lt;/div&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Labeled unit vectors along chords and radii of a circle&quot; src=&quot;/img/proving-theorems-about-angles-without-angles/labeled-unit-vectors.png&quot; style=&quot;width: 300px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;We can summarize the geometrical content of these diagrams algebraically with two triangle equations and an equation expressing the equal lengths of the radius vectors&lt;label for=&quot;missing-information&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;missing-information&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;There’s actually one other important piece of geometric information that isn’t spelled out in the algebra here. I’ll come back to this below.&lt;/span&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+\begin{aligned}
+c_1 - r_1 + r_3 &amp;amp;= 0 \\
+c_2 - r_2 + r_3 &amp;amp;= 0 \\
+r_1^2 = r_2^2 &amp;amp;= r_3^2
+\end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;We can take the first triangle equation and perform a similar manipulation as we did above: left multiply by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;-r_1&lt;/span&gt;, separately right multiply by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;r_3&lt;/span&gt;, and subtract the two results to give&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+\left(r_1^2 - r_3^2\right) - (r_1 c_1 + c_1 r_3) = 0
+&lt;/div&gt;
+
+&lt;p&gt;The first term is zero because the lengths of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;r_1&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;r_3&lt;/span&gt; are equal, so this becomes&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+ r_1 c_1 = - c_1 r_3
+&lt;/div&gt;
+
+&lt;p&gt;or&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+ r_1 = - c_1 r_3 c_1^{-1}
+&lt;/div&gt;
+
+&lt;p&gt;and in terms of unit vectors this is&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \hat{r}_1 = - \hat{c}_1 \hat{r}_3 \hat{c}_1
+&lt;/div&gt;
+
+&lt;p&gt;Similar reasoning for the second triangle gives&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \hat{r}_2 = - \hat{c}_2 \hat{r}_3 \hat{c}_2
+&lt;/div&gt;
+
+&lt;p&gt;Making these substitutions in the central angle product &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{r}_1\hat{r}_2&lt;/span&gt; gives&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+\begin{aligned}
+  \hat{r}_1 \hat{r}_2 &amp;amp;= (- \hat{c}_1 \hat{r}_3 \hat{c}_1) (- \hat{c}_2 \hat{r}_3 \hat{c}_2) \\
+  &amp;amp;= \hat{c}_1 (\hat{r}_3 \hat{c}_1 \hat{c}_2) \hat{r}_3 \hat{c}_2 \\
+  &amp;amp;= \hat{c}_1 (\hat{c}_2 \hat{c}_1 \hat{r}_3) \hat{r}_3 \hat{c}_2 \\
+  &amp;amp;= \hat{c}_1 \hat{c}_2 \hat{c}_1 \hat{c}_2 \\
+  &amp;amp;= (\hat{c}_1 \hat{c}_2)^2
+\end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;and the final line represents applying the rotation through the inscribed angle twice, which proves the inscribed angle theorem&lt;label for=&quot;angle-ambiguity&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;angle-ambiguity&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Again, technically, this only proves the second part of the theorem. See &lt;a href=&quot;#appendix-a&quot;&gt;Appendix A&lt;/a&gt;.&lt;/span&gt;.&lt;/p&gt;
+
+&lt;p&gt;Let’s go through this manipulation line by line&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Substitute for &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{r}_1&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{r}_2&lt;/span&gt; based on the fact that they are part of isosceles triangles that share a leg. The two negative signs will cancel one another.&lt;/li&gt;
+  &lt;li&gt;Re-associate the geometric product. The geometric product is associative, so the parentheses here serve only as a guide to the eye.&lt;/li&gt;
+  &lt;li&gt;Use the &lt;a href=&quot;/2019/01/07/relating-dot-wedge/#planarity&quot;&gt;planarity condition&lt;/a&gt;&lt;label for=&quot;planarity&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;planarity&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;This planarity condition is the “missing algebraic information” that I referred to above. On my first pass through this problem, it took me a while to connect this need to re-order three vectors to the fact that they lie in a single plane. In the plane, there is only one point that is equidistant from three given points, but in more dimensions there are more points that satisfy this condition. &lt;em&gt;Consider:&lt;/em&gt; what does this set of points look like in 3D?&lt;/span&gt;, which says that the geometric product of any three vectors in the same plane equals its reverse, to reverse the parenthesized product of three vectors.&lt;/li&gt;
+  &lt;li&gt;Re-associate and use the fact that &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{r}_3&lt;/span&gt; is a unit vector, so &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{r}_3^2 = 1.&lt;/span&gt;&lt;/li&gt;
+  &lt;li&gt;Collect identical products as a square.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The geometric product allowed us to exploit relationships between reflections and rotations that I typically wouldn’t think to see directly on a diagram, allowing the proof to be particularly concise.&lt;/p&gt;
+
+&lt;p&gt;Alternatively, it’s possible to mimic the original angle calculation a little more directly. Where we previously added internal angles of the triangles, we can instead multiply rotations to compose them:&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Labeled unit vectors along chords and radii of a circle&quot; src=&quot;/img/proving-theorems-about-angles-without-angles/labeled-unit-vectors.png&quot; style=&quot;width: 300px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+\begin{aligned}
+  (\hat{r}_1 \hat{c}_1)(\hat{c}_1 \hat{r}_3)(\hat{r}_3 \hat{r}_1) &amp;amp;= 1 \\
+  (\hat{r}_2 \hat{r}_3)(\hat{r}_3 \hat{c}_2)(\hat{c}_2 \hat{r}_2) &amp;amp;= 1
+\end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;Interpreting these rotations as internal or external angles requires a little bit of care about signs, but algebraically, the equations are true almost trivially by re-associating and canceling squares of unit vectors.&lt;/p&gt;
+
+&lt;p&gt;Next, we can apply equality of base angles by replacing &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{r}_1\hat{c}_1&lt;/span&gt; with &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;-\hat{c}_1\hat{r}_3&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{c}_2\hat{r}_2&lt;/span&gt; with &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;-\hat{r}_3\hat{c}_2&lt;/span&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+\begin{aligned}
+  -(\hat{c}_1 \hat{r}_3)^2(\hat{r}_3 \hat{r}_1) &amp;amp;= 1 \\
+  -(\hat{r}_2 \hat{r}_3)(\hat{r}_3 \hat{c}_2)^2 &amp;amp;= 1
+\end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;In place of summing the equations for interior angles of two triangles, we can multiply these equations for compositions of rotations:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  (\hat{c}_1 \hat{r}_3)^2(\hat{r}_3 \hat{r}_1)(\hat{r}_2 \hat{r}_3)(\hat{r}_3 \hat{c}_2)^2 = 1
+&lt;/div&gt;
+
+&lt;p&gt;Products of pairs of vectors in the plane commute (in other words, rotations in the plane commute), so we can rearrange this in order to pair and cancel factors of &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{r}_3&lt;/span&gt;&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+\begin{aligned}
+  1 &amp;amp;= (\hat{r}_2 \hat{r}_3)(\hat{r}_3 \hat{r}_1)(\hat{c}_1 \hat{r}_3)(\hat{r}_3 \hat{c}_2)(\hat{c}_1 \hat{r}_3)(\hat{r}_3 \hat{c}_2) \\
+    &amp;amp;= \hat{r}_2 \hat{r}_1 \hat{c}_1 \hat{c}_2 \hat{c}_1 \hat{c}_2
+\end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;Now left multiplying by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\hat{r}_1\hat{r}_2&lt;/span&gt; gives the desired result:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \hat{r}_1 \hat{r}_2 = (\hat{c}_1 \hat{c}_2)^2
+&lt;/div&gt;
+
+&lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;
+
+&lt;p&gt;It has become customary in elementary geometry to identify relationships between directions with relationships between angles, and to identify angles with numerical angle measures. But this is not strictly necessary&lt;label for=&quot;greek-angles&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;greek-angles&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;In classical Greek geometry, lengths and angles actually weren’t identified with numbers, likely at least in part due to the fact that lengths are often irrational and angles are often transcendental. Instead, length, angle, and number were treated as separate concepts with some similar relationships.&lt;/span&gt;, and in this post, I have shown an example of how the same relationships between directions can instead be modeled by products and ratios of vectors without direct reference to numerical angle measures.&lt;/p&gt;
+
+&lt;p&gt;The vector approach has the advantage that the condition that three vectors form a triangle is very simple to write down,&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  a + b + c = 0
+&lt;/div&gt;
+
+&lt;p&gt;whereas the condition that three lengths and three angles describe a triangle is somewhat more complicated, and is not typically written down in full.&lt;/p&gt;
+
+&lt;p&gt;This linear vector equation for a triangle makes it straightforward to derive classical relationships between lengths and angles in a triangle, which typically appear as quadratic equations in the vectors. These manipulations can usually be described in a phrase or two:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/2017/02/28/geometry-algebra-intuition/&quot;&gt;Law of cosines&lt;/a&gt;: solve for c, square both sides&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2018/11/19/algebraic-law-of-sines/&quot;&gt;Law of sines&lt;/a&gt;: form the wedge product of the triangle equation with one of the vectors, solve for one of the two remaining terms&lt;/li&gt;
+  &lt;li&gt;Equal isosceles base angles (shown in this post): multiply on the left by one of the vectors and alternatively on the right by a different vector and subtract the two results; then two equal lengths imply two equal angles&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;An advantage of the vector model is that the relevant equations are algebraic in the vectors and their products, whereas they are transcendental in angle measures. So for example, the law of cosines in terms of angles,&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  c^2 = a^2 + b^2 - 2|a||b|\cos(\theta)
+&lt;/div&gt;
+
+&lt;p&gt;is transcendental in the angle &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;\theta&lt;/span&gt;, whereas the vector equation&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  c^2 = a^2 + b^2 + ab + ba
+&lt;/div&gt;
+
+&lt;p&gt;is algebraic in the corresponding vector product &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;ab&lt;/span&gt;.&lt;/p&gt;
+
+&lt;p&gt;The catch, of course, is that these quadratic equations involve non-commutative products, and there is a definite learning curve to becoming comfortable with this. But in my experience, the effort is repaid along the way through the insight you gain from viewing familiar things from an unfamiliar perspective.&lt;/p&gt;
+
+&lt;p&gt;Thanks as usual to Jaime George for editing this post.&lt;/p&gt;
+
+&lt;h3 id=&quot;appendix-a&quot;&gt;Appendix A&lt;/h3&gt;
+&lt;h4 id=&quot;being-careful-about-what-we-have-proved&quot;&gt;Being careful about what we have proved&lt;/h4&gt;
+
+&lt;p&gt;Technically, we have only proved the second part of the inscribed angle theorem: a central angle that subtends the same arc as an inscribed angle is equal to the inscribed angle composed with itself:&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;The central angle that subtends the same arc of a circle as an inscribed angle has twice the angle measure&quot; src=&quot;/img/proving-theorems-about-angles-without-angles/half-central-angle.png&quot; style=&quot;width: 291px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;which seems like it would imply the first part of the inscribed angle theorem, that all inscribed angles that subtend the same arc are equal,&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;Inscribed angles on a circle that subtend the same arc have the same angle measure&quot; src=&quot;/img/proving-theorems-about-angles-without-angles/equal-inscribed-angles.png&quot; style=&quot;width: 285px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;but actually doesn’t. The technicality is that we have proved that the squares of the rotations through these inscribed angles are equal, but this leaves an ambiguity about the sign&lt;label for=&quot;angle-ambiguity&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;angle-ambiguity&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Equating doubled angle measures has exactly the same ambiguity as equating the squares of rotations, though the ambiguity is perhaps easier to overlook at first glance.&lt;/span&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+\begin{aligned}
+  \left(\hat{c}_3\hat{c}_4\right)^2 &amp;amp;= \left(\hat{c}_1\hat{c}_2\right)^2 \\
+  \hat{c}_3\hat{c}_4 &amp;amp;= \pm \hat{c}_1\hat{c}_2
+\end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;And in fact there are different inscribed angles that subtend different (but closely related) arcs that satisfy all the algebraic rules we wrote down (including planarity), but that do not describe equal rotations:&lt;/p&gt;
+
+&lt;figure class=&quot;mainfig&quot;&gt;
+  &lt;img alt=&quot;An an inscribed angle on a circle that subtends the same chord but not the same arc as several other inscribed angles does not have the same angle measure&quot; src=&quot;/img/proving-theorems-about-angles-without-angles/unequal-inscribed-angles.png&quot; style=&quot;width: 288px;&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;The unequal inscribed angle here subtends an equal chord but opposite arc as the other equal inscribed angles. The relationship between these angles is exactly the same as the relationship between interior and exterior angles, and equating squares of rotations (or doubled angle measures) leaves this distinction ambiguous.&lt;/p&gt;
+
+&lt;p&gt;I will sketch a way to distinguish these cases and prove the full theorem, without going into full detail.&lt;/p&gt;
+
+&lt;p&gt;If &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;c_1&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;c_2&lt;/span&gt; are vectors from two points on a line to a given point not on the line, then the sign of the unit bivector&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \frac{\hat{c}_1 \wedge \hat{c}_2}{|\hat{c}_1 \wedge \hat{c}_2|}
+&lt;/div&gt;
+
+&lt;p&gt;determines which side of the line the given point is on. Given equal squares of products of vectors,&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  (c_1 c_2)^2 = (c_3 c_4)^2
+&lt;/div&gt;
+
+&lt;p&gt;then the products are equal if the corresponding unit bivectors are equal&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+  \frac{\hat{c}_1 \wedge \hat{c}_2}{|\hat{c}_1 \wedge \hat{c}_2|} = \frac{\hat{c}_3 \wedge \hat{c}_4}{|\hat{c}_3 \wedge \hat{c}_4|}
+&lt;/div&gt;
+
+&lt;p&gt;and otherwise the products differ by a sign.&lt;/p&gt;
+
+&lt;p&gt;Then inscribed angles that subtend equal chords of a circle are equal when they lie on the same side of the subtended chord, or equivalently, when they also subtend the same arc.&lt;/p&gt;
+
+&lt;h3 id=&quot;appendix-b&quot;&gt;Appendix B&lt;/h3&gt;
+&lt;h4 id=&quot;a-path-not-taken&quot;&gt;A path not taken&lt;/h4&gt;
+
+&lt;p&gt;I have to admit that my first attempt to analyze the inscribed angle theorem with vectors went down an unproductive path. I knew I wanted a relationship between a product of radius vectors &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;r_1 r_2&lt;/span&gt; and chord vectors &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;c_1 c_2&lt;/span&gt;, and I had the triangle equations&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+\begin{aligned}
+c_1 - r_1 + r_3 &amp;amp;= 0 \\
+c_2 - r_2 + r_3 &amp;amp;= 0
+\end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;so my first instinct was to solve the triangle equations for &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;r_1&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;r_2&lt;/span&gt;, substitute into the product &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;r_1 r_2&lt;/span&gt;, and expand:&lt;/p&gt;
+
+&lt;div class=&quot;display-latex&quot;&gt;
+\begin{aligned}
+  r_1 r_2 &amp;amp;= (c_1 + r_3)(c_2 + r_3) \\
+  &amp;amp;= c_1 c_2 + r_3 c_2 + c_1 r_3 + r_3^2
+\end{aligned}
+&lt;/div&gt;
+
+&lt;p&gt;There’s nothing wrong with the algebra here, but it just isn’t very productive. We now have a sum of 4 terms that is hard to interpret geometrically. Since the right hand side that we’re seeking, &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;(c_1 c_2)^2&lt;/span&gt;, is a monomial, we would have to eventually factor the sum on the right hand side, and factoring is difficult—especially when dealing with multiple non-commuting variables as we are here.&lt;/p&gt;
+
+&lt;p&gt;This mis-step is worth discussing because it is an example of a pattern that turns out to be pretty common when using geometric algebra to analyze geometry problems. When presented with a product of sums, it is a natural instinct to try expanding into a sum of products. This is sometimes productive, but it introduces a few issues:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;It is often harder to interpret a sum of many different products geometrically than it is to interpret a single product&lt;/li&gt;
+  &lt;li&gt;Expanding products can rapidly (exponentially) increase the total number of terms&lt;/li&gt;
+  &lt;li&gt;Simplifying sums of products often requires factoring, and factoring is hard&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For this reason, a useful heuristic is to prefer using commutation relationships (e.g. between parallel or perpendicular vectors, or between vectors that all lie in a single plane) to re-arrange a geometric product. When it works, this is better than expanding products, hoping that some terms will cancel, and then attempting to factor the result. When it is necessary to expand a product, it can be useful to expand as few terms as possible and then try to factor again before further expansions in preference to expanding the entire product at once&lt;label for=&quot;li-breefs&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;li-breefs&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Hongbo Li elaborates this idea extensively in his &lt;a href=&quot;https://www.amazon.com/Invariant-Algebras-Geometric-Reasoning-Hongbo/dp/9812708081&quot;&gt;book&lt;/a&gt;. For a briefer introduction, see this &lt;a href=&quot;https://arxiv.org/abs/math/0701762&quot;&gt;paper&lt;/a&gt; or these &lt;a href=&quot;http://www.issac-conference.org/2017/assets/tutorial_slides/Li.pdf&quot;&gt;tutorial slides&lt;/a&gt;.&lt;/span&gt;.&lt;/p&gt;
+</description>
+      <pubDate>Sun, 10 Feb 2019 00:00:00 -0800</pubDate>
+      <link>http://localhost:4000/2019/02/10/proving-theorems-about-angles-without-angles/</link>
+      <guid isPermaLink="true">http://localhost:4000/2019/02/10/proving-theorems-about-angles-without-angles/</guid>
+    </item>
     
     <item>
       <title>Visualizing geometric product relationships in plane geometry</title>
@@ -741,8 +1189,8 @@
 &lt;p&gt;Thanks as usual to Jaime George for editing this post.&lt;/p&gt;
 </description>
       <pubDate>Mon, 07 Jan 2019 00:00:00 -0800</pubDate>
-      <link>http://www.shapeoperator.com/2019/01/07/relating-dot-wedge/</link>
-      <guid isPermaLink="true">http://www.shapeoperator.com/2019/01/07/relating-dot-wedge/</guid>
+      <link>http://localhost:4000/2019/01/07/relating-dot-wedge/</link>
+      <guid isPermaLink="true">http://localhost:4000/2019/01/07/relating-dot-wedge/</guid>
     </item>
     
     <item>
@@ -1072,8 +1520,8 @@
 &lt;p&gt;Thank you to Jaime George for editing this post, and in particular, for helping me re-think the section on coordinates.&lt;/p&gt;
 </description>
       <pubDate>Mon, 19 Nov 2018 00:00:00 -0800</pubDate>
-      <link>http://www.shapeoperator.com/2018/11/19/algebraic-law-of-sines/</link>
-      <guid isPermaLink="true">http://www.shapeoperator.com/2018/11/19/algebraic-law-of-sines/</guid>
+      <link>http://localhost:4000/2018/11/19/algebraic-law-of-sines/</link>
+      <guid isPermaLink="true">http://localhost:4000/2018/11/19/algebraic-law-of-sines/</guid>
     </item>
     
     <item>
@@ -1190,8 +1638,8 @@
 &lt;p&gt;Bonus idea: what if the mower and the peg lived on the surface of a sphere instead of on the plane?&lt;/p&gt;
 </description>
       <pubDate>Sun, 23 Apr 2017 00:00:00 -0700</pubDate>
-      <link>http://www.shapeoperator.com/2017/04/23/lawnmower-puzzle-solution/</link>
-      <guid isPermaLink="true">http://www.shapeoperator.com/2017/04/23/lawnmower-puzzle-solution/</guid>
+      <link>http://localhost:4000/2017/04/23/lawnmower-puzzle-solution/</link>
+      <guid isPermaLink="true">http://localhost:4000/2017/04/23/lawnmower-puzzle-solution/</guid>
     </item>
     
     <item>
@@ -1217,8 +1665,8 @@
 &lt;p&gt;Update: &lt;a href=&quot;/2017/04/23/lawnmower-puzzle-solution/&quot;&gt;my solution&lt;/a&gt; is now available.&lt;/p&gt;
 </description>
       <pubDate>Sat, 08 Apr 2017 00:00:00 -0700</pubDate>
-      <link>http://www.shapeoperator.com/2017/04/08/lawnmower-puzzle/</link>
-      <guid isPermaLink="true">http://www.shapeoperator.com/2017/04/08/lawnmower-puzzle/</guid>
+      <link>http://localhost:4000/2017/04/08/lawnmower-puzzle/</link>
+      <guid isPermaLink="true">http://localhost:4000/2017/04/08/lawnmower-puzzle/</guid>
     </item>
     
     <item>
@@ -1449,8 +1897,8 @@
 &lt;!--Note to self, geo tool state used to generate these diagrams lives at https://www.desmos.com/geometry?state=a410c2210e33--&gt;
 </description>
       <pubDate>Tue, 28 Feb 2017 00:00:00 -0800</pubDate>
-      <link>http://www.shapeoperator.com/2017/02/28/geometry-algebra-intuition/</link>
-      <guid isPermaLink="true">http://www.shapeoperator.com/2017/02/28/geometry-algebra-intuition/</guid>
+      <link>http://localhost:4000/2017/02/28/geometry-algebra-intuition/</link>
+      <guid isPermaLink="true">http://localhost:4000/2017/02/28/geometry-algebra-intuition/</guid>
     </item>
     
     <item>
@@ -1958,8 +2406,8 @@
 &lt;p&gt;Here’s a page spelling out the &lt;a href=&quot;http://www.astro.princeton.edu/~dns/teachersguide/MeasECAct.html&quot;&gt;relevant calculations&lt;/a&gt;. If you live on the West Coast, like me, you don’t even have to wake up early to try this.&lt;/p&gt;
 </description>
       <pubDate>Mon, 12 Dec 2016 00:00:00 -0800</pubDate>
-      <link>http://www.shapeoperator.com/2016/12/12/sunset-geometry/</link>
-      <guid isPermaLink="true">http://www.shapeoperator.com/2016/12/12/sunset-geometry/</guid>
+      <link>http://localhost:4000/2016/12/12/sunset-geometry/</link>
+      <guid isPermaLink="true">http://localhost:4000/2016/12/12/sunset-geometry/</guid>
     </item>
     
     <item>
@@ -2651,8 +3099,8 @@ solution digit sets in a &lt;code class=&quot;highlighter-rouge&quot;&gt;Set&lt;
   &lt;span class=&quot;n&quot;&gt;LLVM&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;libLLVM&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;3.3&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 </description>
       <pubDate>Mon, 02 Nov 2015 00:00:00 -0800</pubDate>
-      <link>http://www.shapeoperator.com/2015/11/02/optimizing-kakuro-in-julia/</link>
-      <guid isPermaLink="true">http://www.shapeoperator.com/2015/11/02/optimizing-kakuro-in-julia/</guid>
+      <link>http://localhost:4000/2015/11/02/optimizing-kakuro-in-julia/</link>
+      <guid isPermaLink="true">http://localhost:4000/2015/11/02/optimizing-kakuro-in-julia/</guid>
     </item>
     
     <item>
@@ -2870,8 +3318,8 @@ solution digit sets in a &lt;code class=&quot;highlighter-rouge&quot;&gt;Set&lt;
 &lt;p&gt;I recently worked with John Verzani to get code very much like this final version of &lt;code class=&quot;highlighter-rouge&quot;&gt;bisect_root&lt;/code&gt; into the &lt;a href=&quot;https://github.com/JuliaLang/Roots.jl&quot;&gt;Roots.jl&lt;/a&gt; package. As of this writing, the &lt;a href=&quot;https://github.com/JuliaLang/Roots.jl/pull/12&quot;&gt;pull request&lt;/a&gt; is currently awaiting review.&lt;/p&gt;
 </description>
       <pubDate>Sat, 22 Feb 2014 00:00:00 -0800</pubDate>
-      <link>http://www.shapeoperator.com/2014/02/22/bisecting-floats/</link>
-      <guid isPermaLink="true">http://www.shapeoperator.com/2014/02/22/bisecting-floats/</guid>
+      <link>http://localhost:4000/2014/02/22/bisecting-floats/</link>
+      <guid isPermaLink="true">http://localhost:4000/2014/02/22/bisecting-floats/</guid>
     </item>
     
   </channel>
