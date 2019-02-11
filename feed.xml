@@ -397,7 +397,7 @@ r_1^2 = r_2^2 &amp;amp;= r_3^2
 &lt;p&gt;If &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;c_1&lt;/span&gt; and &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;c_2&lt;/span&gt; are vectors from two points on a line to a given point not on the line, then the sign of the unit bivector&lt;/p&gt;
 
 &lt;div class=&quot;display-latex&quot;&gt;
-  \frac{\hat{c}_1 \wedge \hat{c}_2}{|\hat{c}_1 \wedge \hat{c}_2|}
+  \frac{c_1 \wedge c_2}{|c_1 \wedge c_2|}
 &lt;/div&gt;
 
 &lt;p&gt;determines which side of the line the given point is on. Given equal squares of products of vectors,&lt;/p&gt;
@@ -409,7 +409,7 @@ r_1^2 = r_2^2 &amp;amp;= r_3^2
 &lt;p&gt;then the products are equal if the corresponding unit bivectors are equal&lt;/p&gt;
 
 &lt;div class=&quot;display-latex&quot;&gt;
-  \frac{\hat{c}_1 \wedge \hat{c}_2}{|\hat{c}_1 \wedge \hat{c}_2|} = \frac{\hat{c}_3 \wedge \hat{c}_4}{|\hat{c}_3 \wedge \hat{c}_4|}
+  \frac{c_1 \wedge c_2}{|c_1 \wedge c_2|} = \frac{c_3 \wedge c_4}{|c_3 \wedge c_4|}
 &lt;/div&gt;
 
 &lt;p&gt;and otherwise the products differ by a sign.&lt;/p&gt;
