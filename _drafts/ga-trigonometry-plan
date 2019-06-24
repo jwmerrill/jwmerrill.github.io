@@ -1,17 +1,17 @@
 - [x] Law of Cosines and dot product
 - [x] Law of Sines and wedge product
-- [ ] Geometric product, angle composition, duality
+- [x] Geometric product, angle composition, duality
 - [ ] Diagonals theorems for rhombus and rectangle, Thales theorems
   * "Today only, two for one on theorems"
   * (a + b) \cdot (a - b) = a^2 - b^2 (diagonals of a rhombus are perpendicular, Thales theorem)
   * (a + b)^2 - (a - b)^2 = 4 a \cdot b (diagonals of a rectangle are equal, median of an equilateral triangle is perpendicular to opposite leg)
-  * (a + b)^2 + (a - b)^2 = 2(a^2 + b^2) (sums of squares of diagonals is twice sums of squares of sides)
+  * (a + b)^2 + (a - b)^2 = 2(a^2 + b^2) (sums of squares of diagonals is twice sums of squares of sides, "parallelogram law")
   * (a + b) \wedge (a - b) = 2 a \wedge b (diagonals form parallelogram with twice the area as the original)
   * Can we prove that if one angle of a parallelogram is 90 degrees, then other is?
     - abb(-a)= - a^2 b^2 always
     - If ab = a \wedge b, then b(-a) = b \wedge (-a) = a \wedge b
-- [ ] Proving Theorems about angles without angles (inscribed angle theorem)
-- [ * n ways of representing condition that vectors are perpendicular
+- [x] Proving Theorems about angles without angles (inscribed angle theorem)
+- [ ] n ways of representing condition that vectors are perpendicular
     * Take a and b as unit vectors
     * (ab)(ab) = -1 (angle bisects straight angle)
     * a(bab) = -1 => bab = -a (reflecting a across b reverses it)
@@ -31,12 +31,15 @@
     * a + c = - (b + d)
     * "The parallelogram equation"
     * (a - c)(a + c)(b - d) = - (a - c)(b + d)(b - d)
-    * "Cycilc quadrilateral equation"
+    * "Kite/dart quadrilateral equation", two pairs of equal sides implies orthogonal diagonals
     * (a + b) \dot (b + c) = (a^2 - b^2 - (c^2 - d^2))
+    * "Cyclic quadrilateral equation"
+    * abcd = dcba https://observablehq.com/d/3dc1e8c71d7a4504
+    * Jacob Rus points out also that for three chords u, v, w, u^{-1} ∧ v^{-1} + v^{-1} ∧ w^{-1} + w^{-1} ∧ u^{-1} = 0, corresponds to observation that inversion of a circle through the origin is a line.
 - [ ] Translating between complex numbers and GA
     Argand diagram--pick a reference vector
     Should be able to prove everything about plane geometry using a weaker algebra where the reference vector is not in the plane
 - [ ] ... something about 3D
-  * e1(e1+e2)e2(Ee2+e3)e3(e3+e1) = e1(e1+e2)(e2+e3)(e3+e1) = (e1+e2)(e2+e3)(e3+e1)e1
+  * e1(e1+e2)e2(e2+e3)e3(e3+e1) = e1(e1+e2)(e2+e3)(e3+e1) = (e1+e2)(e2+e3)(e3+e1)e1
   * As two sided rotation, e1 is an eigenvector, rotates in e2 \wedge e3 plane
   * Scalar when (e1+e2)(e2+e3)(e3+e1) is planar, (i.e. when e1, e2, e3 are)
