@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title>How to lie with units</title>
+   <meta name="author" content="Jason Merrill" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+   <link rel="stylesheet" href="/css/vendor/katex.min.css" type="text/css" />
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/pygments/default.css" type="text/css" />
+
+   
+</head>
+<body class="post">
+  <div class="header">
+    <div class="header-inner">
+      <h3><a href="/">Shape Operator</a></h2>
+      <div class="byline">
+          by Jason Merrill<br />
+          <a href="mailto:jason@shapeoperator.com">jason@shapeoperator.com</a><br />
+          <a href="https://twitter.com/shapeoperator">@shapeoperator</a>
+      </div>
+    </div>
+  </div>
+  <article class="main">
+    <h1><a href="/2020/02/15/how-to-lie-with-units/">How to lie with units</a></h1>
+    <abbr class="date">15 Feb 2020</abbr>
+    <p>For some reason, a six year old study claiming that <a href="https://doi.org/10.1186/1742-9994-10-80">dogs align with Earth’s magnetic field when they poop</a> in “calm magnetic field conditions” is <a href="https://www.google.com/search?q=dog+poop+magnetic+field&amp;tbs=cdr%3A1%2Ccd_min%3A12%2F1%2F2019%2Ccd_max%3A2%2F15%2F2020&amp;tbm=">making the rounds online</a> again. After this article was originally published in December 2013, it was reported uncritically by <a href="https://www.pbs.org/newshour/science/dogs-poop-in-alignment-with-earths-magnetic-field-study-finds">PBS</a>, <a href="https://www.npr.org/sections/thetwo-way/2014/01/03/259416979/everyone-poops-but-dogs-do-it-with-magnetism">NPR</a>, <a href="https://blog.nationalgeographic.org/2014/01/03/dogs-sense-earths-magnetic-field/">National Geographic</a>, <a href="https://www.vice.com/en_us/article/ezvdme/dogs-poop-in-alignment-with-earths-magnetic-field">Vice</a>, and many others.</p>
+
+<p>The study’s conclusions hinge on a surprising distinction: dogs don’t <em>always</em> tend to align with Earth’s magnetic field when they poop; they only tend to do it during times when the field’s direction is especially steady<label for="declination-rate-table" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="declination-rate-table" class="margin-toggle" /><span class="marginnote">These steady conditions occurred about one fifth of the time in the study (<a href="https://frontiersinzoology.biomedcentral.com/articles/10.1186/1742-9994-10-80/tables/8">table 8</a>).</span>.</p>
+
+<p>If you’re familiar with the idea of <a href="https://en.wikipedia.org/wiki/Data_dredging">p-hacking or data dredging</a>, this kind of binning is probably enough to make you anxious<label for="p-hacking" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="p-hacking" class="margin-toggle" /><span class="marginnote">See this <a href="https://www.xkcd.com/882/">xkcd cartoon</a> for a fun take on the general concept, and <a href="http://skeptvet.com/Blog/2014/01/do-dogs-line-themselves-up-with-the-earths-magnetic-field-to-poop/">this post</a> for a criticism of this particular study along these lines.</span>, but I don’t want to focus on statistics today.</p>
+
+<p>Instead, I want to highlight exactly how small these variations in the Earth’s magnetic field direction actually are, because I think the study’s authors took several steps to obscure this point.</p>
+
+<!--more-->
+
+<p>They measure variability of the field in % declination, and find that dogs alignment with the field while pooping is only significant when variability of the fields is less than 0.1%. Okay, but what exactly is this a percentage of? <a href="https://en.wikipedia.org/wiki/Magnetic_declination">Declination</a> essentially just means “direction of the field”—technically it is the angle between the direction of the local magnetic field and the direction to the North Pole, i.e. the angle between magnetic north and geographic north.</p>
+
+<p>What could be meant by a percentage of a direction? My first guess was that maybe % declination meant “percentage of a full turn around a compass,” so that 1% is equivalent to 3.6 degrees. But the authors report observing variations of up to 8%, and I know from experience that a compass doesn’t just sit there swinging around by tens of degrees, at least not unless there is some exciting electrical equipment nearby.</p>
+
+<p>No, the caption of <a href="https://frontiersinzoology.biomedcentral.com/articles/10.1186/1742-9994-10-80/figures/4">figure 4</a> makes it clear that what is actually meant by % declination is arcminutes of change in declination per minute of time. An arcminute is <em>one sixtieth</em> of one degree. Calling this ratio a percentage is an odd pun on two different meanings of the word “minute”: minutes of time and arcminutes of direction<label for="disguising-size" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="disguising-size" class="margin-toggle" /><span class="marginnote">The authors make it easy to miss exactly how small these variations are by using unfamiliar units, and again by using drawings of compasses with a highly exaggerated scale of rotation in figure 4.</span>.</p>
+
+<p>The authors claim that the alignment effect is only significant when the field variation is less than 0.1% declination. One way to rephrase this is that if, in the perhaps one minute it takes a dog to decide which direction to face while pooping, the earth’s magnetic field direction changes by 0.002 degrees, that will have a measurable effect on the behavior of the dog.</p>
+
+<p>To put this in even more familiar terms, imagine the hour hand on a clock. It moves 360 degrees in 12 hours, or 0.5 degrees per minute. The authors are claiming that if the local direction of the Earth’s magnetic field is rotating at a rate that is five times slower than the hour hand on a clock, this will have a measurable effect on the behavior of dogs.</p>
+
+<p>Perhaps you’re willing to believe that dogs are sensitive to magnetic fields. Nature is full of surprises, and there’s good evidence for <a href="https://en.wikipedia.org/wiki/Magnetoreception">magnetoreception</a> in several other species. But are you also willing to believe that dogs are sensitive to such tiny variations in magnetic fields? Much more sensitive than a handheld magnetic compass?</p>
+
+  </article>
+  <script src="/js/vendor/katex.min.js"></script>
+<script src="/js/render-katex.js"></script>
+
+  
+</body>
+</html>
