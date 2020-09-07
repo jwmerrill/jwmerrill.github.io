@@ -67,7 +67,7 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> decompose_rec</span><span class="x">(</span><span class="n">sum</span><span class="x">,</span> <span class="n">m</span><span class="x">)</span>
   <span class="c"># Container to hold all solutions</span>
-  <span class="n">solutions</span> <span class="o">=</span> <span class="n">Vector</span><span class="x">{</span><span class="kt">Int</span><span class="x">}[]</span>
+  <span class="n">solutions</span> <span class="o">=</span> <span class="kt">Vector</span><span class="x">{</span><span class="kt">Int</span><span class="x">}[]</span>
   <span class="c"># Container to hold digits in a single solution</span>
   <span class="n">partial_solution</span> <span class="o">=</span> <span class="kt">Int</span><span class="x">[]</span>
   <span class="n">lower</span> <span class="o">=</span> <span class="mi">1</span>
@@ -119,8 +119,8 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> benchmark_rec</span><span class="x">()</span>
  <span class="n">nmax</span> <span class="o">=</span> <span class="mi">0</span>
- <span class="n">solnmax</span> <span class="o">=</span> <span class="n">Vector</span><span class="x">{</span><span class="kt">Int</span><span class="x">}[]</span>
- <span class="k">for</span> <span class="n">sum</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">45</span><span class="x">,</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">9</span>
+ <span class="n">solnmax</span> <span class="o">=</span> <span class="kt">Vector</span><span class="x">{</span><span class="kt">Int</span><span class="x">}[]</span>
+ <span class="k">for</span> <span class="n">sum</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">45</span><span class="x">,</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">9</span>
    <span class="n">soln</span> <span class="o">=</span> <span class="n">decompose_rec</span><span class="x">(</span><span class="n">sum</span><span class="x">,</span> <span class="n">m</span><span class="x">)</span>
    <span class="k">if</span> <span class="n">length</span><span class="x">(</span><span class="n">soln</span><span class="x">)</span> <span class="o">&gt;</span> <span class="n">nmax</span>
      <span class="n">nmax</span> <span class="o">=</span> <span class="n">length</span><span class="x">(</span><span class="n">soln</span><span class="x">)</span>
@@ -133,9 +133,9 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 <p>and the results:</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@time</span> <span class="n">benchmark_rec</span><span class="x">();</span> <span class="nd">@time</span> <span class="n">benchmark_rec</span><span class="x">()</span>
-<span class="mf">0.038101</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">194.83</span> <span class="n">k</span> <span class="n">allocations</span><span class="x">:</span> <span class="mf">13.916</span> <span class="n">MB</span><span class="x">,</span> <span class="mf">26.53</span><span class="o">%</span> <span class="n">gc</span> <span class="n">time</span><span class="x">)</span>
-<span class="mf">0.009737</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">182.40</span> <span class="n">k</span> <span class="n">allocations</span><span class="x">:</span> <span class="mf">13.293</span> <span class="n">MB</span><span class="x">,</span> <span class="mf">26.66</span><span class="o">%</span> <span class="n">gc</span> <span class="n">time</span><span class="x">)</span>
-<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="x">{</span><span class="n">Array</span><span class="x">{</span><span class="kt">Int</span><span class="x">,</span><span class="mi">1</span><span class="x">},</span><span class="mi">1</span><span class="x">}:</span>
+<span class="mf">0.038101</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">194.83</span> <span class="n">k</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">13.916</span> <span class="n">MB</span><span class="x">,</span> <span class="mf">26.53</span><span class="o">%</span> <span class="n">gc</span> <span class="n">time</span><span class="x">)</span>
+<span class="mf">0.009737</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">182.40</span> <span class="n">k</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">13.293</span> <span class="n">MB</span><span class="x">,</span> <span class="mf">26.66</span><span class="o">%</span> <span class="n">gc</span> <span class="n">time</span><span class="x">)</span>
+<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="kt">Array</span><span class="x">{</span><span class="kt">Array</span><span class="x">{</span><span class="kt">Int</span><span class="x">,</span><span class="mi">1</span><span class="x">},</span><span class="mi">1</span><span class="x">}</span><span class="o">:</span>
  <span class="x">[</span><span class="mi">1</span><span class="x">,</span><span class="mi">2</span><span class="x">,</span><span class="mi">8</span><span class="x">,</span><span class="mi">9</span><span class="x">]</span>
  <span class="x">[</span><span class="mi">1</span><span class="x">,</span><span class="mi">3</span><span class="x">,</span><span class="mi">7</span><span class="x">,</span><span class="mi">9</span><span class="x">]</span>
  <span class="x">[</span><span class="mi">1</span><span class="x">,</span><span class="mi">4</span><span class="x">,</span><span class="mi">6</span><span class="x">,</span><span class="mi">9</span><span class="x">]</span>
@@ -174,8 +174,8 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 
 <p>Julia ships with built in routines for iterating through combinations of the elements of a collection<label for="mn-combinations-src" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="mn-combinations-src" class="margin-toggle" /><span class="marginnote">If you’re curious, you can see how the <code class="highlighter-rouge">combinations</code> iterator is implemented in <a href="https://github.com/JuliaLang/julia/blob/d594954e299617fdf72af6a896a5ff89c5d831f1/base/combinatorics.jl#L172-L209">Julia’s source code</a>.</span>. Instead of recursively building combinations with the correct sum, we can just look at all combinations and keep only those that have the correct sum. The number of combinations of <em>m</em> digits between 1 and 9 is <code class="highlighter-rouge">binomial(9, m)</code>,</p>
 
-<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="x">[(</span><span class="n">m</span><span class="x">,</span> <span class="n">binomial</span><span class="x">(</span><span class="mi">9</span><span class="x">,</span> <span class="n">m</span><span class="x">))</span> <span class="k">for</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">0</span><span class="x">:</span><span class="mi">9</span><span class="x">]</span>
-<span class="mi">10</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="x">{</span><span class="n">Tuple</span><span class="x">{</span><span class="kt">Int64</span><span class="x">,</span><span class="kt">Int64</span><span class="x">},</span><span class="mi">1</span><span class="x">}:</span>
+<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="x">[(</span><span class="n">m</span><span class="x">,</span> <span class="n">binomial</span><span class="x">(</span><span class="mi">9</span><span class="x">,</span> <span class="n">m</span><span class="x">))</span> <span class="k">for</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">0</span><span class="o">:</span><span class="mi">9</span><span class="x">]</span>
+<span class="mi">10</span><span class="o">-</span><span class="n">element</span> <span class="kt">Array</span><span class="x">{</span><span class="kt">Tuple</span><span class="x">{</span><span class="kt">Int64</span><span class="x">,</span><span class="kt">Int64</span><span class="x">},</span><span class="mi">1</span><span class="x">}</span><span class="o">:</span>
  <span class="x">(</span><span class="mi">0</span><span class="x">,</span><span class="mi">1</span><span class="x">)</span>
  <span class="x">(</span><span class="mi">1</span><span class="x">,</span><span class="mi">9</span><span class="x">)</span>
  <span class="x">(</span><span class="mi">2</span><span class="x">,</span><span class="mi">36</span><span class="x">)</span>
@@ -192,8 +192,8 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 <p>Here’s a solution that uses this strategy:</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> decompose_com</span><span class="x">(</span><span class="n">desired_sum</span><span class="x">,</span> <span class="n">m</span><span class="x">)</span>
-  <span class="n">solutions</span> <span class="o">=</span> <span class="n">Vector</span><span class="x">{</span><span class="kt">Int</span><span class="x">}[]</span>
-  <span class="k">for</span> <span class="n">c</span> <span class="k">in</span> <span class="n">combinations</span><span class="x">(</span><span class="mi">1</span><span class="x">:</span><span class="mi">9</span><span class="x">,</span> <span class="n">m</span><span class="x">)</span>
+  <span class="n">solutions</span> <span class="o">=</span> <span class="kt">Vector</span><span class="x">{</span><span class="kt">Int</span><span class="x">}[]</span>
+  <span class="k">for</span> <span class="n">c</span> <span class="k">in</span> <span class="n">combinations</span><span class="x">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">9</span><span class="x">,</span> <span class="n">m</span><span class="x">)</span>
     <span class="k">if</span> <span class="n">sum</span><span class="x">(</span><span class="n">c</span><span class="x">)</span> <span class="o">==</span> <span class="n">desired_sum</span>
       <span class="n">push!</span><span class="x">(</span><span class="n">solutions</span><span class="x">,</span> <span class="n">c</span><span class="x">)</span>
     <span class="k">end</span>
@@ -207,8 +207,8 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> benchmark_com</span><span class="x">()</span>
   <span class="n">nmax</span> <span class="o">=</span> <span class="mi">0</span>
-  <span class="n">solnmax</span> <span class="o">=</span> <span class="n">Vector</span><span class="x">{</span><span class="kt">Int</span><span class="x">}[]</span>
-  <span class="k">for</span> <span class="n">sum</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">45</span><span class="x">,</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">9</span>
+  <span class="n">solnmax</span> <span class="o">=</span> <span class="kt">Vector</span><span class="x">{</span><span class="kt">Int</span><span class="x">}[]</span>
+  <span class="k">for</span> <span class="n">sum</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">45</span><span class="x">,</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">9</span>
     <span class="n">soln</span> <span class="o">=</span> <span class="n">decompose_com</span><span class="x">(</span><span class="n">sum</span><span class="x">,</span> <span class="n">m</span><span class="x">)</span>
     <span class="k">if</span> <span class="n">length</span><span class="x">(</span><span class="n">soln</span><span class="x">)</span> <span class="o">&gt;</span> <span class="n">nmax</span>
       <span class="n">nmax</span> <span class="o">=</span> <span class="n">length</span><span class="x">(</span><span class="n">soln</span><span class="x">)</span>
@@ -221,20 +221,20 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 <p>I’m running the benchmark repeatedly below because some runs invoke the garbage collector, and other runs don’t.</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@time</span> <span class="n">benchmark_com</span><span class="x">();</span>
-  <span class="mf">0.042942</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">102.48</span> <span class="n">k</span> <span class="n">allocations</span><span class="x">:</span> <span class="mf">6.814</span> <span class="n">MB</span><span class="x">)</span>
+  <span class="mf">0.042942</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">102.48</span> <span class="n">k</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">6.814</span> <span class="n">MB</span><span class="x">)</span>
 <span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@time</span> <span class="n">benchmark_com</span><span class="x">();</span>
-  <span class="mf">0.006712</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">70.39</span> <span class="n">k</span> <span class="n">allocations</span><span class="x">:</span> <span class="mf">5.357</span> <span class="n">MB</span><span class="x">,</span> <span class="mf">45.27</span><span class="o">%</span> <span class="n">gc</span> <span class="n">time</span><span class="x">)</span>
+  <span class="mf">0.006712</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">70.39</span> <span class="n">k</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">5.357</span> <span class="n">MB</span><span class="x">,</span> <span class="mf">45.27</span><span class="o">%</span> <span class="n">gc</span> <span class="n">time</span><span class="x">)</span>
 <span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@time</span> <span class="n">benchmark_com</span><span class="x">();</span>
-  <span class="mf">0.004499</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">70.39</span> <span class="n">k</span> <span class="n">allocations</span><span class="x">:</span> <span class="mf">5.357</span> <span class="n">MB</span><span class="x">)</span>
+  <span class="mf">0.004499</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">70.39</span> <span class="n">k</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">5.357</span> <span class="n">MB</span><span class="x">)</span>
 <span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@time</span> <span class="n">benchmark_com</span><span class="x">();</span>
-  <span class="mf">0.005283</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">70.39</span> <span class="n">k</span> <span class="n">allocations</span><span class="x">:</span> <span class="mf">5.357</span> <span class="n">MB</span><span class="x">)</span>
+  <span class="mf">0.005283</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">70.39</span> <span class="n">k</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">5.357</span> <span class="n">MB</span><span class="x">)</span>
 <span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@time</span> <span class="n">benchmark_com</span><span class="x">();</span>
-  <span class="mf">0.005495</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">70.39</span> <span class="n">k</span> <span class="n">allocations</span><span class="x">:</span> <span class="mf">5.357</span> <span class="n">MB</span><span class="x">)</span>
+  <span class="mf">0.005495</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">70.39</span> <span class="n">k</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">5.357</span> <span class="n">MB</span><span class="x">)</span>
 <span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@time</span> <span class="n">benchmark_com</span><span class="x">();</span>
-  <span class="mf">0.005883</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">70.39</span> <span class="n">k</span> <span class="n">allocations</span><span class="x">:</span> <span class="mf">5.357</span> <span class="n">MB</span><span class="x">,</span> <span class="mf">36.67</span><span class="o">%</span> <span class="n">gc</span> <span class="n">time</span><span class="x">)</span>
+  <span class="mf">0.005883</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">70.39</span> <span class="n">k</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">5.357</span> <span class="n">MB</span><span class="x">,</span> <span class="mf">36.67</span><span class="o">%</span> <span class="n">gc</span> <span class="n">time</span><span class="x">)</span>
 <span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@time</span> <span class="n">benchmark_com</span><span class="x">()</span>
-  <span class="mf">0.002831</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">70.39</span> <span class="n">k</span> <span class="n">allocations</span><span class="x">:</span> <span class="mf">5.357</span> <span class="n">MB</span><span class="x">)</span>
-<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="x">{</span><span class="n">Array</span><span class="x">{</span><span class="kt">Int</span><span class="x">,</span><span class="mi">1</span><span class="x">},</span><span class="mi">1</span><span class="x">}:</span>
+  <span class="mf">0.002831</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">70.39</span> <span class="n">k</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">5.357</span> <span class="n">MB</span><span class="x">)</span>
+<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="kt">Array</span><span class="x">{</span><span class="kt">Array</span><span class="x">{</span><span class="kt">Int</span><span class="x">,</span><span class="mi">1</span><span class="x">},</span><span class="mi">1</span><span class="x">}</span><span class="o">:</span>
  <span class="x">[</span><span class="mi">1</span><span class="x">,</span><span class="mi">2</span><span class="x">,</span><span class="mi">8</span><span class="x">,</span><span class="mi">9</span><span class="x">]</span>
  <span class="x">[</span><span class="mi">1</span><span class="x">,</span><span class="mi">3</span><span class="x">,</span><span class="mi">7</span><span class="x">,</span><span class="mi">9</span><span class="x">]</span>
  <span class="x">[</span><span class="mi">1</span><span class="x">,</span><span class="mi">4</span><span class="x">,</span><span class="mi">6</span><span class="x">,</span><span class="mi">9</span><span class="x">]</span>
@@ -259,9 +259,9 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> buildlut</span><span class="x">()</span>
   <span class="c"># Preallocate empty containers for each</span>
   <span class="c"># (sum, m) pair.</span>
-  <span class="n">lut</span> <span class="o">=</span> <span class="x">[</span><span class="n">Vector</span><span class="x">{</span><span class="kt">Int</span><span class="x">}[]</span> <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">45</span><span class="x">,</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">9</span><span class="x">]</span>
+  <span class="n">lut</span> <span class="o">=</span> <span class="x">[</span><span class="kt">Vector</span><span class="x">{</span><span class="kt">Int</span><span class="x">}[]</span> <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">45</span><span class="x">,</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">9</span><span class="x">]</span>
 
-  <span class="k">for</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">9</span><span class="x">,</span> <span class="n">c</span> <span class="k">in</span> <span class="n">combinations</span><span class="x">(</span><span class="mi">1</span><span class="x">:</span><span class="mi">9</span><span class="x">,</span> <span class="n">m</span><span class="x">)</span>
+  <span class="k">for</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">9</span><span class="x">,</span> <span class="n">c</span> <span class="k">in</span> <span class="n">combinations</span><span class="x">(</span><span class="mi">1</span><span class="o">:</span><span class="mi">9</span><span class="x">,</span> <span class="n">m</span><span class="x">)</span>
     <span class="n">push!</span><span class="x">(</span><span class="n">lut</span><span class="x">[</span><span class="n">sum</span><span class="x">(</span><span class="n">c</span><span class="x">),</span> <span class="n">m</span><span class="x">],</span> <span class="n">c</span><span class="x">)</span>
   <span class="k">end</span>
 
@@ -276,8 +276,8 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> benchmark_lut</span><span class="x">()</span>
   <span class="n">lut</span> <span class="o">=</span> <span class="n">buildlut</span><span class="x">()</span>
   <span class="n">nmax</span> <span class="o">=</span> <span class="mi">0</span>
-  <span class="n">solnmax</span> <span class="o">=</span> <span class="n">Vector</span><span class="x">{</span><span class="kt">Int</span><span class="x">}[]</span>
-  <span class="k">for</span> <span class="n">sum</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">45</span><span class="x">,</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">9</span>
+  <span class="n">solnmax</span> <span class="o">=</span> <span class="kt">Vector</span><span class="x">{</span><span class="kt">Int</span><span class="x">}[]</span>
+  <span class="k">for</span> <span class="n">sum</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">45</span><span class="x">,</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">9</span>
     <span class="n">soln</span> <span class="o">=</span> <span class="n">decompose_lut</span><span class="x">(</span><span class="n">lut</span><span class="x">,</span> <span class="n">sum</span><span class="x">,</span> <span class="n">m</span><span class="x">)</span>
     <span class="k">if</span> <span class="n">length</span><span class="x">(</span><span class="n">soln</span><span class="x">)</span> <span class="o">&gt;</span> <span class="n">nmax</span>
       <span class="n">nmax</span> <span class="o">=</span> <span class="n">length</span><span class="x">(</span><span class="n">soln</span><span class="x">)</span>
@@ -288,9 +288,9 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 <span class="k">end</span></code></pre></figure>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@time</span> <span class="n">benchmark_lut</span><span class="x">();</span> <span class="nd">@time</span> <span class="n">benchmark_lut</span><span class="x">()</span>
-  <span class="mf">0.048013</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">49.26</span> <span class="n">k</span> <span class="n">allocations</span><span class="x">:</span> <span class="mf">2.317</span> <span class="n">MB</span><span class="x">)</span>
-  <span class="mf">0.000158</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">2.15</span> <span class="n">k</span> <span class="n">allocations</span><span class="x">:</span> <span class="mf">161.313</span> <span class="n">KB</span><span class="x">)</span>
-<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="x">{</span><span class="n">Array</span><span class="x">{</span><span class="kt">Int</span><span class="x">,</span><span class="mi">1</span><span class="x">},</span><span class="mi">1</span><span class="x">}:</span>
+  <span class="mf">0.048013</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">49.26</span> <span class="n">k</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">2.317</span> <span class="n">MB</span><span class="x">)</span>
+  <span class="mf">0.000158</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">2.15</span> <span class="n">k</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">161.313</span> <span class="n">KB</span><span class="x">)</span>
+<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="kt">Array</span><span class="x">{</span><span class="kt">Array</span><span class="x">{</span><span class="kt">Int</span><span class="x">,</span><span class="mi">1</span><span class="x">},</span><span class="mi">1</span><span class="x">}</span><span class="o">:</span>
  <span class="x">[</span><span class="mi">1</span><span class="x">,</span><span class="mi">2</span><span class="x">,</span><span class="mi">8</span><span class="x">,</span><span class="mi">9</span><span class="x">]</span>
  <span class="x">[</span><span class="mi">1</span><span class="x">,</span><span class="mi">3</span><span class="x">,</span><span class="mi">7</span><span class="x">,</span><span class="mi">9</span><span class="x">]</span>
  <span class="x">[</span><span class="mi">1</span><span class="x">,</span><span class="mi">4</span><span class="x">,</span><span class="mi">6</span><span class="x">,</span><span class="mi">9</span><span class="x">]</span>
@@ -314,8 +314,8 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 
 <span class="k">function</span><span class="nf"> benchmark_lut_precomputed</span><span class="x">()</span>
   <span class="n">nmax</span> <span class="o">=</span> <span class="mi">0</span>
-  <span class="n">solnmax</span> <span class="o">=</span> <span class="n">Vector</span><span class="x">{</span><span class="kt">Int</span><span class="x">}[]</span>
-  <span class="k">for</span> <span class="n">sum</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">45</span><span class="x">,</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">9</span>
+  <span class="n">solnmax</span> <span class="o">=</span> <span class="kt">Vector</span><span class="x">{</span><span class="kt">Int</span><span class="x">}[]</span>
+  <span class="k">for</span> <span class="n">sum</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">45</span><span class="x">,</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">9</span>
     <span class="n">soln</span> <span class="o">=</span> <span class="n">decompose_lut</span><span class="x">(</span><span class="n">lut</span><span class="x">,</span> <span class="n">sum</span><span class="x">,</span> <span class="n">m</span><span class="x">)</span>
     <span class="k">if</span> <span class="n">length</span><span class="x">(</span><span class="n">soln</span><span class="x">)</span> <span class="o">&gt;</span> <span class="n">nmax</span>
       <span class="n">nmax</span> <span class="o">=</span> <span class="n">length</span><span class="x">(</span><span class="n">soln</span><span class="x">)</span>
@@ -328,10 +328,10 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 <p>Here are the results:</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@time</span> <span class="n">benchmark_lut_precomputed</span><span class="x">();</span>
-  <span class="mf">0.006212</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">4.04</span> <span class="n">k</span> <span class="n">allocations</span><span class="x">:</span> <span class="mf">197.841</span> <span class="n">KB</span><span class="x">)</span>
+  <span class="mf">0.006212</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">4.04</span> <span class="n">k</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">197.841</span> <span class="n">KB</span><span class="x">)</span>
 <span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@time</span> <span class="n">benchmark_lut_precomputed</span><span class="x">()</span>
-  <span class="mf">0.000007</span> <span class="n">seconds</span> <span class="x">(</span><span class="mi">5</span> <span class="n">allocations</span><span class="x">:</span> <span class="mi">224</span> <span class="n">bytes</span><span class="x">)</span>
-<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="x">{</span><span class="n">Array</span><span class="x">{</span><span class="kt">Int</span><span class="x">,</span><span class="mi">1</span><span class="x">},</span><span class="mi">1</span><span class="x">}:</span>
+  <span class="mf">0.000007</span> <span class="n">seconds</span> <span class="x">(</span><span class="mi">5</span> <span class="n">allocations</span><span class="o">:</span> <span class="mi">224</span> <span class="n">bytes</span><span class="x">)</span>
+<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="kt">Array</span><span class="x">{</span><span class="kt">Array</span><span class="x">{</span><span class="kt">Int</span><span class="x">,</span><span class="mi">1</span><span class="x">},</span><span class="mi">1</span><span class="x">}</span><span class="o">:</span>
  <span class="x">[</span><span class="mi">1</span><span class="x">,</span><span class="mi">2</span><span class="x">,</span><span class="mi">8</span><span class="x">,</span><span class="mi">9</span><span class="x">]</span>
  <span class="x">[</span><span class="mi">1</span><span class="x">,</span><span class="mi">3</span><span class="x">,</span><span class="mi">7</span><span class="x">,</span><span class="mi">9</span><span class="x">]</span>
  <span class="x">[</span><span class="mi">1</span><span class="x">,</span><span class="mi">4</span><span class="x">,</span><span class="mi">6</span><span class="x">,</span><span class="mi">9</span><span class="x">]</span>
@@ -349,8 +349,8 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> benchmark_lut_precomputed_x_1e6</span><span class="x">()</span>
   <span class="n">nmax</span> <span class="o">=</span> <span class="mi">0</span>
-  <span class="n">solnmax</span> <span class="o">=</span> <span class="n">Vector</span><span class="x">{</span><span class="kt">Int</span><span class="x">}[]</span>
-  <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">1_000_000</span><span class="x">,</span> <span class="n">sum</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">45</span><span class="x">,</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">9</span>
+  <span class="n">solnmax</span> <span class="o">=</span> <span class="kt">Vector</span><span class="x">{</span><span class="kt">Int</span><span class="x">}[]</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">1_000_000</span><span class="x">,</span> <span class="n">sum</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">45</span><span class="x">,</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">9</span>
     <span class="n">soln</span> <span class="o">=</span> <span class="n">decompose_lut</span><span class="x">(</span><span class="n">lut</span><span class="x">,</span> <span class="n">sum</span><span class="x">,</span> <span class="n">m</span><span class="x">)</span>
     <span class="k">if</span> <span class="n">length</span><span class="x">(</span><span class="n">soln</span><span class="x">)</span> <span class="o">&gt;</span> <span class="n">nmax</span>
       <span class="n">nmax</span> <span class="o">=</span> <span class="n">length</span><span class="x">(</span><span class="n">soln</span><span class="x">)</span>
@@ -363,10 +363,10 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 <p>The results:</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@time</span> <span class="n">benchmark_lut_precomputed_x_1e6</span><span class="x">();</span>
-  <span class="mf">0.562733</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">6.12</span> <span class="n">k</span> <span class="n">allocations</span><span class="x">:</span> <span class="mf">292.998</span> <span class="n">KB</span><span class="x">)</span>
+  <span class="mf">0.562733</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">6.12</span> <span class="n">k</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">292.998</span> <span class="n">KB</span><span class="x">)</span>
 <span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@time</span> <span class="n">benchmark_lut_precomputed_x_1e6</span><span class="x">()</span>
-  <span class="mf">0.546012</span> <span class="n">seconds</span> <span class="x">(</span><span class="mi">5</span> <span class="n">allocations</span><span class="x">:</span> <span class="mi">224</span> <span class="n">bytes</span><span class="x">)</span>
-<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="x">{</span><span class="n">Array</span><span class="x">{</span><span class="kt">Int</span><span class="x">,</span><span class="mi">1</span><span class="x">},</span><span class="mi">1</span><span class="x">}:</span>
+  <span class="mf">0.546012</span> <span class="n">seconds</span> <span class="x">(</span><span class="mi">5</span> <span class="n">allocations</span><span class="o">:</span> <span class="mi">224</span> <span class="n">bytes</span><span class="x">)</span>
+<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="kt">Array</span><span class="x">{</span><span class="kt">Array</span><span class="x">{</span><span class="kt">Int</span><span class="x">,</span><span class="mi">1</span><span class="x">},</span><span class="mi">1</span><span class="x">}</span><span class="o">:</span>
  <span class="x">[</span><span class="mi">1</span><span class="x">,</span><span class="mi">2</span><span class="x">,</span><span class="mi">8</span><span class="x">,</span><span class="mi">9</span><span class="x">]</span>
  <span class="x">[</span><span class="mi">1</span><span class="x">,</span><span class="mi">3</span><span class="x">,</span><span class="mi">7</span><span class="x">,</span><span class="mi">9</span><span class="x">]</span>
  <span class="x">[</span><span class="mi">1</span><span class="x">,</span><span class="mi">4</span><span class="x">,</span><span class="mi">6</span><span class="x">,</span><span class="mi">9</span><span class="x">]</span>
@@ -399,7 +399,7 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 
 <p>All we really need to switch our table over to this new representation is a way to convert an <code class="highlighter-rouge">Int16</code> bitmask into a set of digits. As an optimization, I’ll also implement routines that count the digits and sum them without producing an intermediate array.</p>
 
-<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> bitmaskdigits</span><span class="x">(</span><span class="n">x</span><span class="o">::</span><span class="n">Integer</span><span class="x">)</span>
+<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> bitmaskdigits</span><span class="x">(</span><span class="n">x</span><span class="o">::</span><span class="kt">Integer</span><span class="x">)</span>
   <span class="n">digits</span> <span class="o">=</span> <span class="kt">Int</span><span class="x">[]</span>
   <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
   <span class="k">while</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span>
@@ -411,7 +411,7 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
   <span class="n">digits</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="nf"> bitmasksum</span><span class="x">(</span><span class="n">x</span><span class="o">::</span><span class="n">Integer</span><span class="x">)</span>
+<span class="k">function</span><span class="nf"> bitmasksum</span><span class="x">(</span><span class="n">x</span><span class="o">::</span><span class="kt">Integer</span><span class="x">)</span>
   <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
   <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
   <span class="k">while</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span>
@@ -423,16 +423,16 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
   <span class="n">sum</span>
 <span class="k">end</span>
 
-<span class="n">bitmaskcount</span><span class="x">(</span><span class="n">x</span><span class="o">::</span><span class="n">Integer</span><span class="x">)</span> <span class="o">=</span> <span class="n">count_ones</span><span class="x">(</span><span class="n">x</span><span class="x">)</span></code></pre></figure>
+<span class="n">bitmaskcount</span><span class="x">(</span><span class="n">x</span><span class="o">::</span><span class="kt">Integer</span><span class="x">)</span> <span class="o">=</span> <span class="n">count_ones</span><span class="x">(</span><span class="n">x</span><span class="x">)</span></code></pre></figure>
 
 <p>With these operations defined, we can implement a very similar version of table-based decompose as before:</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> buildlut_int</span><span class="x">()</span>
-  <span class="n">lut</span> <span class="o">=</span> <span class="x">[</span><span class="kt">Int16</span><span class="x">[]</span> <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">45</span><span class="x">,</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">9</span><span class="x">]</span>
+  <span class="n">lut</span> <span class="o">=</span> <span class="x">[</span><span class="kt">Int16</span><span class="x">[]</span> <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">45</span><span class="x">,</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">9</span><span class="x">]</span>
 
   <span class="c"># Only 511 bitmasks because we're skipping the</span>
   <span class="c"># empty set</span>
-  <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">511</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">511</span>
     <span class="n">push!</span><span class="x">(</span><span class="n">lut</span><span class="x">[</span><span class="n">bitmasksum</span><span class="x">(</span><span class="n">i</span><span class="x">),</span> <span class="n">bitmaskcount</span><span class="x">(</span><span class="n">i</span><span class="x">)],</span> <span class="n">i</span><span class="x">)</span>
   <span class="k">end</span>
 
@@ -442,8 +442,8 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 <p>Let’s see how long it takes to build the look up table now:</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@time</span> <span class="n">buildlut_int</span><span class="x">();</span> <span class="nd">@time</span> <span class="n">buildlut_int</span><span class="x">();</span>
-  <span class="mf">0.022075</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">20.20</span> <span class="n">k</span> <span class="n">allocations</span><span class="x">:</span> <span class="mf">971.572</span> <span class="n">KB</span><span class="x">)</span>
-  <span class="mf">0.000076</span> <span class="n">seconds</span> <span class="x">(</span><span class="mi">597</span> <span class="n">allocations</span><span class="x">:</span> <span class="mf">32.766</span> <span class="n">KB</span><span class="x">)</span></code></pre></figure>
+  <span class="mf">0.022075</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">20.20</span> <span class="n">k</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">971.572</span> <span class="n">KB</span><span class="x">)</span>
+  <span class="mf">0.000076</span> <span class="n">seconds</span> <span class="x">(</span><span class="mi">597</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">32.766</span> <span class="n">KB</span><span class="x">)</span></code></pre></figure>
 
 <p>With this new representation, we’re down to only 80μs to build the look up table (twice as fast as before), and it also takes up less memory. We can also expect set operations like intersection and union to be faster on these bitmasks than they would be on a <code class="highlighter-rouge">Vector{Int}</code>.</p>
 
@@ -455,8 +455,8 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 
 <span class="k">function</span><span class="nf"> benchmark_lut_int_precomputed_x_1e6</span><span class="x">()</span>
   <span class="n">nmax</span> <span class="o">=</span> <span class="mi">0</span>
-  <span class="n">solnmax</span> <span class="o">=</span> <span class="n">Vector</span><span class="x">{</span><span class="kt">Int</span><span class="x">}[]</span>
-  <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">1_000_000</span><span class="x">,</span> <span class="n">sum</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">45</span><span class="x">,</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">9</span>
+  <span class="n">solnmax</span> <span class="o">=</span> <span class="kt">Vector</span><span class="x">{</span><span class="kt">Int</span><span class="x">}[]</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">1_000_000</span><span class="x">,</span> <span class="n">sum</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">45</span><span class="x">,</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">9</span>
     <span class="n">soln</span> <span class="o">=</span> <span class="n">decompose_lut_int</span><span class="x">(</span><span class="n">lut_int</span><span class="x">,</span> <span class="n">sum</span><span class="x">,</span> <span class="n">m</span><span class="x">)</span>
     <span class="k">if</span> <span class="n">length</span><span class="x">(</span><span class="n">soln</span><span class="x">)</span> <span class="o">&gt;</span> <span class="n">nmax</span>
       <span class="n">nmax</span> <span class="o">=</span> <span class="n">length</span><span class="x">(</span><span class="n">soln</span><span class="x">)</span>
@@ -467,10 +467,10 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 <span class="k">end</span></code></pre></figure>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@time</span> <span class="n">benchmark_lut_int_precomputed_x_1e6</span><span class="x">();</span>
-  <span class="mf">0.561131</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">8.69</span> <span class="n">k</span> <span class="n">allocations</span><span class="x">:</span> <span class="mf">428.280</span> <span class="n">KB</span><span class="x">)</span>
+  <span class="mf">0.561131</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">8.69</span> <span class="n">k</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">428.280</span> <span class="n">KB</span><span class="x">)</span>
 <span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@time</span> <span class="n">benchmark_lut_int_precomputed_x_1e6</span><span class="x">()</span>
-  <span class="mf">0.567186</span> <span class="n">seconds</span> <span class="x">(</span><span class="mi">5</span> <span class="n">allocations</span><span class="x">:</span> <span class="mi">224</span> <span class="n">bytes</span><span class="x">)</span>
-<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="x">{</span><span class="kt">Int16</span><span class="x">,</span><span class="mi">1</span><span class="x">}:</span>
+  <span class="mf">0.567186</span> <span class="n">seconds</span> <span class="x">(</span><span class="mi">5</span> <span class="n">allocations</span><span class="o">:</span> <span class="mi">224</span> <span class="n">bytes</span><span class="x">)</span>
+<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="kt">Array</span><span class="x">{</span><span class="kt">Int16</span><span class="x">,</span><span class="mi">1</span><span class="x">}</span><span class="o">:</span>
  <span class="mi">108</span>
  <span class="mi">114</span>
  <span class="mi">156</span>
@@ -492,7 +492,7 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
     <span class="n">bitmaskdigits</span><span class="x">,</span>
     <span class="n">benchmark_lut_int_precomputed_x_1e6</span><span class="x">()</span>
   <span class="x">)</span>
-<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="x">{</span><span class="n">Array</span><span class="x">{</span><span class="kt">Int</span><span class="x">,</span><span class="mi">1</span><span class="x">},</span><span class="mi">1</span><span class="x">}:</span>
+<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="kt">Array</span><span class="x">{</span><span class="kt">Array</span><span class="x">{</span><span class="kt">Int</span><span class="x">,</span><span class="mi">1</span><span class="x">},</span><span class="mi">1</span><span class="x">}</span><span class="o">:</span>
  <span class="x">[</span><span class="mi">3</span><span class="x">,</span><span class="mi">4</span><span class="x">,</span><span class="mi">6</span><span class="x">,</span><span class="mi">7</span><span class="x">]</span>
  <span class="x">[</span><span class="mi">2</span><span class="x">,</span><span class="mi">5</span><span class="x">,</span><span class="mi">6</span><span class="x">,</span><span class="mi">7</span><span class="x">]</span>
  <span class="x">[</span><span class="mi">3</span><span class="x">,</span><span class="mi">4</span><span class="x">,</span><span class="mi">5</span><span class="x">,</span><span class="mi">8</span><span class="x">]</span>
@@ -542,14 +542,14 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 <p>Then we can collect digits into whatever kind of container we want, or iterate over them in a streaming fashion. For example, here we collect a DigitSet into a <code class="highlighter-rouge">Vector{Int8}</code>:</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">collect</span><span class="x">(</span><span class="kt">Int8</span><span class="x">,</span> <span class="n">DigitSet</span><span class="x">(</span><span class="mi">100</span><span class="x">))</span>
-<span class="mi">3</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="x">{</span><span class="kt">Int8</span><span class="x">,</span><span class="mi">1</span><span class="x">}:</span>
+<span class="mi">3</span><span class="o">-</span><span class="n">element</span> <span class="kt">Array</span><span class="x">{</span><span class="kt">Int8</span><span class="x">,</span><span class="mi">1</span><span class="x">}</span><span class="o">:</span>
  <span class="mi">3</span>
  <span class="mi">6</span>
  <span class="mi">7</span></code></pre></figure>
 
 <p>Now let’s define a way to construct digit sets from an array of digits, and a nicer way to display them:</p>
 
-<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> DigitSet</span><span class="x">(</span><span class="n">a</span><span class="o">::</span><span class="n">AbstractArray</span><span class="x">)</span>
+<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> DigitSet</span><span class="x">(</span><span class="n">a</span><span class="o">::</span><span class="kt">AbstractArray</span><span class="x">)</span>
   <span class="n">d</span> <span class="o">=</span> <span class="kt">Int16</span><span class="x">(</span><span class="mi">0</span><span class="x">)</span>
   <span class="c"># For each digit in a, set the corresponding</span>
   <span class="c"># bit in d to 1.</span>
@@ -559,7 +559,7 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
   <span class="n">DigitSet</span><span class="x">(</span><span class="n">d</span><span class="x">)</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="nf"> Base</span><span class="o">.</span><span class="n">show</span><span class="x">(</span><span class="n">io</span><span class="o">::</span><span class="n">IO</span><span class="x">,</span> <span class="n">ds</span><span class="o">::</span><span class="n">DigitSet</span><span class="x">)</span>
+<span class="k">function</span><span class="nf"> Base</span><span class="o">.</span><span class="n">show</span><span class="x">(</span><span class="n">io</span><span class="o">::</span><span class="kt">IO</span><span class="x">,</span> <span class="n">ds</span><span class="o">::</span><span class="n">DigitSet</span><span class="x">)</span>
   <span class="n">print</span><span class="x">(</span><span class="n">io</span><span class="x">,</span> <span class="s">"DigitSet"</span><span class="x">)</span>
   <span class="n">print</span><span class="x">(</span><span class="n">io</span><span class="x">,</span> <span class="s">"(["</span><span class="x">)</span>
   <span class="n">print_joined</span><span class="x">(</span><span class="n">io</span><span class="x">,</span> <span class="n">ds</span><span class="x">,</span> <span class="s">","</span><span class="x">)</span>
@@ -604,9 +604,9 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 <span class="n">julia</span><span class="o">&gt;</span> <span class="n">symdiff</span><span class="x">(</span><span class="n">a</span><span class="x">,</span> <span class="n">b</span><span class="x">)</span>
 <span class="n">DigitSet</span><span class="x">([</span><span class="mi">1</span><span class="x">,</span><span class="mi">5</span><span class="x">,</span><span class="mi">7</span><span class="x">])</span>
 <span class="n">julia</span><span class="o">&gt;</span> <span class="mi">7</span> <span class="k">in</span> <span class="n">a</span>
-<span class="n">true</span>
+<span class="nb">true</span>
 <span class="n">julia</span><span class="o">&gt;</span> <span class="mi">7</span> <span class="k">in</span> <span class="n">b</span>
-<span class="n">false</span></code></pre></figure>
+<span class="nb">false</span></code></pre></figure>
 
 <p>Because we hooked into the iteration protocol, we also get implementations of <code class="highlighter-rouge">sum</code>, <code class="highlighter-rouge">minimum</code>, <code class="highlighter-rouge">maximum</code>, etc. for free:</p>
 
@@ -620,18 +620,18 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 <p>And for those of us who have worked with other people’s code (or our own code, 3 months later) often enough to appreciate having boundaries:</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span>
-<span class="n">ERROR</span><span class="x">:</span> <span class="n">MethodError</span><span class="x">:</span> <span class="sb">`+`</span> <span class="n">has</span> <span class="n">no</span> <span class="n">method</span> <span class="n">matching</span> <span class="o">+</span><span class="x">(</span><span class="o">::</span><span class="n">DigitSet</span><span class="x">,</span> <span class="o">::</span><span class="n">DigitSet</span><span class="x">)</span>
-<span class="n">Closest</span> <span class="n">candidates</span> <span class="n">are</span><span class="x">:</span>
+<span class="n">ERROR</span><span class="o">:</span> <span class="kt">MethodError</span><span class="o">:</span> <span class="sb">`+`</span> <span class="n">has</span> <span class="n">no</span> <span class="n">method</span> <span class="n">matching</span> <span class="o">+</span><span class="x">(</span><span class="o">::</span><span class="n">DigitSet</span><span class="x">,</span> <span class="o">::</span><span class="n">DigitSet</span><span class="x">)</span>
+<span class="n">Closest</span> <span class="n">candidates</span> <span class="n">are</span><span class="o">:</span>
   <span class="o">+</span><span class="x">(</span><span class="o">::</span><span class="kt">Any</span><span class="x">,</span> <span class="o">::</span><span class="kt">Any</span><span class="x">,</span> <span class="o">::</span><span class="kt">Any</span><span class="x">,</span> <span class="o">::</span><span class="kt">Any</span><span class="o">...</span><span class="x">)</span>
 <span class="n">julia</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">a</span>
-<span class="n">ERROR</span><span class="x">:</span> <span class="n">MethodError</span><span class="x">:</span> <span class="sb">`-`</span> <span class="n">has</span> <span class="n">no</span> <span class="n">method</span> <span class="n">matching</span> <span class="o">-</span><span class="x">(</span><span class="o">::</span><span class="n">DigitSet</span><span class="x">)</span></code></pre></figure>
+<span class="n">ERROR</span><span class="o">:</span> <span class="kt">MethodError</span><span class="o">:</span> <span class="sb">`-`</span> <span class="n">has</span> <span class="n">no</span> <span class="n">method</span> <span class="n">matching</span> <span class="o">-</span><span class="x">(</span><span class="o">::</span><span class="n">DigitSet</span><span class="x">)</span></code></pre></figure>
 
 <p>This is all looking pretty convenient, but at what cost? At no cost, of course!</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> buildlut_ds</span><span class="x">()</span>
-  <span class="n">lut</span> <span class="o">=</span> <span class="x">[</span><span class="n">DigitSet</span><span class="x">[]</span> <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">45</span><span class="x">,</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">9</span><span class="x">]</span>
+  <span class="n">lut</span> <span class="o">=</span> <span class="x">[</span><span class="n">DigitSet</span><span class="x">[]</span> <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">45</span><span class="x">,</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">9</span><span class="x">]</span>
 
-  <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">511</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">511</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">DigitSet</span><span class="x">(</span><span class="n">i</span><span class="x">)</span>
     <span class="n">push!</span><span class="x">(</span><span class="n">lut</span><span class="x">[</span><span class="n">sum</span><span class="x">(</span><span class="n">ds</span><span class="x">),</span> <span class="n">length</span><span class="x">(</span><span class="n">ds</span><span class="x">)],</span> <span class="n">ds</span><span class="x">)</span>
   <span class="k">end</span>
@@ -642,8 +642,8 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 <p>The time to build the look up table stays about the same at ~80μs:</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@time</span> <span class="n">buildlut_ds</span><span class="x">();</span> <span class="nd">@time</span> <span class="n">buildlut_ds</span><span class="x">();</span>
-  <span class="mf">0.015037</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">15.36</span> <span class="n">k</span> <span class="n">allocations</span><span class="x">:</span> <span class="mf">620.064</span> <span class="n">KB</span><span class="x">)</span>
-  <span class="mf">0.000077</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">1.11</span> <span class="n">k</span> <span class="n">allocations</span><span class="x">:</span> <span class="mf">40.750</span> <span class="n">KB</span><span class="x">)</span></code></pre></figure>
+  <span class="mf">0.015037</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">15.36</span> <span class="n">k</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">620.064</span> <span class="n">KB</span><span class="x">)</span>
+  <span class="mf">0.000077</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">1.11</span> <span class="n">k</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">40.750</span> <span class="n">KB</span><span class="x">)</span></code></pre></figure>
 
 <p>The time to run the benchmark once the lookup table is built is also again ~550ns.</p>
 
@@ -653,8 +653,8 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 
 <span class="k">function</span><span class="nf"> benchmark_lut_ds_precomputed_x_1e6</span><span class="x">()</span>
   <span class="n">nmax</span> <span class="o">=</span> <span class="mi">0</span>
-  <span class="n">solnmax</span> <span class="o">=</span> <span class="n">Vector</span><span class="x">{</span><span class="n">DigitSet</span><span class="x">}[]</span>
-  <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">1_000_000</span><span class="x">,</span> <span class="n">sum</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">45</span><span class="x">,</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="x">:</span><span class="mi">9</span>
+  <span class="n">solnmax</span> <span class="o">=</span> <span class="kt">Vector</span><span class="x">{</span><span class="n">DigitSet</span><span class="x">}[]</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">1_000_000</span><span class="x">,</span> <span class="n">sum</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">45</span><span class="x">,</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">9</span>
     <span class="n">soln</span> <span class="o">=</span> <span class="n">decompose_lut_ds</span><span class="x">(</span><span class="n">lut_ds</span><span class="x">,</span> <span class="n">sum</span><span class="x">,</span> <span class="n">m</span><span class="x">)</span>
     <span class="k">if</span> <span class="n">length</span><span class="x">(</span><span class="n">soln</span><span class="x">)</span> <span class="o">&gt;</span> <span class="n">nmax</span>
       <span class="n">nmax</span> <span class="o">=</span> <span class="n">length</span><span class="x">(</span><span class="n">soln</span><span class="x">)</span>
@@ -665,10 +665,10 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 <span class="k">end</span></code></pre></figure>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@time</span> <span class="n">benchmark_lut_ds_precomputed_x_1e6</span><span class="x">();</span>
-  <span class="mf">0.585304</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">9.46</span> <span class="n">k</span> <span class="n">allocations</span><span class="x">:</span> <span class="mf">465.916</span> <span class="n">KB</span><span class="x">)</span>
+  <span class="mf">0.585304</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">9.46</span> <span class="n">k</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">465.916</span> <span class="n">KB</span><span class="x">)</span>
 <span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@time</span> <span class="n">benchmark_lut_ds_precomputed_x_1e6</span><span class="x">()</span>
-  <span class="mf">0.558804</span> <span class="n">seconds</span> <span class="x">(</span><span class="mi">5</span> <span class="n">allocations</span><span class="x">:</span> <span class="mi">224</span> <span class="n">bytes</span><span class="x">)</span>
-<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="n">Array</span><span class="x">{</span><span class="n">DigitSet</span><span class="x">,</span><span class="mi">1</span><span class="x">}:</span>
+  <span class="mf">0.558804</span> <span class="n">seconds</span> <span class="x">(</span><span class="mi">5</span> <span class="n">allocations</span><span class="o">:</span> <span class="mi">224</span> <span class="n">bytes</span><span class="x">)</span>
+<span class="mi">12</span><span class="o">-</span><span class="n">element</span> <span class="kt">Array</span><span class="x">{</span><span class="n">DigitSet</span><span class="x">,</span><span class="mi">1</span><span class="x">}</span><span class="o">:</span>
  <span class="n">DigitSet</span><span class="x">([</span><span class="mi">3</span><span class="x">,</span><span class="mi">4</span><span class="x">,</span><span class="mi">6</span><span class="x">,</span><span class="mi">7</span><span class="x">])</span>
  <span class="n">DigitSet</span><span class="x">([</span><span class="mi">2</span><span class="x">,</span><span class="mi">5</span><span class="x">,</span><span class="mi">6</span><span class="x">,</span><span class="mi">7</span><span class="x">])</span>
  <span class="n">DigitSet</span><span class="x">([</span><span class="mi">3</span><span class="x">,</span><span class="mi">4</span><span class="x">,</span><span class="mi">5</span><span class="x">,</span><span class="mi">8</span><span class="x">])</span>
@@ -702,15 +702,15 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">versioninfo</span><span class="x">()</span>
 <span class="n">Julia</span> <span class="n">Version</span> <span class="mf">0.4</span><span class="o">.</span><span class="mi">0</span>
-<span class="n">Commit</span> <span class="mi">0</span><span class="n">ff703b</span><span class="o">*</span> <span class="x">(</span><span class="mi">2015</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">08</span> <span class="mi">06</span><span class="x">:</span><span class="mi">20</span> <span class="n">UTC</span><span class="x">)</span>
-<span class="n">Platform</span> <span class="n">Info</span><span class="x">:</span>
-  <span class="n">System</span><span class="x">:</span> <span class="n">Darwin</span> <span class="x">(</span><span class="n">x86_64</span><span class="o">-</span><span class="n">apple</span><span class="o">-</span><span class="n">darwin13</span><span class="o">.</span><span class="mf">4.0</span><span class="x">)</span>
-  <span class="n">CPU</span><span class="x">:</span> <span class="n">Intel</span><span class="x">(</span><span class="n">R</span><span class="x">)</span> <span class="n">Core</span><span class="x">(</span><span class="n">TM</span><span class="x">)</span> <span class="n">i7</span><span class="o">-</span><span class="mi">4850</span><span class="n">HQ</span> <span class="n">CPU</span> <span class="x">@</span> <span class="mf">2.30</span><span class="n">GHz</span>
-  <span class="n">WORD_SIZE</span><span class="x">:</span> <span class="mi">64</span>
-  <span class="n">BLAS</span><span class="x">:</span> <span class="n">libopenblas</span> <span class="x">(</span><span class="n">USE64BITINT</span> <span class="n">DYNAMIC_ARCH</span> <span class="n">NO_AFFINITY</span> <span class="n">Haswell</span><span class="x">)</span>
-  <span class="n">LAPACK</span><span class="x">:</span> <span class="n">libopenblas64_</span>
-  <span class="n">LIBM</span><span class="x">:</span> <span class="n">libopenlibm</span>
-  <span class="n">LLVM</span><span class="x">:</span> <span class="n">libLLVM</span><span class="o">-</span><span class="mf">3.3</span></code></pre></figure>
+<span class="n">Commit</span> <span class="mi">0</span><span class="n">ff703b</span><span class="o">*</span> <span class="x">(</span><span class="mi">2015</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">08</span> <span class="mi">06</span><span class="o">:</span><span class="mi">20</span> <span class="kt">UTC</span><span class="x">)</span>
+<span class="n">Platform</span> <span class="n">Info</span><span class="o">:</span>
+  <span class="n">System</span><span class="o">:</span> <span class="n">Darwin</span> <span class="x">(</span><span class="n">x86_64</span><span class="o">-</span><span class="n">apple</span><span class="o">-</span><span class="n">darwin13</span><span class="o">.</span><span class="mf">4.0</span><span class="x">)</span>
+  <span class="n">CPU</span><span class="o">:</span> <span class="n">Intel</span><span class="x">(</span><span class="n">R</span><span class="x">)</span> <span class="n">Core</span><span class="x">(</span><span class="n">TM</span><span class="x">)</span> <span class="n">i7</span><span class="o">-</span><span class="mi">4850</span><span class="n">HQ</span> <span class="n">CPU</span> <span class="err">@</span> <span class="mf">2.30</span><span class="n">GHz</span>
+  <span class="n">WORD_SIZE</span><span class="o">:</span> <span class="mi">64</span>
+  <span class="n">BLAS</span><span class="o">:</span> <span class="n">libopenblas</span> <span class="x">(</span><span class="n">USE64BITINT</span> <span class="n">DYNAMIC_ARCH</span> <span class="n">NO_AFFINITY</span> <span class="n">Haswell</span><span class="x">)</span>
+  <span class="n">LAPACK</span><span class="o">:</span> <span class="n">libopenblas64_</span>
+  <span class="n">LIBM</span><span class="o">:</span> <span class="n">libopenlibm</span>
+  <span class="n">LLVM</span><span class="o">:</span> <span class="n">libLLVM</span><span class="o">-</span><span class="mf">3.3</span></code></pre></figure>
 
   </article>
   <script src="/js/vendor/katex.min.js"></script>

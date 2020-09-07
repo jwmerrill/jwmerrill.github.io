@@ -119,21 +119,21 @@
 
 <p>Both of these results might be surprising if you aren’t familiar with the details of floating point numbers. They arise due to the granularity of floats. There is a finite gap between any float and the next largest float. The size of the gap depends (proportionally) on the size of the number. In Julia, you can find the size of the gap using <code class="highlighter-rouge">eps</code>:</p>
 
-<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="nb">eps</span><span class="x">(</span><span class="mf">1.0</span><span class="x">)</span>
+<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">eps</span><span class="x">(</span><span class="mf">1.0</span><span class="x">)</span>
 <span class="mf">2.220446049250313e-16</span></code></pre></figure>
 
 <p>If <span class="mathquill-embedded-latex">x_1</span> is a float and <span class="mathquill-embedded-latex">x_2</span> is the next largest float, it is always true that their mean is either <span class="mathquill-embedded-latex">x_1</span> or <span class="mathquill-embedded-latex">x_2</span>, because there are no other values between them.</p>
 
 <p>For example,</p>
 
-<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">let</span> <span class="n">x</span><span class="o">=</span><span class="mf">3.0</span><span class="x">,</span> <span class="n">y</span><span class="o">=</span><span class="n">x</span><span class="o">+</span><span class="nb">eps</span><span class="x">(</span><span class="n">x</span><span class="x">)</span>
+<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">let</span> <span class="n">x</span><span class="o">=</span><span class="mf">3.0</span><span class="x">,</span> <span class="n">y</span><span class="o">=</span><span class="n">x</span><span class="o">+</span><span class="n">eps</span><span class="x">(</span><span class="n">x</span><span class="x">)</span>
          <span class="x">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="x">)</span><span class="o">/</span><span class="mi">2</span>
        <span class="k">end</span>
 <span class="mf">3.0</span></code></pre></figure>
 
 <p>The floating point representation of <span class="mathquill-embedded-latex">\pi</span> is</p>
 
-<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">fpi</span> <span class="o">=</span> <span class="nb">convert</span><span class="x">(</span><span class="kt">Float64</span><span class="x">,</span> <span class="nb">pi</span><span class="x">)</span>
+<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">fpi</span> <span class="o">=</span> <span class="n">convert</span><span class="x">(</span><span class="kt">Float64</span><span class="x">,</span> <span class="nb">pi</span><span class="x">)</span>
 <span class="mf">3.141592653589793</span></code></pre></figure>
 
 <p>Its sine is positive:</p>
@@ -143,12 +143,12 @@
 
 <p>The next largest floating point number is</p>
 
-<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">fpi_plus</span> <span class="o">=</span> <span class="n">fpi</span> <span class="o">+</span> <span class="nb">eps</span><span class="x">(</span><span class="n">fpi</span><span class="x">)</span>
+<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">fpi_plus</span> <span class="o">=</span> <span class="n">fpi</span> <span class="o">+</span> <span class="n">eps</span><span class="x">(</span><span class="n">fpi</span><span class="x">)</span>
 <span class="mf">3.1415926535897936</span></code></pre></figure>
 
 <p>and its sine is negative:</p>
 
-<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">fpi_plus</span> <span class="o">=</span> <span class="n">fpi</span> <span class="o">+</span> <span class="nb">eps</span><span class="x">(</span><span class="n">fpi</span><span class="x">)</span>
+<figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">fpi_plus</span> <span class="o">=</span> <span class="n">fpi</span> <span class="o">+</span> <span class="n">eps</span><span class="x">(</span><span class="n">fpi</span><span class="x">)</span>
 <span class="o">-</span><span class="mf">3.216245299353273e-16</span></code></pre></figure>
 
 <p>Neither of these outputs is within <span class="mathquill-embedded-latex">10^{-16}</span> of 0.0, which is why <code class="highlighter-rouge">bisect1</code> fails to terminate. On the other hand, <code class="highlighter-rouge">bisect2</code> managed to find exactly these inputs as lower and upper bounds of a root of <code class="highlighter-rouge">sin</code>. It didn’t need any explicit tolerances at all.</p>
@@ -203,7 +203,7 @@
   <span class="n">x2_int</span> <span class="o">=</span> <span class="n">reinterpret</span><span class="x">(</span><span class="kt">UInt64</span><span class="x">,</span> <span class="n">abs</span><span class="x">(</span><span class="n">x2</span><span class="x">))</span>
   <span class="n">unsigned</span> <span class="o">=</span> <span class="n">reinterpret</span><span class="x">(</span><span class="kt">Float64</span><span class="x">,</span> <span class="x">(</span><span class="n">x1_int</span> <span class="o">+</span> <span class="n">x2_int</span><span class="x">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="x">)</span>
 
-  <span class="k">return</span> <span class="n">negate</span> <span class="o">?</span> <span class="o">-</span><span class="n">unsigned</span> <span class="x">:</span> <span class="n">unsigned</span>
+  <span class="k">return</span> <span class="n">negate</span> <span class="o">?</span> <span class="o">-</span><span class="n">unsigned</span> <span class="o">:</span> <span class="n">unsigned</span>
 <span class="k">end</span></code></pre></figure>
 
 <p>There are some minor complications for negative numbers. The <a href="https://en.wikipedia.org/wiki/IEEE_floating_point">wikipedia page on the floating point standard</a> has more information on exactly how the binary encoding of floats works. I also recommend <a href="http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html">“What every computer scientist should know about floating point numbers”</a>. In <code class="highlighter-rouge">_middle</code>, I avoid these complications by returning 0.0 for intervals with one negative endpoint and one positive endpoint, and by casting negative intervals to positive intervals and back. The <code class="highlighter-rouge">&gt;&gt; 1</code> is right shift, a fast way to divide integers by 2.</p>
