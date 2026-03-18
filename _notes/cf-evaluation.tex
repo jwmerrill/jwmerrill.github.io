@@ -94,6 +94,42 @@ The nontrivial content of each pair product is just the linear combination $a_k 
 
 This is exactly Estrin's method, which groups a polynomial into linear pieces that can be evaluated in parallel and then combines them level by level. The correspondence works cleanly because the bottom row stays $(0, 1)$ at every level---upper triangular times upper triangular is upper triangular---so the matrix product never does any work beyond what the scalar Estrin scheme does.
 
+\subsection*{Constant coefficients and geometric series}
+
+When all coefficients are equal, $a_k = a$, every matrix is the same:
+\begin{equation}
+  L = \begin{pmatrix} x & a \\ 0 & 1 \end{pmatrix},
+\end{equation}
+and the polynomial $p(x) = a(1 + x + \cdots + x^n)$ is computed by the matrix power $L^{n+1}$. The two standard methods for computing a matrix power---diagonalization and repeated squaring---each correspond to a well-known technique for summing a geometric series.
+
+\paragraph{Diagonalization.}
+$L$ has eigenvalues $x$ and $1$, so $L = P \bigl(\begin{smallmatrix} x & 0 \\ 0 & 1 \end{smallmatrix}\bigr) P^{-1}$ with
+\begin{equation}
+  P = \begin{pmatrix} 1 & a \\ 0 & 1-x \end{pmatrix}, \qquad
+  P^{-1} = \frac{1}{1-x}\begin{pmatrix} 1-x & -a \\ 0 & 1 \end{pmatrix}.
+\end{equation}
+Computing $L^{n+1} = P D^{n+1} P^{-1}$ gives
+\begin{equation}
+  L^{n+1} = \begin{pmatrix} x^{n+1} & a\,\dfrac{1-x^{n+1}}{1-x} \\[6pt] 0 & 1 \end{pmatrix},
+\end{equation}
+and reading off the upper-right entry recovers the standard closed form for a finite geometric series:
+\begin{equation}
+  p(x) = a\,\frac{1 - x^{n+1}}{1-x}.
+\end{equation}
+
+\paragraph{Repeated squaring.}
+Write $s_k$ for the upper-right entry of $L^{2^k}$. Since $L^1$ has upper-right entry $a$, we have $s_0 = a$. Squaring the matrix gives
+\begin{equation}
+  L^{2^{k+1}} = (L^{2^k})^2
+  = \begin{pmatrix} x^{2^k} & s_k \\ 0 & 1 \end{pmatrix}^2
+  = \begin{pmatrix} x^{2^{k+1}} & s_k(1 + x^{2^k}) \\ 0 & 1 \end{pmatrix},
+\end{equation}
+so the upper-right entry satisfies the recurrence
+\begin{equation}
+  s_{k+1} = s_k\bigl(1 + x^{2^k}\bigr).
+\end{equation}
+This is exactly Newton's method for computing $a/(1-x)$. Newton's iteration for the reciprocal $r = 1/(1-x)$ is $r_{k+1} = r_k\bigl(2 - (1-x)\,r_k\bigr)$. Starting from $r_0 = 1$, so that $s_k = a\,r_k$, we have $(1-x)\,r_k = 1 - x^{2^k}$ and therefore $2 - (1-x)\,r_k = 1 + x^{2^k}$, which reproduces the same recurrence. Each squaring step doubles the number of correct terms in the partial sum, just as each Newton step doubles the number of correct digits.
+
 \subsection*{Rounding error}
 
 In exact arithmetic, the forward and backward recurrences give identical results. In floating point, they differ slightly. Horner's method (backward recurrence) uses $n$ multiplications and $n$ additions, while the forward recurrence uses $2n$ multiplications and $n$ additions---the extra $n$ multiplications maintain the running power $x^k$. This leads to error bounds of roughly
