@@ -81,6 +81,19 @@ which is the well-known Horner's method (or nested multiplication). Accumulating
 \end{equation}
 which processes the coefficients in the opposite order, starting from the leading term. Because matrix multiplication is associative, both orderings---and any other grouping of the matrix product---yield the same result.
 
+\subsection*{Rounding error}
+
+In exact arithmetic, the forward and backward recurrences give identical results. In floating point, they differ slightly. Horner's method (backward recurrence) uses $n$ multiplications and $n$ additions, while the forward recurrence uses $2n$ multiplications and $n$ additions---the extra $n$ multiplications maintain the running power $x^k$. This leads to error bounds of roughly
+\begin{equation}
+  |\hat p - p(x)| \lesssim n\epsilon\,\tilde p(|x|) \quad\text{(backward)}, \qquad
+  |\hat p - p(x)| \lesssim 2n\epsilon\,\tilde p(|x|) \quad\text{(forward)},
+\end{equation}
+where $\tilde p(|x|) = \sum_k |a_k|\,|x|^k$ and $\epsilon$ is machine epsilon. Both methods are backward stable: the computed result is the exact evaluation of a polynomial with slightly perturbed coefficients. The difference is just a constant factor.
+
+The relative error for both methods is controlled by the condition number $\tilde p(|x|)/|p(x)|$, which measures the cancellation between terms. When all terms have the same sign---for instance, when $x > 0$ and all $a_k > 0$---the condition number is~$1$ and both methods are equally accurate. Large relative errors require cancellation between terms, regardless of the method used.
+
+The situation is very different for other bases. In a three-term recurrence like the Chebyshev recurrence $T_{n+1}(x) = 2x\,T_n(x) - T_{n-1}(x)$, the recurrence is second order and has two linearly independent solutions. For $|x| > 1$, one solution grows exponentially and the other decays. Forward recurrence is genuinely unstable in this setting: roundoff error excites the growing parasitic solution, producing errors that grow exponentially with~$n$. Backward recurrence (Clenshaw's algorithm, or more generally Olver's algorithm) avoids this by naturally selecting the minimal solution. The monomial-basis recurrence is effectively first order, so there is no parasitic solution to excite, and the stability difference between forward and backward evaluation remains modest.
+
 \section{Continued fractions}
 
 Now consider a continued fraction
