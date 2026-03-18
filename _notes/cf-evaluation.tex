@@ -104,4 +104,6 @@ For the common case of a simple continued fraction where all $b_n = 1$, each mat
 
 The parallel with polynomial evaluation is exact: both reduce to computing a product of $2 \times 2$ matrices and then extracting the result by acting on a distinguished point ($0$ for polynomials, $\infty$ for continued fractions). Associativity of matrix multiplication gives the same freedom to reorganize the computation in either case.
 
+One difference is worth noting. In the polynomial case, the maps $z \mapsto a_k + xz$ are affine: every $L_k$ has bottom row $(0, 1)$, so the accumulated product is upper triangular and the denominator is always~$1$. This is what allows the sandwiched form $\begin{pmatrix} 1 & 0 \end{pmatrix} L_0 \cdots L_n \binom{0}{1} = p(x)$ to yield a single number. In the continued fraction case, the maps $z \mapsto a_n + b_{n+1}/z$ are genuinely projective: the denominator $q_n$ is nontrivial, so the result is inherently a ratio $p_n / q_n$ and no choice of row vector on the left can collapse it to a scalar.
+
 \end{document}
