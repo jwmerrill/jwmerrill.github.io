@@ -81,6 +81,19 @@ which is the well-known Horner's method (or nested multiplication). Accumulating
 \end{equation}
 which processes the coefficients in the opposite order, starting from the leading term. Because matrix multiplication is associative, both orderings---and any other grouping of the matrix product---yield the same result.
 
+\subsection*{Estrin's method}
+
+Beyond left-to-right and right-to-left accumulation, we can also group the matrix product into pairs and multiply in a balanced binary tree. Pairing adjacent matrices gives
+\begin{equation}
+  L_k L_{k+1}
+  = \begin{pmatrix} x & a_k \\ 0 & 1 \end{pmatrix}
+    \begin{pmatrix} x & a_{k+1} \\ 0 & 1 \end{pmatrix}
+  = \begin{pmatrix} x^2 & a_k + a_{k+1} x \\ 0 & 1 \end{pmatrix}.
+\end{equation}
+The nontrivial content of each pair product is just the linear combination $a_k + a_{k+1} x$, plus the power $x^2$ which is shared across all pairs. All pairs can be computed simultaneously. At the next level, each paired product has the form $\bigl(\begin{smallmatrix} x^2 & q_j \\ 0 & 1 \end{smallmatrix}\bigr)$, so multiplying two of them gives $\bigl(\begin{smallmatrix} x^4 & q_j + x^2 q_{j+1} \\ 0 & 1 \end{smallmatrix}\bigr)$: combine pairs using $x^2$ and compute $x^4$ for the next round.
+
+This is exactly Estrin's method, which groups a polynomial into linear pieces that can be evaluated in parallel and then combines them level by level. The correspondence works cleanly because the bottom row stays $(0, 1)$ at every level---upper triangular times upper triangular is upper triangular---so the matrix product never does any work beyond what the scalar Estrin scheme does.
+
 \subsection*{Rounding error}
 
 In exact arithmetic, the forward and backward recurrences give identical results. In floating point, they differ slightly. Horner's method (backward recurrence) uses $n$ multiplications and $n$ additions, while the forward recurrence uses $2n$ multiplications and $n$ additions---the extra $n$ multiplications maintain the running power $x^k$. This leads to error bounds of roughly
