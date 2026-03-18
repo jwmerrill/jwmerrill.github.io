@@ -71,11 +71,15 @@ Because each $L_k$ has bottom row $(0, 1)$, the denominator of the homogeneous r
 \end{equation}
 This sandwiched form is purely a product of matrices and vectors, with no homogeneous-to-scalar conversion needed. Associativity now applies to the entire expression: we may group and partition the product in any way we like, and each sub-product is an ordinary matrix or scalar multiplication.
 
-Horner's method corresponds to accumulating the matrix product from right to left. But because matrix multiplication is associative, we are free to group the product in other ways. For example, accumulating from left to right gives the ``reversed Horner'' scheme
+Accumulating the matrix product from right to left gives the \emph{backward recurrence}
+\begin{equation}
+  p(x) = a_0 + x\bigl(a_1 + x\bigl(a_2 + \cdots + x \cdot a_n\bigr)\cdots\bigr),
+\end{equation}
+which is the well-known Horner's method (or nested multiplication). Accumulating from left to right gives the \emph{forward recurrence}
 \begin{equation}
   p(x) = \bigl(\cdots\bigl((a_n \cdot x + a_{n-1}) \cdot x + a_{n-2}\bigr) \cdot x + \cdots\bigr) \cdot x + a_0,
 \end{equation}
-which is simply Horner's method applied to the coefficients in reverse order, starting from the leading term. Both orderings, and any other grouping of the matrix product, yield the same result.
+which processes the coefficients in the opposite order, starting from the leading term. Because matrix multiplication is associative, both orderings---and any other grouping of the matrix product---yield the same result.
 
 \section{Continued fractions}
 
