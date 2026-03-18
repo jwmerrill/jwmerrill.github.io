@@ -30,6 +30,17 @@ The key property is that composition of fractional linear transformations corres
 \end{equation}
 Because matrix multiplication is associative, this gives us freedom to group and reorder the computation of a composition of fractional linear transformations in any way we like.
 
+This action can be realized concretely by identifying a scalar $z$ with the homogeneous column vector $\binom{z}{1}$ and letting $M$ act by matrix-vector multiplication on the right:
+\begin{equation}
+  \begin{pmatrix} a & b \\ c & d \end{pmatrix} \begin{pmatrix} z \\ 1 \end{pmatrix} = \begin{pmatrix} az + b \\ cz + d \end{pmatrix},
+\end{equation}
+which represents the value $(az + b)/(cz + d)$. The distinguished points correspond to
+\begin{equation}
+  0 \;\longleftrightarrow\; \begin{pmatrix} 0 \\ 1 \end{pmatrix}, \qquad
+  \infty \;\longleftrightarrow\; \begin{pmatrix} 1 \\ 0 \end{pmatrix},
+\end{equation}
+so acting on $\infty$ reads off the first column of the matrix ($a/c$), and acting on $0$ reads off the second column ($b/d$).
+
 \section{Polynomials}
 
 Consider a polynomial
@@ -44,15 +55,21 @@ Each level of the nesting corresponds to a fractional linear transformation $z \
 \begin{equation}
   L_k = \begin{pmatrix} x & a_k \\ 0 & 1 \end{pmatrix}.
 \end{equation}
-The value of the polynomial is then given by
+The value of the polynomial is then given by acting on $\binom{0}{1}$ on the right:
 \begin{equation}
-  p(x) = (L_0 L_1 \cdots L_n) \cdot 0,
+  (L_0 L_1 \cdots L_n) \begin{pmatrix} 0 \\ 1 \end{pmatrix} = \begin{pmatrix} p(x) \\ 1 \end{pmatrix}.
 \end{equation}
-where $M \cdot 0 = b/d$ for $M = \bigl(\begin{smallmatrix} a & b \\ c & d \end{smallmatrix}\bigr)$. Writing
+Writing
 \begin{equation}
   L_0 L_1 \cdots L_k = \begin{pmatrix} x^{k+1} & p_k(x) \\ 0 & 1 \end{pmatrix},
 \end{equation}
 where $p_k(x) = a_0 + a_1 x + \cdots + a_k x^k$, we see that the accumulated product directly tracks the partial sums of the polynomial.
+
+Because each $L_k$ has bottom row $(0, 1)$, the denominator of the homogeneous result is always $1$: there is no need to divide at the end. We can extract the polynomial value as a single number by also acting with a row vector on the left:
+\begin{equation}
+  p(x) = \begin{pmatrix} 1 & 0 \end{pmatrix} L_0 L_1 \cdots L_n \begin{pmatrix} 0 \\ 1 \end{pmatrix}.
+\end{equation}
+This sandwiched form is purely a product of matrices and vectors, with no homogeneous-to-scalar conversion needed. Associativity now applies to the entire expression: we may group and partition the product in any way we like, and each sub-product is an ordinary matrix or scalar multiplication.
 
 Horner's method corresponds to accumulating the matrix product from right to left. But because matrix multiplication is associative, we are free to group the product in other ways. For example, accumulating from left to right gives the ``reversed Horner'' scheme
 \begin{equation}
@@ -70,11 +87,11 @@ Each level of the nesting corresponds to a fractional linear transformation $z \
 \begin{equation}
   L_n = \begin{pmatrix} a_n & b_{n+1} \\ 1 & 0 \end{pmatrix}.
 \end{equation}
-The $n$th convergent of the continued fraction is then given by
+The $n$th convergent of the continued fraction is then given by acting on $\binom{1}{0}$ on the right:
 \begin{equation}
-  \frac{p_n}{q_n} = (L_0 L_1 \cdots L_n) \cdot \infty,
+  (L_0 L_1 \cdots L_n) \begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} p_n \\ q_n \end{pmatrix},
 \end{equation}
-where $M \cdot \infty = a/c$ for $M = \bigl(\begin{smallmatrix} a & b \\ c & d \end{smallmatrix}\bigr)$. Writing
+which represents the value $p_n/q_n$. Writing
 \begin{equation}
   L_0 L_1 \cdots L_n = \begin{pmatrix} p_n & p_n' \\ q_n & q_n' \end{pmatrix},
 \end{equation}
