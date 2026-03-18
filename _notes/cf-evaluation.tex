@@ -10,7 +10,7 @@
 
 \maketitle
 
-\section{Fractional linear transformations and continued fractions}
+\section{Fractional linear transformations}
 
 A fractional linear transformation (or M\"obius transformation) is a function of the form
 \begin{equation}
@@ -28,12 +28,45 @@ The key property is that composition of fractional linear transformations corres
 \begin{equation}
   M_1 \cdot (M_2 \cdot z) = (M_1 M_2) \cdot z.
 \end{equation}
+Because matrix multiplication is associative, this gives us freedom to group and reorder the computation of a composition of fractional linear transformations in any way we like.
+
+\section{Polynomials}
+
+Consider a polynomial
+\begin{equation}
+  p(x) = a_0 + a_1 x + a_2 x^2 + \cdots + a_n x^n.
+\end{equation}
+Horner's method rewrites this as a nested evaluation
+\begin{equation}
+  p(x) = a_0 + x\bigl(a_1 + x\bigl(a_2 + \cdots + x \cdot a_n \cdots\bigr)\bigr).
+\end{equation}
+Each level of the nesting corresponds to a fractional linear transformation $z \mapsto a_k + xz$, represented by the matrix
+\begin{equation}
+  L_k = \begin{pmatrix} x & a_k \\ 0 & 1 \end{pmatrix}.
+\end{equation}
+The value of the polynomial is then given by
+\begin{equation}
+  p(x) = (L_0 L_1 \cdots L_n) \cdot 0,
+\end{equation}
+where $M \cdot 0 = b/d$ for $M = \bigl(\begin{smallmatrix} a & b \\ c & d \end{smallmatrix}\bigr)$. Writing
+\begin{equation}
+  L_0 L_1 \cdots L_k = \begin{pmatrix} x^{k+1} & p_k(x) \\ 0 & 1 \end{pmatrix},
+\end{equation}
+where $p_k(x) = a_0 + a_1 x + \cdots + a_k x^k$, we see that the accumulated product directly tracks the partial sums of the polynomial.
+
+Horner's method corresponds to accumulating the matrix product from right to left. But because matrix multiplication is associative, we are free to group the product in other ways. For example, accumulating from left to right gives the ``reversed Horner'' scheme
+\begin{equation}
+  p(x) = \bigl(\cdots\bigl((a_n \cdot x + a_{n-1}) \cdot x + a_{n-2}\bigr) \cdot x + \cdots\bigr) \cdot x + a_0,
+\end{equation}
+which is simply Horner's method applied to the coefficients in reverse order, starting from the leading term. Both orderings, and any other grouping of the matrix product, yield the same result.
+
+\section{Continued fractions}
 
 Now consider a continued fraction
 \begin{equation}
   a_0 + \cfrac{b_1}{a_1 + \cfrac{b_2}{a_2 + \cfrac{b_3}{a_3 + \cdots}}}.
 \end{equation}
-Each level of the continued fraction corresponds to a fractional linear transformation $z \mapsto a_n + b_{n+1}/z$, represented by the matrix
+Each level of the nesting corresponds to a fractional linear transformation $z \mapsto a_n + b_{n+1}/z$, represented by the matrix
 \begin{equation}
   L_n = \begin{pmatrix} a_n & b_{n+1} \\ 1 & 0 \end{pmatrix}.
 \end{equation}
@@ -51,5 +84,7 @@ For the common case of a simple continued fraction where all $b_n = 1$, each mat
 \begin{equation}
   L_n = \begin{pmatrix} a_n & 1 \\ 1 & 0 \end{pmatrix}.
 \end{equation}
+
+The parallel with polynomial evaluation is exact: both reduce to computing a product of $2 \times 2$ matrices and then extracting the result by acting on a distinguished point ($0$ for polynomials, $\infty$ for continued fractions). Associativity of matrix multiplication gives the same freedom to reorganize the computation in either case.
 
 \end{document}
