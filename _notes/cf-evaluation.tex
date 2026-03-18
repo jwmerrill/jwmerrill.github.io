@@ -172,4 +172,39 @@ The parallel with polynomial evaluation is exact: both reduce to computing a pro
 
 One difference is worth noting. In the polynomial case, the maps $z \mapsto a_k + xz$ are affine: every $L_k$ has bottom row $(0, 1)$, so the accumulated product is upper triangular and the denominator is always~$1$. This is what allows the sandwiched form $\begin{pmatrix} 1 & 0 \end{pmatrix} L_0 \cdots L_n \binom{0}{1} = p(x)$ to yield a single number. In the continued fraction case, the maps $z \mapsto a_n + b_{n+1}/z$ are genuinely projective: the denominator $q_n$ is nontrivial, so the result is inherently a ratio $p_n / q_n$ and no choice of row vector on the left can collapse it to a scalar.
 
+\subsection*{Forward recurrence}
+
+Accumulating the matrix product from left to right gives the \emph{forward recurrence} (or Wallis recurrence). Since the second column of the accumulated product satisfies $p_k' = b_{k+1}\, p_{k-1}$ (and similarly for $q$), appending $L_{k+1}$ yields
+\begin{equation}
+  p_{k+1} = a_{k+1}\, p_k + b_{k+1}\, p_{k-1}, \qquad
+  q_{k+1} = a_{k+1}\, q_k + b_{k+1}\, q_{k-1},
+\end{equation}
+with initial values $p_{-1} = 1$, $p_0 = a_0$, $q_{-1} = 0$, $q_0 = 1$. This pair of linear recurrences computes the numerator and denominator of each successive convergent without any division; the ratio $p_n/q_n$ is formed only at the end.
+
+\subsection*{Right-to-left accumulation and direct evaluation}
+
+Now consider accumulating the matrix product from right to left. Define the \emph{tail product}
+\begin{equation}
+  R_k = L_k\, L_{k+1} \cdots L_n,
+\end{equation}
+built up by prepending one matrix at a time: $R_n = L_n$ and $R_k = L_k\, R_{k+1}$. Acting on $\infty$, the first column of $R_k$ gives the value of the tail continued fraction starting at index $k$. In particular, $R_0 \cdot \infty = p_n/q_n$ is the same $n$th convergent computed by the forward recurrence.
+
+There is a different way to compute these tail values that does not use matrices at all. \emph{Direct evaluation} works from the inside out as a scalar recurrence:
+\begin{equation}
+  t_n = a_n, \qquad t_k = a_k + \frac{b_{k+1}}{t_{k+1}} \quad (k = n{-}1, \ldots, 0).
+\end{equation}
+Each step involves a division, and the final value $t_0$ is the $n$th convergent.
+
+Right-to-left matrix accumulation and direct evaluation compute the same sequence of tail values, but they organize the arithmetic differently. Writing the first column of $R_k$ as $\binom{\alpha_k}{\beta_k}$, the recurrence $R_k = L_k\, R_{k+1}$ gives
+\begin{equation}
+  \alpha_k = a_k\,\alpha_{k+1} + b_{k+1}\,\beta_{k+1}, \qquad \beta_k = \alpha_{k+1}.
+\end{equation}
+Eliminating $\beta$, this becomes the three-term linear recurrence
+\begin{equation}
+  \alpha_k = a_k\,\alpha_{k+1} + b_{k+1}\,\alpha_{k+2},
+\end{equation}
+run backward from the initial values $\alpha_{n+1} = 1$, $\alpha_n = a_n$. This is the same form of recurrence as the Wallis recurrence for $p_k$ and $q_k$, but applied to different initial conditions and traversed in the opposite direction. The tail value at step $k$ is the ratio $t_k = \alpha_k / \alpha_{k+1}$.
+
+This reveals the structural relationship between the two methods. The substitution $t_k = \alpha_k / \alpha_{k+1}$ converts the three-term linear recurrence for $\alpha$ into the nonlinear recurrence $t_k = a_k + b_{k+1}/t_{k+1}$: the per-step division in direct evaluation is exactly what converts a second-order linear recurrence into a first-order Riccati-type recurrence. Right-to-left matrix accumulation defers this division, carrying $\alpha_k$ and $\alpha_{k+1}$ as separate entries and forming their ratio only at the end.
+
 \end{document}
