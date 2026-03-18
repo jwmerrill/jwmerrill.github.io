@@ -1,5 +1,7 @@
 \documentclass{article}
 
+\usepackage{amsmath, amssymb}
+
 \title{Continued Fraction Evaluation}
 \author{}
 \date{}
@@ -7,5 +9,47 @@
 \begin{document}
 
 \maketitle
+
+\section{Fractional linear transformations and continued fractions}
+
+A fractional linear transformation (or M\"obius transformation) is a function of the form
+\begin{equation}
+  f(z) = \frac{az + b}{cz + d},
+\end{equation}
+which we represent by the $2 \times 2$ matrix
+\begin{equation}
+  M = \begin{pmatrix} a & b \\ c & d \end{pmatrix}.
+\end{equation}
+We write $M \cdot z$ for the action of $M$ on $z$ by the corresponding fractional linear transformation:
+\begin{equation}
+  \begin{pmatrix} a & b \\ c & d \end{pmatrix} \cdot z = \frac{az + b}{cz + d}.
+\end{equation}
+The key property is that composition of fractional linear transformations corresponds to matrix multiplication: if $M_1$ and $M_2$ are two such matrices, then
+\begin{equation}
+  M_1 \cdot (M_2 \cdot z) = (M_1 M_2) \cdot z.
+\end{equation}
+
+Now consider a continued fraction
+\begin{equation}
+  a_0 + \cfrac{b_1}{a_1 + \cfrac{b_2}{a_2 + \cfrac{b_3}{a_3 + \cdots}}}.
+\end{equation}
+Each level of the continued fraction corresponds to a fractional linear transformation $z \mapsto a_n + b_{n+1}/z$, represented by the matrix
+\begin{equation}
+  L_n = \begin{pmatrix} a_n & b_{n+1} \\ 1 & 0 \end{pmatrix}.
+\end{equation}
+The $n$th convergent of the continued fraction is then given by
+\begin{equation}
+  \frac{p_n}{q_n} = (L_0 L_1 \cdots L_n) \cdot \infty,
+\end{equation}
+where $M \cdot \infty = a/c$ for $M = \bigl(\begin{smallmatrix} a & b \\ c & d \end{smallmatrix}\bigr)$. Writing
+\begin{equation}
+  L_0 L_1 \cdots L_n = \begin{pmatrix} p_n & p_n' \\ q_n & q_n' \end{pmatrix},
+\end{equation}
+the columns of the accumulated product have a direct interpretation: $p_n/q_n$ is the $n$th convergent, and $p_n'/q_n'$ is the value obtained by truncating the continued fraction one step earlier (i.e.\ by setting $b_{n+1} = 0$ instead of evaluating $\cdot\,\infty$).
+
+For the common case of a simple continued fraction where all $b_n = 1$, each matrix takes the form
+\begin{equation}
+  L_n = \begin{pmatrix} a_n & 1 \\ 1 & 0 \end{pmatrix}.
+\end{equation}
 
 \end{document}
