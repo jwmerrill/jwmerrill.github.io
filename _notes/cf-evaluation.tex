@@ -207,4 +207,48 @@ run backward from the initial values $\alpha_{n+1} = 1$, $\alpha_n = a_n$. This 
 
 This reveals the structural relationship between the two methods. The substitution $t_k = \alpha_k / \alpha_{k+1}$ converts the three-term linear recurrence for $\alpha$ into the nonlinear recurrence $t_k = a_k + b_{k+1}/t_{k+1}$: the per-step division in direct evaluation is exactly what converts a second-order linear recurrence into a first-order Riccati-type recurrence. Right-to-left matrix accumulation defers this division, carrying $\alpha_k$ and $\alpha_{k+1}$ as separate entries and forming their ratio only at the end.
 
+\subsection*{Equivalence transformations}
+
+An \emph{equivalence transformation} replaces the coefficients $a_k, b_k$ of a continued fraction with new coefficients $\tilde{a}_k, \tilde{b}_k$ while preserving every convergent. The classical result states that for any sequence of nonzero constants $c_1, c_2, \ldots$, the substitution
+\begin{equation}
+  \tilde{a}_k = c_k\, a_k \quad (k \geq 1), \qquad
+  \tilde{b}_k = c_{k-1}\, c_k\, b_k \quad (k \geq 1),
+\end{equation}
+(with $c_0 = 1$ and $\tilde{a}_0 = a_0$) yields a continued fraction with the same convergents as the original.
+
+In the matrix representation, this has a clean explanation: equivalence transformations correspond to inserting factorizations of the identity between terms in the matrix product. Let
+\begin{equation}
+  D_k = \begin{pmatrix} d_k & 0 \\ 0 & 1 \end{pmatrix},
+\end{equation}
+with $d_k \neq 0$, and insert $D_k D_k^{-1} = I$ between $L_{k-1}$ and $L_k$:
+\begin{equation}
+  L_0 L_1 \cdots L_n
+  = (L_0\, D_1)(D_1^{-1} L_1\, D_2)(D_2^{-1} L_2\, D_3) \cdots (D_n^{-1} L_n).
+\end{equation}
+Computing the sandwiched factors gives
+\begin{equation}
+  D_k^{-1} L_k\, D_{k+1}
+  = \begin{pmatrix} 1/d_k & 0 \\ 0 & 1 \end{pmatrix}
+    \begin{pmatrix} a_k & b_{k+1} \\ 1 & 0 \end{pmatrix}
+    \begin{pmatrix} d_{k+1} & 0 \\ 0 & 1 \end{pmatrix}
+  = \begin{pmatrix} a_k\, d_{k+1}/d_k & b_{k+1}/d_k \\ d_{k+1} & 0 \end{pmatrix}.
+\end{equation}
+This is not quite in the standard continued fraction form $\bigl(\begin{smallmatrix} \tilde{a} & \tilde{b} \\ 1 & 0 \end{smallmatrix}\bigr)$, because the lower-left entry is $d_{k+1}$ rather than~$1$. But as a fractional linear transformation---acting on a homogeneous vector on the right---a matrix and any nonzero scalar multiple of it represent the same map. Dividing through by $d_{k+1}$ gives the projectively equivalent matrix
+\begin{equation}
+  \frac{1}{d_{k+1}}\begin{pmatrix} a_k\, d_{k+1}/d_k & b_{k+1}/d_k \\ d_{k+1} & 0 \end{pmatrix}
+  = \begin{pmatrix} a_k/d_k & b_{k+1}/(d_k\, d_{k+1}) \\ 1 & 0 \end{pmatrix},
+\end{equation}
+which is in standard form with $\tilde{a}_k = a_k / d_k$ and $\tilde{b}_{k+1} = b_{k+1}/(d_k\, d_{k+1})$. Setting $c_k = 1/d_k$ recovers the classical equivalence transformation: $\tilde{a}_k = c_k\, a_k$ and $\tilde{b}_{k+1} = c_k\, c_{k+1}\, b_{k+1}$.
+
+Why does this preserve all convergents? The $m$th convergent is obtained from the partial product $\tilde{L}_0 \cdots \tilde{L}_m$ acting on $\infty$. Before rescaling, the inserted identities telescope, so this partial product equals $L_0 L_1 \cdots L_m\, D_{m+1}$ times an overall scalar (which does not affect the fractional linear transformation). The partial product therefore differs from the original only by a trailing factor of $D_{m+1}$. But diagonal matrices of this form fix $\infty$:
+\begin{equation}
+  D_{m+1} \cdot \infty
+  = \begin{pmatrix} d_{m+1} & 0 \\ 0 & 1 \end{pmatrix} \cdot \infty
+  = \frac{d_{m+1} \cdot \infty}{0 \cdot \infty + 1}
+  = \infty,
+\end{equation}
+so the trailing $D_{m+1}$ is invisible when we extract the convergent, and $(L_0 \cdots L_m\, D_{m+1}) \cdot \infty = (L_0 \cdots L_m) \cdot \infty$.
+
+More generally, any upper triangular matrix fixes $\infty$, so one could insert upper triangular factorizations of the identity and still preserve all convergents. However, only diagonal insertions produce sandwiched factors that are projectively equivalent to continued fraction matrices (with lower-left entry~$1$ and lower-right entry~$0$). Upper triangular insertions would take us outside the world of continued fractions into more general compositions of fractional linear transformations.
+
 \end{document}
