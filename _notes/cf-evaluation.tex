@@ -251,4 +251,66 @@ so the trailing $D_{m+1}$ is invisible when we extract the convergent, and $(L_0
 
 More generally, any upper triangular matrix fixes $\infty$, so one could insert upper triangular factorizations of the identity and still preserve all convergents. However, only diagonal insertions produce sandwiched factors that are projectively equivalent to continued fraction matrices (with lower-left entry~$1$ and lower-right entry~$0$). Upper triangular insertions would take us outside the world of continued fractions into more general compositions of fractional linear transformations.
 
+\subsection*{The equivalent series}
+
+The forward recurrence computes the convergent $f_n = p_n/q_n$ by tracking $p_n$ and $q_n$ through a pair of linear recurrences. But the convergent can also be expressed as a \emph{telescoping sum} of successive differences:
+\begin{equation}
+  f_n = a_0 + \sum_{k=1}^{n} \delta_k, \qquad \delta_k = f_k - f_{k-1}.
+\end{equation}
+Each term $\delta_k$ has a closed form that comes directly from the matrix representation.
+
+\paragraph{The determinant identity.}
+Since $\det(L_k) = a_k \cdot 0 - b_{k+1} \cdot 1 = -b_{k+1}$, the determinant of the accumulated product is
+\begin{equation}
+  \det(L_0 L_1 \cdots L_n) = \prod_{k=0}^{n} (-b_{k+1}) = (-1)^{n+1}\, b_1 b_2 \cdots b_{n+1}.
+\end{equation}
+Writing $M_n = \bigl(\begin{smallmatrix} p_n & p_n' \\ q_n & q_n' \end{smallmatrix}\bigr)$ and using $p_n' = b_{n+1}\, p_{n-1}$, $q_n' = b_{n+1}\, q_{n-1}$, we get
+\begin{equation}
+  \det(M_n) = p_n\, q_n' - p_n'\, q_n = b_{n+1}(p_n\, q_{n-1} - p_{n-1}\, q_n),
+\end{equation}
+which gives
+\begin{equation}\label{eq:det-identity}
+  p_n\, q_{n-1} - p_{n-1}\, q_n = (-1)^{n+1}\, b_1 b_2 \cdots b_n.
+\end{equation}
+This is the Euler--Minding identity. Dividing by $q_n\, q_{n-1}$, we obtain the convergent differences:
+\begin{equation}
+  \delta_n = f_n - f_{n-1} = \frac{(-1)^{n+1}\, b_1 b_2 \cdots b_n}{q_n\, q_{n-1}}.
+\end{equation}
+The continued fraction is therefore equal to the series
+\begin{equation}
+  f = a_0 + \sum_{n=1}^{\infty} \frac{(-1)^{n+1}\, b_1 b_2 \cdots b_n}{q_n\, q_{n-1}}.
+\end{equation}
+
+\paragraph{The Riccati projection, again.}
+The ratio of successive differences satisfies
+\begin{equation}
+  \frac{\delta_n}{\delta_{n-1}}
+  = \frac{-b_n}{q_n\, q_{n-1}} \cdot q_{n-1}\, q_{n-2}
+  = -b_n\,\frac{q_{n-2}}{q_n}.
+\end{equation}
+Introducing the denominator ratio $D_n = q_{n-1}/q_n$, this becomes
+\begin{equation}
+  \delta_n = -b_n\, D_{n-1}\, D_n \cdot \delta_{n-1}.
+\end{equation}
+Since $q_n = a_n\, q_{n-1} + b_n\, q_{n-2}$, the ratio $D_n$ satisfies the Riccati recurrence
+\begin{equation}
+  D_n = \frac{1}{a_n + b_n\, D_{n-1}}, \qquad D_0 = 0.
+\end{equation}
+This is the same Riccati projection we saw earlier for the backward recurrence: the substitution $t_k = \alpha_k/\alpha_{k+1}$ converted the second-order linear recurrence into a first-order nonlinear one. Here, the substitution $D_n = q_{n-1}/q_n$ does the same for the forward Wallis recurrence.
+
+Putting these together gives the \emph{forward series recurrence} (Steed's algorithm):
+\begin{equation}
+  \begin{aligned}
+    D_n &= \frac{1}{a_n + b_n\, D_{n-1}}, \qquad D_0 = 0, \\[4pt]
+    \delta_n &= -b_n\, D_{n-1}\, D_n \cdot \delta_{n-1}, \qquad \delta_1 = b_1\, D_1, \\[4pt]
+    f_n &= f_{n-1} + \delta_n, \qquad f_0 = a_0.
+  \end{aligned}
+\end{equation}
+Each step requires only scalar arithmetic (no matrix storage), avoids the overflow and underflow issues of the Wallis recurrence (since $D_n$ and $\delta_n$ remain moderate in size), and has a built-in convergence test: stop when $|\delta_n|$ is small enough. A closely related variant is the modified Lentz algorithm, which tracks the numerator ratio $C_n = p_n/p_{n-1} = a_n + b_n/C_{n-1}$ alongside $D_n$ and uses the multiplicative update $f_n = f_{n-1} \cdot C_n D_n$.
+
+\paragraph{Relationship to equivalence transformations.}
+The $D_n$ recurrence is itself a M\"obius iteration---the map $z \mapsto 1/(a_n + b_n z)$ is represented by the matrix $G_n = \bigl(\begin{smallmatrix} 0 & 1 \\ b_n & a_n \end{smallmatrix}\bigr)$---so the denominator ratio $D_n$ is computed by its own product of $2 \times 2$ matrices, just a different set of matrices from the $L_k$. The equivalent series thus rests on two purely matrix-theoretic ingredients: the \emph{determinant identity} (the determinant of a product is the product of the determinants) and the \emph{Riccati projection} (converting the second-order linear recurrence into a first-order nonlinear one by taking ratios of successive terms).
+
+Neither ingredient is an equivalence transformation in the sense of the preceding section. Equivalence transformations modify the $L_k$ factors while preserving convergents; they use predetermined constants $c_k$ that are independent of the particular continued fraction being evaluated. The forward series recurrence instead extracts the convergent from an \emph{unmodified} matrix product by tracking the denominator ratios $D_n$, which depend on the accumulated product itself. It is closer in spirit to an LU decomposition---a data-dependent factorization---than to a change of variables with fixed parameters.
+
 \end{document}
