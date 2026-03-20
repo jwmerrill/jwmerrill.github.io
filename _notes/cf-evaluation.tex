@@ -138,13 +138,16 @@ For Newton's iteration, linearizing the error $e_k = \hat r_k - r_k^*$ around th
 \begin{equation}
   e_{k+1} = 2x^{2^k}\, e_k - (1-x)\,e_k^2 + O(\epsilon\, r_k^*).
 \end{equation}
-The key quantity is the derivative of the Newton map at $r_k^*$: since $f(r) = r(2 - (1-x)r)$, we have $f'(r_k^*) = 2 - 2(1-x)r_k^* = 2x^{2^k}$. For $|x| < 1$, this has magnitude strictly less than~$1$ and shrinks to zero double-exponentially. In terms of relative error:
+The key quantity is the derivative of the Newton map at $r_k^*$: since $f(r) = r(2 - (1-x)r)$, we have $f'(r_k^*) = 2 - 2(1-x)r_k^* = 2x^{2^k}$. In terms of relative error:
 \begin{equation}
   \delta_{k+1} \approx \frac{2x^{2^k}}{1 + x^{2^k}}\,\delta_k + O(\epsilon).
 \end{equation}
-The propagation factor $2x^{2^k}/(1 + x^{2^k}) < 1$ means that existing errors are \emph{damped} at each step. Errors from early steps decay geometrically, so the total accumulated error after $K$ steps is $O(\epsilon)$ independent of~$K$.
 
-Newton's iteration is therefore more numerically stable than matrix squaring for computing the finite partial sum. The nonlinear (Riccati-projected) form provides error damping that the linear matrix recurrence lacks. This contrasts with the continued fraction setting, where the Riccati projection can be \emph{less} stable (backward recurrence with parasitic solutions). The difference reflects the matrix structure: the upper-triangular polynomial matrices have no parasitic solution to excite, and the Newton map's contraction along its orbit is a pure gain.
+The stability comparison between the two methods depends on $|x|$. For $|x| < 1$, the propagation factor $2x^{2^k}/(1 + x^{2^k})$ has magnitude strictly less than~$1$ and shrinks to zero double-exponentially, so existing errors are \emph{damped} at each step. Errors from early steps decay geometrically, and the total accumulated error after $K$ steps is $O(\epsilon)$ independent of~$K$. Newton's iteration is more stable than matrix squaring in this regime.
+
+For $|x| > 1$, the situation reverses. Now $x^{2^k}$ grows double-exponentially and $2x^{2^k}/(1 + x^{2^k}) \to 2$, so the propagation factor approaches~$2$ and existing errors roughly double at each step. After $K$ steps, errors from the earliest steps have been amplified by $\sim 2^K$. The finite partial sum $1 + x + \cdots + x^{2^K - 1}$ is a perfectly well-defined polynomial for any~$x$, but Newton's iteration computes it with exponentially growing error, while matrix squaring still accumulates error only as $O(K\epsilon)$. Matrix squaring is more stable in this regime.
+
+The crossover is at $|x| = 1$, where both methods accumulate $O(K\epsilon)$ error. Overall, the nonlinear Newton form provides error damping inside the unit disk at the cost of error amplification outside it, while the linear matrix form has uniform $O(K\epsilon)$ accumulation everywhere. This contrasts with the continued fraction setting, where the Riccati projection can be \emph{less} stable (backward recurrence with parasitic solutions). The difference reflects the matrix structure: the upper-triangular polynomial matrices have no parasitic solution to excite.
 
 \subsection*{Rounding error}
 
