@@ -313,4 +313,49 @@ The $D_n$ recurrence is itself a M\"obius iteration---the map $z \mapsto 1/(a_n 
 
 Neither ingredient is an equivalence transformation in the sense of the preceding section. Equivalence transformations modify the $L_k$ factors while preserving convergents; they use predetermined constants $c_k$ that are independent of the particular continued fraction being evaluated. The forward series recurrence instead extracts the convergent from an \emph{unmodified} matrix product by tracking the denominator ratios $D_n$, which depend on the accumulated product itself. It is closer in spirit to an LU decomposition---a data-dependent factorization---than to a change of variables with fixed parameters.
 
+\section{The Riccati projection}
+
+A common pattern runs through both the polynomial and continued fraction settings: a matrix representation carries more state than the scalar quantity we ultimately want, and eliminating the extra state introduces nonlinearity. We have now seen several instances of this, and it is worth pausing to describe the pattern explicitly.
+
+\subsection*{Continued fractions}
+
+The Wallis recurrence tracks the pair $(p_n, q_n)$ through a linear system:
+\begin{equation}
+  p_{n+1} = a_{n+1}\, p_n + b_{n+1}\, p_{n-1}, \qquad
+  q_{n+1} = a_{n+1}\, q_n + b_{n+1}\, q_{n-1}.
+\end{equation}
+Both components satisfy the same three-term recurrence; they differ only in initial conditions. The convergent $f_n = p_n/q_n$ is a single number extracted from the pair by taking a ratio---the natural projection from homogeneous coordinates to the projective line. Substituting $f_n = p_n/q_n$ into the recurrence converts the linear system in two variables into the nonlinear Riccati recurrence in one:
+\begin{equation}
+  t_k = a_k + \frac{b_{k+1}}{t_{k+1}},
+\end{equation}
+for the backward direction (direct evaluation), or the analogous recurrence $D_n = 1/(a_n + b_n\, D_{n-1})$ for the forward direction (the denominator ratio in Steed's algorithm). The per-step division is the price of collapsing two linear state variables into one nonlinear one.
+
+\subsection*{Polynomials and Newton's method}
+
+The same pattern appears in the polynomial setting, though with a different source of redundancy. Repeated squaring of $L = \bigl(\begin{smallmatrix} x & a \\ 0 & 1 \end{smallmatrix}\bigr)$ tracks the pair $(u_k, s_k)$ where $u_k = x^{2^k}$ and $s_k$ is the partial sum $a(1 + x + \cdots + x^{2^k - 1})$. The squaring recurrence is
+\begin{equation}
+  u_{k+1} = u_k^2, \qquad s_{k+1} = s_k\,(1 + u_k).
+\end{equation}
+The first equation is quadratic but self-contained: $u_k$ evolves independently. Given $u_k$, the second equation is \emph{linear} in $s_k$. The upper-triangular structure of $L$ makes the system triangularly coupled rather than fully coupled.
+
+The partial sum formula $s_k = a(1 - u_k)/(1-x)$ gives an algebraic relation between the two state variables: $u_k = 1 - (1-x)\, r_k$ where $r_k = s_k/a$. Substituting into $s_{k+1} = s_k(1 + u_k)$ eliminates $u_k$:
+\begin{equation}
+  r_{k+1} = r_k\bigl(2 - (1-x)\, r_k\bigr),
+\end{equation}
+which is Newton's iteration for the reciprocal of $1-x$. The quadratic nonlinearity arises because the bilinear coupling $s_k \cdot u_k$ becomes $r_k \cdot g(r_k)$ when $u_k$ is expressed in terms of $r_k$.
+
+\subsection*{The common structure}
+
+In both cases, the matrix representation carries an auxiliary quantity that keeps the recurrence for the quantity of interest simple:
+\begin{center}
+\begin{tabular}{lll}
+  & \textbf{Two-variable (matrix)} & \textbf{One-variable (scalar)} \\[3pt]
+  CF & Wallis: linear in $(p_n, q_n)$ & Riccati: rational in $f_n$ \\
+  Polynomial & squaring: linear in $s_k$ given $u_k$ & Newton: quadratic in $r_k$
+\end{tabular}
+\end{center}
+The auxiliary variable is $q_n$ in the continued fraction case and $u_k = x^{2^k}$ in the polynomial case. Eliminating it---by forming a ratio $p/q$ or by substituting $u = 1 - (1-x)r$---introduces nonlinearity.
+
+The difference between the two cases reflects the matrix structure. The continued fraction matrices $\bigl(\begin{smallmatrix} a_n & b_{n+1} \\ 1 & 0 \end{smallmatrix}\bigr)$ live in $\mathrm{GL}(2)$: both rows of the accumulated product carry nontrivial information, and the projection is the ratio of homogeneous coordinates. The polynomial matrices $\bigl(\begin{smallmatrix} x & a \\ 0 & 1 \end{smallmatrix}\bigr)$ live in the upper-triangular (affine) subgroup: the bottom row is fixed at $(0,1)$, so there is no projective ratio to form. Instead, the redundancy is algebraic---the two nontrivial entries of the accumulated product are related by the partial sum formula---and the projection is an algebraic substitution rather than a homogeneous ratio.
+
 \end{document}
