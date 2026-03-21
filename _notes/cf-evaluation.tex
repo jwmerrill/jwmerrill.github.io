@@ -130,9 +130,9 @@ so the upper-right entry satisfies the recurrence
 \end{equation}
 This is exactly Newton's method for computing $a/(1-x)$. Newton's iteration for the reciprocal $r = 1/(1-x)$ is $r_{k+1} = r_k\bigl(2 - (1-x)\,r_k\bigr)$. Starting from $r_0 = 1$, so that $s_k = a\,r_k$, we have $(1-x)\,r_k = 1 - x^{2^k}$ and therefore $2 - (1-x)\,r_k = 1 + x^{2^k}$, which reproduces the same recurrence. Each squaring step doubles the number of correct terms in the partial sum, just as each Newton step doubles the number of correct digits.
 
-Although these two viewpoints give identical results in exact arithmetic, they differ in floating point. Both methods need the factor $1 + x^{2^k}$ at each step, and both compute it to the same absolute precision (about $\epsilon$ relative to the dominant term~$1$), so the \emph{per-step} rounding error is comparable. The difference is in how errors \emph{propagate} across steps.
+Although these two viewpoints give identical results in exact arithmetic, they differ in floating point. Both methods need the factor $1 + x^{2^k}$ at each step, and both compute it to the same precision, so the \emph{per-step} rounding error is comparable. The difference is in how errors \emph{propagate} across steps.
 
-For matrix squaring, if $\hat s_k = s_k(1 + \delta_k)$ carries relative error $\delta_k$, then the multiplication $\hat s_{k+1} = \hat s_k \cdot \mathrm{fl}(1 + \hat u_k)$ gives $\delta_{k+1} \approx \delta_k + O(\epsilon)$: the existing error propagates with factor~$1$. After $K$ steps, the accumulated relative error is $O(K\epsilon)$.
+For matrix squaring, if $\hat s_k = s_k(1 + \delta_k)$ carries relative error $\delta_k$, then the multiplication $\hat s_{k+1} = \hat s_k \cdot \mathrm{fl}(1 + \hat u_k)$ gives $\delta_{k+1} \approx \delta_k + \epsilon_k$: the existing error propagates with factor~$1$. Here $\epsilon_k$ is the per-step error from computing and multiplying by the factor $1 + x^{2^k}$.
 
 For Newton's iteration, linearizing the error $e_k = \hat r_k - r_k^*$ around the exact iterate $r_k^* = (1-x^{2^k})/(1-x)$ gives
 \begin{equation}
@@ -140,14 +140,16 @@ For Newton's iteration, linearizing the error $e_k = \hat r_k - r_k^*$ around th
 \end{equation}
 The key quantity is the derivative of the Newton map at $r_k^*$: since $f(r) = r(2 - (1-x)r)$, we have $f'(r_k^*) = 2 - 2(1-x)r_k^* = 2x^{2^k}$. In terms of relative error:
 \begin{equation}
-  \delta_{k+1} \approx \frac{2x^{2^k}}{1 + x^{2^k}}\,\delta_k + O(\epsilon).
+  \delta_{k+1} \approx \frac{2x^{2^k}}{1 + x^{2^k}}\,\delta_k + \epsilon_k.
 \end{equation}
 
-The stability comparison between the two methods depends on $|x|$. For $|x| < 1$, the propagation factor $2x^{2^k}/(1 + x^{2^k})$ has magnitude strictly less than~$1$ and shrinks to zero double-exponentially, so existing errors are \emph{damped} at each step. Errors from early steps decay geometrically, and the total accumulated error after $K$ steps is $O(\epsilon)$ independent of~$K$. Newton's iteration is more stable than matrix squaring in this regime.
+The two methods share the same per-step error $\epsilon_k$ and differ only in how they propagate existing error $\delta_k$: factor~$1$ for matrix squaring versus $2x^{2^k}/(1 + x^{2^k})$ for Newton.
 
-For $|x| > 1$, the situation reverses. Now $x^{2^k}$ grows double-exponentially and $2x^{2^k}/(1 + x^{2^k}) \to 2$, so the propagation factor approaches~$2$ and existing errors roughly double at each step. After $K$ steps, errors from the earliest steps have been amplified by $\sim 2^K$. The finite partial sum $1 + x + \cdots + x^{2^K - 1}$ is a perfectly well-defined polynomial for any~$x$, but Newton's iteration computes it with exponentially growing error, while matrix squaring still accumulates error only as $O(K\epsilon)$. Matrix squaring is more stable in this regime.
+For $|x| < 1$, the per-step error $\epsilon_k = O(\epsilon)$ since $1$ dominates in $1 + x^{2^k}$. The Newton propagation factor has magnitude less than~$1$ and shrinks double-exponentially, so existing errors are \emph{damped}. After $K$ steps: $O(\epsilon)$ for Newton versus $O(K\epsilon)$ for matrix squaring. Newton wins.
 
-The crossover is at $|x| = 1$, where both methods accumulate $O(K\epsilon)$ error. Overall, the nonlinear Newton form provides error damping inside the unit disk at the cost of error amplification outside it, while the linear matrix form has uniform $O(K\epsilon)$ accumulation everywhere. This contrasts with the continued fraction setting, where the Riccati projection can be \emph{less} stable (backward recurrence with parasitic solutions). The difference reflects the matrix structure: the upper-triangular polynomial matrices have no parasitic solution to excite.
+For $|x| > 1$, $x^{2^k}$ dominates and is computed by repeated squaring, which accumulates $O(2^k \epsilon)$ relative error after $k$ squarings (each squaring roughly doubles the relative error). This flows into the factor, giving $\epsilon_k = O(2^k \epsilon)$. Both methods inherit this growing per-step error. Matrix squaring accumulates $\delta_K = \sum_{k=0}^{K-1} O(2^k \epsilon) = O(2^K \epsilon)$. Newton does worse: the propagation factor $2x^{2^k}/(1+x^{2^k}) \to 2$ means existing errors double each step, giving $\delta_K = O(K \cdot 2^K \epsilon)$. Matrix squaring wins, but only by a factor of~$K$---the dominant $O(2^K \epsilon)$ cost of squaring $x$ is unavoidable in either method.
+
+This contrasts with the continued fraction setting, where the Riccati projection can be \emph{less} stable (backward recurrence with parasitic solutions). The difference reflects the matrix structure: the upper-triangular polynomial matrices have no parasitic solution to excite.
 
 \subsection*{Rounding error}
 
