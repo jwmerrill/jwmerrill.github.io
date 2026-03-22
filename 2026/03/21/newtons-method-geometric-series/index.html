@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title>Newton's method can rapidly sum the geometric series</title>
+   <meta name="author" content="Jason Merrill" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+   <link rel="stylesheet" href="/css/vendor/katex.min.css" type="text/css" />
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/pygments/default.css" type="text/css" />
+
+   
+</head>
+<body class="post">
+  <div class="header">
+    <div class="header-inner">
+      <h3><a href="/">Shape Operator</a></h2>
+      <div class="byline">
+          by Jason Merrill<br />
+          <a href="mailto:jason@shapeoperator.com">jason@shapeoperator.com</a><br />
+          <a href="https://twitter.com/shapeoperator">@shapeoperator</a>
+      </div>
+    </div>
+  </div>
+  <article class="main">
+    <h1><a href="/2026/03/21/newtons-method-geometric-series/">Newton's method can rapidly sum the geometric series</a></h1>
+    <abbr class="date">21 Mar 2026</abbr>
+    <p>Newton’s iteration for computing the reciprocal of <span class="mathquill-embedded-latex">a</span>,</p>
+
+<div class="display-latex">
+  y_{n+1} = y_n(2-ay_n),
+</div>
+
+<p>can be derived by applying Newton’s method to the function <span class="mathquill-embedded-latex">f(x)=1/x-a</span>.</p>
+
+<p>Substituting <span class="mathquill-embedded-latex">a=1-x</span> gives</p>
+
+<div class="display-latex">
+  y_{n+1} = y_n(2-(1-x)y_n),
+</div>
+
+<p>an iteration for computing <span class="mathquill-embedded-latex">1/(1-x)</span>. Starting from <span class="mathquill-embedded-latex">y_0=1</span>, the first few iterates are</p>
+
+<div class="display-latex">
+  \begin{aligned}
+  y_1 &amp;= 1 \cdot (1+x) = 1+x, \\
+  y_2 &amp;= (1+x)(1+x^2) = 1+x+x^2+x^3, \\
+  y_3 &amp;= (1+x+x^2+x^3)(1+x^4) = 1+x+x^2+\cdots+x^7.
+  \end{aligned}
+</div>
+
+<p>This certainly looks like the geometric series, and after <span class="mathquill-embedded-latex">n</span> iterations the result is a polynomial of degree <span class="mathquill-embedded-latex">2^n-1</span>.</p>
+
+<!--more-->
+
+<p>To verify, substitute</p>
+
+<div class="display-latex">
+  y_n = \sum_{k=0}^{2^n-1} x^k.
+</div>
+
+<p>into the Newton iteration. The second factor <a href="https://en.wikipedia.org/wiki/Telescoping_series">telescopes</a> to <span class="mathquill-embedded-latex">1+x^{2^n}</span>. This is an instruction to take the first factor and add a copy of it multiplied by <span class="mathquill-embedded-latex">x^{2^n}</span>. The result is</p>
+
+<div class="display-latex">
+  y_{n+1} = \sum_{k=0}^{2^{n+1}-1} x^k,
+</div>
+
+<p>as required.</p>
+
+<p>The sum of a finite geometric series can of course be computed by the formula,</p>
+
+<div class="display-latex">
+  \sum_{k=0}^{n} x^k = \frac{1-x^{n+1}}{1-x},
+</div>
+
+<p>but this involves division. Newton’s iteration uses only addition and multiplication. It just uses them much more economically than the direct series definition, producing a polynomial of degree <span class="mathquill-embedded-latex">2^n-1</span> with only <span class="mathquill-embedded-latex">2n</span> multiplications and <span class="mathquill-embedded-latex">n</span> additions.</p>
+
+<p>When we discuss factoring a polynomial, we mean factoring it into a <em>product</em> of linear polynomials.</p>
+
+<p>Newton’s iteration instead factors the finite geometric series into a <em>composition</em> of quadratic polynomials<label for="horner" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="horner" class="margin-toggle" /><span class="marginnote">Horner’s method factors a polynomial into a composition of <em>linear</em> polynomials. This is handy for evaluation, but kind of a trivial re-arrangement since it has exactly the same coefficients as standard form.</span>.</p>
+
+<p>What other polynomials can be factored this way? Counting free parameters suggests certainly not all of them. Beyond that, I don’t really know, but I think <a href="https://en.wikipedia.org/wiki/Arithmetic_circuit_complexity">arithmetic circuit complexity</a> considers questions like this.</p>
+
+  </article>
+  <script src="/js/vendor/katex.min.js"></script>
+<script src="/js/render-katex.js"></script>
+
+  
+</body>
+</html>
