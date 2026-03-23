@@ -32,7 +32,11 @@
   M = \begin{pmatrix} x &amp;amp; 1 \\ 0 &amp;amp; 1 \end{pmatrix}.
 &lt;/div&gt;
 
-&lt;p&gt;Repeatedly squaring &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;M&lt;/span&gt; can rapidly generate high matrix powers and thus sum large finite geometric series. The first few iterations of repeated squaring give&lt;/p&gt;
+&lt;p&gt;Repeatedly squaring &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;M&lt;/span&gt; can rapidly generate high matrix powers and thus sum large finite geometric series.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;The first few iterations of repeated squaring give&lt;/p&gt;
 
 &lt;div class=&quot;display-latex&quot;&gt;
   \begin{aligned}
