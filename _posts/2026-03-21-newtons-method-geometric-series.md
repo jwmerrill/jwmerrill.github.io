@@ -55,6 +55,6 @@ but this involves division. Newton's iteration uses only addition and multiplica
 
 When we discuss factoring a polynomial, we mean factoring it into a _product_ of linear polynomials.
 
-Newton's iteration instead factors the finite geometric series into a _composition_ of quadratic polynomials{%marginnote 'horner' """Horner's method factors a polynomial into a composition of _linear_ polynomials. This is handy for evaluation, but kind of a trivial re-arrangement since it has exactly the same coefficients as standard form."""%}.
+Newton's iteration instead factors the finite geometric series into a _composition_ of quadratic polynomials{%marginnote 'horner' """[Horner's method](https://en.wikipedia.org/wiki/Horner%27s_method) factors a polynomial into a composition of _linear_ polynomials. This is handy for evaluation, but kind of a trivial re-arrangement since it has exactly the same coefficients as standard form."""%}.
 
 What other polynomials can be factored this way? Counting free parameters suggests certainly not all of them. Beyond that, I don't really know, but I think [arithmetic circuit complexity](https://en.wikipedia.org/wiki/Arithmetic_circuit_complexity) considers questions like this.
