@@ -61,7 +61,7 @@
 </ol>
 
 <p>Early discussion focused on point (1), and the relative merits of storing the
-solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code class="highlighter-rouge">Vector</code>, or a linked list.</p>
+solution digit sets in a <code class="language-plaintext highlighter-rouge">Set</code>, a <code class="language-plaintext highlighter-rouge">Vector</code>, or a linked list.</p>
 
 <p>Here’s an example that stores digit sets as a vector of integers, and organizes the process of enumerating solutions as a recursive depth-first search.</p>
 
@@ -83,7 +83,7 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 <span class="c"># one of their arguments should end with a "!". The</span>
 <span class="c"># argument that will be mutated is usually placed</span>
 <span class="c"># first.</span>
-<span class="k">function</span><span class="nf"> decompose_rec</span><span class="o">!</span><span class="x">(</span>
+<span class="k">function</span><span class="nf"> decompose_rec!</span><span class="x">(</span>
   <span class="n">solutions</span><span class="x">,</span> <span class="n">partial_solution</span><span class="x">,</span>
   <span class="n">sum</span><span class="x">,</span> <span class="n">m</span><span class="x">,</span> <span class="n">lower</span><span class="x">,</span> <span class="n">upper</span>
 <span class="x">)</span>
@@ -113,7 +113,7 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
   <span class="k">end</span>
 <span class="k">end</span></code></pre></figure>
 
-<p>This is a reasonably idiomatic Julia solution. It spells out the types of the <code class="highlighter-rouge">solutions</code> and <code class="highlighter-rouge">partial_solution</code> containers when they are created, but otherwise doesn’t get overly bossy about annotations. I’m not really using any special features of Julia here, and you could write basically this same code in practically any language.</p>
+<p>This is a reasonably idiomatic Julia solution. It spells out the types of the <code class="language-plaintext highlighter-rouge">solutions</code> and <code class="language-plaintext highlighter-rouge">partial_solution</code> containers when they are created, but otherwise doesn’t get overly bossy about annotations. I’m not really using any special features of Julia here, and you could write basically this same code in practically any language.</p>
 
 <p>Let’s see how the performance is looking so far. We’ll benchmark finding the number that can be written in the most different ways as a sum of <em>m</em> different digits:</p>
 
@@ -162,17 +162,17 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 <p>Other early solutions from the mailing list in Python, lisp, and Julia had runtimes of ~500ms to ~10s. At ~10ms, the solution above already compares pretty favorably. A couple reasons that the early Julia solutions were slower are that</p>
 
 <ol>
-  <li>Using a <code class="highlighter-rouge">Set</code> or using <code class="highlighter-rouge">union</code> on a <code class="highlighter-rouge">Vector</code> is slower than using <code class="highlighter-rouge">push!</code> on a <code class="highlighter-rouge">Vector</code>, because Julia needs to check whether the new element is already a member of the set before adding it. Our enumeration is constructed to make this check unnecessary.</li>
+  <li>Using a <code class="language-plaintext highlighter-rouge">Set</code> or using <code class="language-plaintext highlighter-rouge">union</code> on a <code class="language-plaintext highlighter-rouge">Vector</code> is slower than using <code class="language-plaintext highlighter-rouge">push!</code> on a <code class="language-plaintext highlighter-rouge">Vector</code>, because Julia needs to check whether the new element is already a member of the set before adding it. Our enumeration is constructed to make this check unnecessary.</li>
   <li>Inner functions, anonymous functions, and closures are currently relatively slow in Julia<label for="mn-fast-anonymous" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="mn-fast-anonymous" class="margin-toggle" /><span class="marginnote"><a href="https://github.com/JuliaLang/julia/issues/1864">Anonymous functions will probably be fast some day</a>.</span>. If you’re going for performance, just pass all the context you need using function arguments. You can make this more tidy by defining a type to hold the context that’s relevant to a given problem. This is generally preferable to passing around half a dozen positional arguments as I’ve done above. As an added bonus, once you have a type, you will often see useful operations that you can define on it to further simplify and structure your code.</li>
 </ol>
 
-<p>There is probably more room for improvement here. Using a linked list instead of a <code class="highlighter-rouge">Vector</code> to represent solutions would eliminate the need to copy partial solutions, because <a href="https://en.wikipedia.org/wiki/Persistent_data_structure#Linked_lists">linked lists can share tails</a> with each other. Alternatively, memory usage could be reduced by storing digits in a <code class="highlighter-rouge">Vector{Int8}</code> instead of a <code class="highlighter-rouge">Vector{Int}</code>, since we’re only storing digits between 1 and 9.</p>
+<p>There is probably more room for improvement here. Using a linked list instead of a <code class="language-plaintext highlighter-rouge">Vector</code> to represent solutions would eliminate the need to copy partial solutions, because <a href="https://en.wikipedia.org/wiki/Persistent_data_structure#Linked_lists">linked lists can share tails</a> with each other. Alternatively, memory usage could be reduced by storing digits in a <code class="language-plaintext highlighter-rouge">Vector{Int8}</code> instead of a <code class="language-plaintext highlighter-rouge">Vector{Int}</code>, since we’re only storing digits between 1 and 9.</p>
 
 <p>Rather than spend more time experimenting with different containers, I’d like to take a step back and consider some other solution strategies.</p>
 
 <h3 id="step-2-filtering-combinations">Step 2: Filtering Combinations</h3>
 
-<p>Julia ships with built in routines for iterating through combinations of the elements of a collection<label for="mn-combinations-src" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="mn-combinations-src" class="margin-toggle" /><span class="marginnote">If you’re curious, you can see how the <code class="highlighter-rouge">combinations</code> iterator is implemented in <a href="https://github.com/JuliaLang/julia/blob/d594954e299617fdf72af6a896a5ff89c5d831f1/base/combinatorics.jl#L172-L209">Julia’s source code</a>.</span>. Instead of recursively building combinations with the correct sum, we can just look at all combinations and keep only those that have the correct sum. The number of combinations of <em>m</em> digits between 1 and 9 is <code class="highlighter-rouge">binomial(9, m)</code>,</p>
+<p>Julia ships with built in routines for iterating through combinations of the elements of a collection<label for="mn-combinations-src" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="mn-combinations-src" class="margin-toggle" /><span class="marginnote">If you’re curious, you can see how the <code class="language-plaintext highlighter-rouge">combinations</code> iterator is implemented in <a href="https://github.com/JuliaLang/julia/blob/d594954e299617fdf72af6a896a5ff89c5d831f1/base/combinatorics.jl#L172-L209">Julia’s source code</a>.</span>. Instead of recursively building combinations with the correct sum, we can just look at all combinations and keep only those that have the correct sum. The number of combinations of <em>m</em> digits between 1 and 9 is <code class="language-plaintext highlighter-rouge">binomial(9, m)</code>,</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="x">[(</span><span class="n">m</span><span class="x">,</span> <span class="n">binomial</span><span class="x">(</span><span class="mi">9</span><span class="x">,</span> <span class="n">m</span><span class="x">))</span> <span class="k">for</span> <span class="n">m</span> <span class="k">in</span> <span class="mi">0</span><span class="o">:</span><span class="mi">9</span><span class="x">]</span>
 <span class="mi">10</span><span class="o">-</span><span class="n">element</span> <span class="kt">Array</span><span class="x">{</span><span class="kt">Tuple</span><span class="x">{</span><span class="kt">Int64</span><span class="x">,</span><span class="kt">Int64</span><span class="x">},</span><span class="mi">1</span><span class="x">}</span><span class="o">:</span>
@@ -201,7 +201,7 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
   <span class="n">solutions</span>
 <span class="k">end</span></code></pre></figure>
 
-<p>Short and simple. It could be a one liner if we used <code class="highlighter-rouge">filter</code>, but higher order functions aren’t as fast as they could be in Julia (yet).</p>
+<p>Short and simple. It could be a one liner if we used <code class="language-plaintext highlighter-rouge">filter</code>, but higher order functions aren’t as fast as they could be in Julia (yet).</p>
 
 <p>Let’s benchmark this version:</p>
 
@@ -254,7 +254,7 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 
 <h3 id="step-3-a-lookup-table">Step 3: A lookup table</h3>
 
-<p>My first thought for the lookup table was to use a <code class="highlighter-rouge">Dict</code> that maps <code>(sum,&nbsp;m)</code> pairs to combinations stored as a vector of digits. But the possible values of <code class="highlighter-rouge">sum</code> are the integers between 1 and 45, and the possible values of <em>m</em> are the integers between 1 and 9, so we might as well just use a 2D array instead of a <code class="highlighter-rouge">Dict</code>. This saves a bit of time spent hashing pairs of integers.</p>
+<p>My first thought for the lookup table was to use a <code class="language-plaintext highlighter-rouge">Dict</code> that maps <code>(sum,&nbsp;m)</code> pairs to combinations stored as a vector of digits. But the possible values of <code class="language-plaintext highlighter-rouge">sum</code> are the integers between 1 and 45, and the possible values of <em>m</em> are the integers between 1 and 9, so we might as well just use a 2D array instead of a <code class="language-plaintext highlighter-rouge">Dict</code>. This saves a bit of time spent hashing pairs of integers.</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> buildlut</span><span class="x">()</span>
   <span class="c"># Preallocate empty containers for each</span>
@@ -345,7 +345,7 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
  <span class="x">[</span><span class="mi">3</span><span class="x">,</span><span class="mi">4</span><span class="x">,</span><span class="mi">5</span><span class="x">,</span><span class="mi">8</span><span class="x">]</span>
  <span class="x">[</span><span class="mi">3</span><span class="x">,</span><span class="mi">4</span><span class="x">,</span><span class="mi">6</span><span class="x">,</span><span class="mi">7</span><span class="x">]</span></code></pre></figure>
 
-<p>So we’re now down to ~7μs. That’s probably close to the resolution of the timer used by <code class="highlighter-rouge">@time</code>, so you can’t really trust times that small. Let’s add an outer loop to the benchmark to bring the time back up to measurable levels.</p>
+<p>So we’re now down to ~7μs. That’s probably close to the resolution of the timer used by <code class="language-plaintext highlighter-rouge">@time</code>, so you can’t really trust times that small. Let’s add an outer loop to the benchmark to bring the time back up to measurable levels.</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> benchmark_lut_precomputed_x_1e6</span><span class="x">()</span>
   <span class="n">nmax</span> <span class="o">=</span> <span class="mi">0</span>
@@ -386,18 +386,18 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 
 <p>Depending on your sense of fairness, you might not like that I’ve lifted the computation of the table out of the benchmark (even though you can solve any number of puzzles with the same table). But remember, even computing the table took less than 200μs.</p>
 
-<p>Even so, our representation of solution sets is not as efficient as it could be. As I mentioned before, we could represent the digits with an <code class="highlighter-rouge">Int8</code> instead of an <code class="highlighter-rouge">Int</code>. But we can actually do much better than that.</p>
+<p>Even so, our representation of solution sets is not as efficient as it could be. As I mentioned before, we could represent the digits with an <code class="language-plaintext highlighter-rouge">Int8</code> instead of an <code class="language-plaintext highlighter-rouge">Int</code>. But we can actually do much better than that.</p>
 
 <h3 id="step-4-bitmasks">Step 4: Bitmasks</h3>
 
-<p>We know that there are only 512 subsets of digits that we want to represent, and our lookup table actually contains each of these subsets. Instead of using a vector of digits, we could use a simple binary number as a bitmask, so that a 1 represents the presence of a certain digit in a subset, and a 0 represents the absence of that digit<label for="mn-bitarray" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="mn-bitarray" class="margin-toggle" /><span class="marginnote">Julia also has a built in <code class="highlighter-rouge">BitArray</code> type, so we could use a <code class="highlighter-rouge">BitArray{9}</code> to store our bitmask even more compactly, but there are advantages to staying aligned to bytes, so I’ll proceed with an <code class="highlighter-rouge">Int16</code> mask.</span>. An <code class="highlighter-rouge">Int16</code> has 16 binary digits, and we only need 9, so we can pack a bitmask representing any set of digits between 1 and 9 into an <code class="highlighter-rouge">Int16</code> with room to spare.</p>
+<p>We know that there are only 512 subsets of digits that we want to represent, and our lookup table actually contains each of these subsets. Instead of using a vector of digits, we could use a simple binary number as a bitmask, so that a 1 represents the presence of a certain digit in a subset, and a 0 represents the absence of that digit<label for="mn-bitarray" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="mn-bitarray" class="margin-toggle" /><span class="marginnote">Julia also has a built in <code class="language-plaintext highlighter-rouge">BitArray</code> type, so we could use a <code class="language-plaintext highlighter-rouge">BitArray{9}</code> to store our bitmask even more compactly, but there are advantages to staying aligned to bytes, so I’ll proceed with an <code class="language-plaintext highlighter-rouge">Int16</code> mask.</span>. An <code class="language-plaintext highlighter-rouge">Int16</code> has 16 binary digits, and we only need 9, so we can pack a bitmask representing any set of digits between 1 and 9 into an <code class="language-plaintext highlighter-rouge">Int16</code> with room to spare.</p>
 
 <p>As an example, the number 23 is written as 10111 in binary, so you can also think of it as representing the set of digits {1,2,3,5}.</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">bits</span><span class="x">(</span><span class="kt">Int16</span><span class="x">(</span><span class="mi">23</span><span class="x">))</span>
 <span class="s">"0000000000010111"</span></code></pre></figure>
 
-<p>All we really need to switch our table over to this new representation is a way to convert an <code class="highlighter-rouge">Int16</code> bitmask into a set of digits. As an optimization, I’ll also implement routines that count the digits and sum them without producing an intermediate array.</p>
+<p>All we really need to switch our table over to this new representation is a way to convert an <code class="language-plaintext highlighter-rouge">Int16</code> bitmask into a set of digits. As an optimization, I’ll also implement routines that count the digits and sum them without producing an intermediate array.</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> bitmaskdigits</span><span class="x">(</span><span class="n">x</span><span class="o">::</span><span class="kt">Integer</span><span class="x">)</span>
   <span class="n">digits</span> <span class="o">=</span> <span class="kt">Int</span><span class="x">[]</span>
@@ -445,7 +445,7 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
   <span class="mf">0.022075</span> <span class="n">seconds</span> <span class="x">(</span><span class="mf">20.20</span> <span class="n">k</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">971.572</span> <span class="n">KB</span><span class="x">)</span>
   <span class="mf">0.000076</span> <span class="n">seconds</span> <span class="x">(</span><span class="mi">597</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">32.766</span> <span class="n">KB</span><span class="x">)</span></code></pre></figure>
 
-<p>With this new representation, we’re down to only 80μs to build the look up table (twice as fast as before), and it also takes up less memory. We can also expect set operations like intersection and union to be faster on these bitmasks than they would be on a <code class="highlighter-rouge">Vector{Int}</code>.</p>
+<p>With this new representation, we’re down to only 80μs to build the look up table (twice as fast as before), and it also takes up less memory. We can also expect set operations like intersection and union to be faster on these bitmasks than they would be on a <code class="language-plaintext highlighter-rouge">Vector{Int}</code>.</p>
 
 <p>We should probably expect the benchmark of finding the largest number of solutions to be the same as the previous look up table solution, since we’ve optimized it down to in-order array access in both cases, but let’s check anyway:</p>
 
@@ -486,7 +486,7 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 
 <p>As expected, the time to complete the benchmark is again ~550ns.</p>
 
-<p>If we want to see a more friendly representation of the solutions, we can map <code class="highlighter-rouge">bitmaskdigits</code> over them:</p>
+<p>If we want to see a more friendly representation of the solutions, we can map <code class="language-plaintext highlighter-rouge">bitmaskdigits</code> over them:</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">map</span><span class="x">(</span>
     <span class="n">bitmaskdigits</span><span class="x">,</span>
@@ -506,28 +506,28 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
  <span class="x">[</span><span class="mi">1</span><span class="x">,</span><span class="mi">3</span><span class="x">,</span><span class="mi">7</span><span class="x">,</span><span class="mi">9</span><span class="x">]</span>
  <span class="x">[</span><span class="mi">1</span><span class="x">,</span><span class="mi">2</span><span class="x">,</span><span class="mi">8</span><span class="x">,</span><span class="mi">9</span><span class="x">]</span></code></pre></figure>
 
-<p>Unfortunately, this new representation has come at a cost in clarity and safety. It’s annoying to have to call <code class="highlighter-rouge">bitmaskdigits</code> to see a human-friendly display, and changing the default display of <code class="highlighter-rouge">Int16</code> is out of the question. It would also be easy to perform inappropriate operations on these masks, like addition, negation, or multiplication, since all those operations are of course defined on integers.</p>
+<p>Unfortunately, this new representation has come at a cost in clarity and safety. It’s annoying to have to call <code class="language-plaintext highlighter-rouge">bitmaskdigits</code> to see a human-friendly display, and changing the default display of <code class="language-plaintext highlighter-rouge">Int16</code> is out of the question. It would also be easy to perform inappropriate operations on these masks, like addition, negation, or multiplication, since all those operations are of course defined on integers.</p>
 
 <p>Julia is a strongly typed language, but by mapping our data onto integers, we have been using it in a weakly typed way. We can make better use of Julia’s type system to win back and actually improve clarity and safety with no loss of performance.</p>
 
 <h3 id="step-5-digitsets">Step 5: DigitSets</h3>
 
-<p>If we wrap our bitmask digit sets in an <a href="http://docs.julialang.org/en/release-0.4/manual/types/#immutable-composite-types">immutable type</a>, we can then restrict which operations can be performed on them, and even better, we can overload existing operations (e.g. <code class="highlighter-rouge">sum</code>, <code class="highlighter-rouge">length</code>, <code class="highlighter-rouge">union</code>, etc.) to perform differently on them than they do on integers.</p>
+<p>If we wrap our bitmask digit sets in an <a href="http://docs.julialang.org/en/release-0.4/manual/types/#immutable-composite-types">immutable type</a>, we can then restrict which operations can be performed on them, and even better, we can overload existing operations (e.g. <code class="language-plaintext highlighter-rouge">sum</code>, <code class="language-plaintext highlighter-rouge">length</code>, <code class="language-plaintext highlighter-rouge">union</code>, etc.) to perform differently on them than they do on integers.</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">immutable</span> <span class="n">DigitSet</span>
   <span class="n">d</span><span class="o">::</span><span class="kt">Int16</span>
 <span class="k">end</span></code></pre></figure>
 
-<p>With this definition, you can construct a <code class="highlighter-rouge">DigitSet</code> to wrap an <code class="highlighter-rouge">Int16</code> like this:</p>
+<p>With this definition, you can construct a <code class="language-plaintext highlighter-rouge">DigitSet</code> to wrap an <code class="language-plaintext highlighter-rouge">Int16</code> like this:</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">DigitSet</span><span class="x">(</span><span class="mi">1</span><span class="x">)</span>
 <span class="n">DigitSet</span><span class="x">(</span><span class="mi">1</span><span class="x">)</span></code></pre></figure>
 
-<p>The first operation we’ll define is a way to get the individual digits out of a <code class="highlighter-rouge">DigitSet</code>. The logic we need is already contained in the <code class="highlighter-rouge">bitmaskdigits</code> function from before. However, rather than just returning a vector, we can do something more flexible by hooking into <a href="http://docs.julialang.org/en/release-0.4/manual/interfaces/#man-interfaces-iteration">Julia’s iteration protocol</a>. To do that, we just need to define <code class="highlighter-rouge">start</code>, <code class="highlighter-rouge">next</code>, and <code class="highlighter-rouge">done</code> on <code class="highlighter-rouge">DigitSet</code>. We’ll also override <code class="highlighter-rouge">length</code>, <code class="highlighter-rouge">in</code>, and <code class="highlighter-rouge">isempty</code>, although these are not strictly necessary for the iteration protocol.</p>
+<p>The first operation we’ll define is a way to get the individual digits out of a <code class="language-plaintext highlighter-rouge">DigitSet</code>. The logic we need is already contained in the <code class="language-plaintext highlighter-rouge">bitmaskdigits</code> function from before. However, rather than just returning a vector, we can do something more flexible by hooking into <a href="http://docs.julialang.org/en/release-0.4/manual/interfaces/#man-interfaces-iteration">Julia’s iteration protocol</a>. To do that, we just need to define <code class="language-plaintext highlighter-rouge">start</code>, <code class="language-plaintext highlighter-rouge">next</code>, and <code class="language-plaintext highlighter-rouge">done</code> on <code class="language-plaintext highlighter-rouge">DigitSet</code>. We’ll also override <code class="language-plaintext highlighter-rouge">length</code>, <code class="language-plaintext highlighter-rouge">in</code>, and <code class="language-plaintext highlighter-rouge">isempty</code>, although these are not strictly necessary for the iteration protocol.</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="c"># Allow iterating over the members of a digit set</span>
 <span class="n">Base</span><span class="o">.</span><span class="n">start</span><span class="x">(</span><span class="n">ds</span><span class="o">::</span><span class="n">DigitSet</span><span class="x">)</span> <span class="o">=</span> <span class="x">(</span><span class="n">ds</span><span class="o">.</span><span class="n">d</span><span class="x">,</span> <span class="mi">0</span><span class="x">)</span>
-<span class="k">function</span><span class="nf"> Base</span><span class="o">.</span><span class="n">next</span><span class="x">(</span><span class="n">ds</span><span class="o">::</span><span class="n">DigitSet</span><span class="x">,</span> <span class="n">state</span><span class="x">)</span>
+<span class="k">function</span><span class="nf"> Base.next</span><span class="x">(</span><span class="n">ds</span><span class="o">::</span><span class="n">DigitSet</span><span class="x">,</span> <span class="n">state</span><span class="x">)</span>
   <span class="x">(</span><span class="n">d</span><span class="x">,</span> <span class="n">n</span><span class="x">)</span> <span class="o">=</span> <span class="n">state</span>
   <span class="n">shift</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">trailing_zeros</span><span class="x">(</span><span class="n">d</span><span class="x">)</span>
   <span class="n">n</span> <span class="o">+=</span> <span class="n">shift</span>
@@ -539,7 +539,7 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 <span class="n">Base</span><span class="o">.</span><span class="k">in</span><span class="x">(</span><span class="n">n</span><span class="x">,</span> <span class="n">ds</span><span class="o">::</span><span class="n">DigitSet</span><span class="x">)</span> <span class="o">=</span> <span class="x">(</span><span class="n">ds</span><span class="o">.</span><span class="n">d</span> <span class="o">&amp;</span> <span class="x">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="x">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="x">)))</span> <span class="o">!=</span> <span class="mi">0</span>
 <span class="n">Base</span><span class="o">.</span><span class="n">isempty</span><span class="x">(</span><span class="n">ds</span><span class="o">::</span><span class="n">DigitSet</span><span class="x">)</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">d</span> <span class="o">==</span> <span class="mi">0</span></code></pre></figure>
 
-<p>Then we can collect digits into whatever kind of container we want, or iterate over them in a streaming fashion. For example, here we collect a DigitSet into a <code class="highlighter-rouge">Vector{Int8}</code>:</p>
+<p>Then we can collect digits into whatever kind of container we want, or iterate over them in a streaming fashion. For example, here we collect a DigitSet into a <code class="language-plaintext highlighter-rouge">Vector{Int8}</code>:</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">collect</span><span class="x">(</span><span class="kt">Int8</span><span class="x">,</span> <span class="n">DigitSet</span><span class="x">(</span><span class="mi">100</span><span class="x">))</span>
 <span class="mi">3</span><span class="o">-</span><span class="n">element</span> <span class="kt">Array</span><span class="x">{</span><span class="kt">Int8</span><span class="x">,</span><span class="mi">1</span><span class="x">}</span><span class="o">:</span>
@@ -559,25 +559,25 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
   <span class="n">DigitSet</span><span class="x">(</span><span class="n">d</span><span class="x">)</span>
 <span class="k">end</span>
 
-<span class="k">function</span><span class="nf"> Base</span><span class="o">.</span><span class="n">show</span><span class="x">(</span><span class="n">io</span><span class="o">::</span><span class="kt">IO</span><span class="x">,</span> <span class="n">ds</span><span class="o">::</span><span class="n">DigitSet</span><span class="x">)</span>
+<span class="k">function</span><span class="nf"> Base.show</span><span class="x">(</span><span class="n">io</span><span class="o">::</span><span class="kt">IO</span><span class="x">,</span> <span class="n">ds</span><span class="o">::</span><span class="n">DigitSet</span><span class="x">)</span>
   <span class="n">print</span><span class="x">(</span><span class="n">io</span><span class="x">,</span> <span class="s">"DigitSet"</span><span class="x">)</span>
   <span class="n">print</span><span class="x">(</span><span class="n">io</span><span class="x">,</span> <span class="s">"(["</span><span class="x">)</span>
   <span class="n">print_joined</span><span class="x">(</span><span class="n">io</span><span class="x">,</span> <span class="n">ds</span><span class="x">,</span> <span class="s">","</span><span class="x">)</span>
   <span class="n">print</span><span class="x">(</span><span class="n">io</span><span class="x">,</span> <span class="s">"])"</span><span class="x">)</span>
 <span class="k">end</span></code></pre></figure>
 
-<p>It’s nice (but not strictly required) to define this constructor and this way of displaying a <code class="highlighter-rouge">DigitSet</code> together, so that the result that is displayed can also be parsed back in as a <code class="highlighter-rouge">DigitSet</code>.</p>
+<p>It’s nice (but not strictly required) to define this constructor and this way of displaying a <code class="language-plaintext highlighter-rouge">DigitSet</code> together, so that the result that is displayed can also be parsed back in as a <code class="language-plaintext highlighter-rouge">DigitSet</code>.</p>
 
 <p>As an aside, I wish I could define this constructor to work for any kind of iterable object instead of just for arrays, but there are two reasons that this is not possible:</p>
 
 <ol>
-  <li>Julia doesn’t (yet) have a way of dispatching on interfaces like “iterable”; instead, you can only dispatch on type inheritance relationships. There is no <code class="highlighter-rouge">Iterable</code> supertype that all iterable types inherit from, and there probably shouldn’t be.</li>
-  <li>Integers are iterable in Julia, so this would conflict with the raw <code class="highlighter-rouge">DigitSet(d::Int16)</code> constructor.</li>
+  <li>Julia doesn’t (yet) have a way of dispatching on interfaces like “iterable”; instead, you can only dispatch on type inheritance relationships. There is no <code class="language-plaintext highlighter-rouge">Iterable</code> supertype that all iterable types inherit from, and there probably shouldn’t be.</li>
+  <li>Integers are iterable in Julia, so this would conflict with the raw <code class="language-plaintext highlighter-rouge">DigitSet(d::Int16)</code> constructor.</li>
 </ol>
 
 <p>It sounds like both of these issues will probably be addressed at some point, but interface dispatch is still at the design stage (see <a href="https://github.com/mauro3/SimpleTraits.jl">SimpleTraits</a> for a promising start, though).</p>
 
-<p>Anyway, let’s implement a few set operations on <code class="highlighter-rouge">DigitSet</code>:</p>
+<p>Anyway, let’s implement a few set operations on <code class="language-plaintext highlighter-rouge">DigitSet</code>:</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="c"># Set operations</span>
 <span class="n">Base</span><span class="o">.</span><span class="n">union</span><span class="x">(</span><span class="n">a</span><span class="o">::</span><span class="n">DigitSet</span><span class="x">,</span> <span class="n">b</span><span class="o">::</span><span class="n">DigitSet</span><span class="x">)</span> <span class="o">=</span>
@@ -608,7 +608,7 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 <span class="n">julia</span><span class="o">&gt;</span> <span class="mi">7</span> <span class="k">in</span> <span class="n">b</span>
 <span class="nb">false</span></code></pre></figure>
 
-<p>Because we hooked into the iteration protocol, we also get implementations of <code class="highlighter-rouge">sum</code>, <code class="highlighter-rouge">minimum</code>, <code class="highlighter-rouge">maximum</code>, etc. for free:</p>
+<p>Because we hooked into the iteration protocol, we also get implementations of <code class="language-plaintext highlighter-rouge">sum</code>, <code class="language-plaintext highlighter-rouge">minimum</code>, <code class="language-plaintext highlighter-rouge">maximum</code>, etc. for free:</p>
 
 <figure class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">sum</span><span class="x">(</span><span class="n">a</span><span class="x">)</span>
 <span class="mi">10</span>
@@ -692,7 +692,7 @@ solution digit sets in a <code class="highlighter-rouge">Set</code>, a <code cla
 
 <p>Julia lets you transition more gradually from high level thinking about your problem to low level thinking about how computers work. And critically, you don’t have to learn a new syntax, new build systems, or arcane language bindings for communicating between the high level and low level parts of your code.</p>
 
-<p>Then, once you have a fast, low level implementation, Julia’s type system lets you structure and clarify it by assigning additional meaning to collections of bits, without losing performance. Even though a <code class="highlighter-rouge">DigitSet</code> “is” just an <code class="highlighter-rouge">Int16</code> (and performs like one), we can make it print however we want and restrict or rename operations on it however we want. This process is sometimes called “zero cost abstraction.” It’s highly valued in languages like C++ that are used to implement games and other performance intensive, polished, professional software. But C++ is a very complex language that is infamously difficult to learn, and it isn’t pleasant for prototyping.</p>
+<p>Then, once you have a fast, low level implementation, Julia’s type system lets you structure and clarify it by assigning additional meaning to collections of bits, without losing performance. Even though a <code class="language-plaintext highlighter-rouge">DigitSet</code> “is” just an <code class="language-plaintext highlighter-rouge">Int16</code> (and performs like one), we can make it print however we want and restrict or rename operations on it however we want. This process is sometimes called “zero cost abstraction.” It’s highly valued in languages like C++ that are used to implement games and other performance intensive, polished, professional software. But C++ is a very complex language that is infamously difficult to learn, and it isn’t pleasant for prototyping.</p>
 
 <p>One thing that Julia generally won’t do is save you completely from having to know some details about how computers represent data. At least not if you want to write code that performs up to your hardware’s potential. Newcomers are occasionally disappointed that direct translations of their code from Matlab or Python into Julia don’t always run much faster than they did in the original languages (they may even run slower, though usually not by a lot). Julia isn’t the mythical “sufficiently smart compiler” that turns a high level specification of any problem into an efficiently implemented solution. Instead, it’s a single language that lets you decide whether you want to think at a high level or a low level, and it gives you a smooth path between these two.</p>
 

@@ -26,6 +26,85 @@
   <div class="main">
     
   <div class="post">
+    <h2><a href="/2026/03/22/matrix-squaring-geometric-series/">Matrix squaring can also rapidly sum the geometric series</a></h2>
+    <abbr class="date">22 Mar 2026</abbr>
+    <p><p>The geometric series,</p>
+
+<div class="display-latex">
+  S_{n}(x) = \sum_{k=0}^{n} x^k,
+</div>
+
+<p>satisfies a linear recurrence</p>
+
+<div class="display-latex">
+  S_{n+1}(x) = x \, S_n(x) + 1
+</div>
+
+<p>with constant (in <span class="mathquill-embedded-latex">n</span>) coefficients. This means it can also be written as a matrix power,</p>
+
+<div class="display-latex">
+  S_{n}(x) = \begin{pmatrix} 1 &amp; 0 \end{pmatrix} M^{n} \begin{pmatrix} 1 \\ 1 \end{pmatrix},
+</div>
+
+<p>with</p>
+
+<div class="display-latex">
+  M = \begin{pmatrix} x &amp; 1 \\ 0 &amp; 1 \end{pmatrix}.
+</div>
+
+<p>Repeatedly squaring <span class="mathquill-embedded-latex">M</span> can rapidly generate high matrix powers and thus sum large finite geometric series. The first few iterations of repeated squaring give</p>
+
+<div class="display-latex">
+  \begin{aligned}
+  M^2 &amp;= \begin{pmatrix} x^2 &amp; 1+x \\ 0 &amp; 1 \end{pmatrix}, \\
+  M^4 &amp;= \begin{pmatrix} x^4 &amp; 1+x+x^2+x^3 \\ 0 &amp; 1 \end{pmatrix}, \\
+  M^8 &amp;= \begin{pmatrix} x^8 &amp; 1+x+x^2+\ldots+x^7 \\ 0 &amp; 1 \end{pmatrix},
+  \end{aligned}
+</div>
+
+<p>and in general,</p>
+
+<div class="display-latex">
+  \begin{aligned}
+  M^{2^n} &amp;= \begin{pmatrix} x^{2^n} &amp; S_{2^{n}-1}(x) \\ 0 &amp; 1 \end{pmatrix}.
+  \end{aligned}
+</div>
+
+<p>Let <span class="mathquill-embedded-latex">a_n</span> and <span class="mathquill-embedded-latex">b_n</span> denote the upper-left and upper-right entries of <span class="mathquill-embedded-latex">M^{2^n}</span>. Writing the result of squaring the matrix shows that they satisfy the recurrence</p>
+
+<div class="display-latex">
+  \begin{aligned}
+  a_{n+1} &amp;= a_n^2, \\
+  b_{n+1} &amp;= b_n (1+a_n), \\
+  a_0 &amp;= x, \\
+  b_0 &amp;= 1.
+  \end{aligned}
+</div>
+
+<p>Since <span class="mathquill-embedded-latex">b_n = S_{2^{n}-1}(x)</span>, this recurrence allows computing <span class="mathquill-embedded-latex">S_{2^{n}-1}(x)</span> with <span class="mathquill-embedded-latex">2n</span> multiplications and <span class="mathquill-embedded-latex">n</span> additions: exactly the same operation count as the Newton iteration discussed in <a href="/2026/03/21/newtons-method-geometric-series/">yesterday’s post</a>.</p>
+
+<p>The matrix squaring iteration is connected to the Newton iteration by the identity</p>
+
+<div class="display-latex">
+  a_{n} = 1 - (1-x)b_n = x^{2^n}.
+</div>
+
+<p>This allows writing a recurrence for <span class="mathquill-embedded-latex">b_n</span> alone,</p>
+
+<div class="display-latex">
+  b_{n+1} = b_n(2 - (1-x)b_n),
+</div>
+
+<p>which is exactly the Newton iteration from yesterday (where it was written using the variable <span class="mathquill-embedded-latex">y_n</span>).</p>
+
+<p>The two iterations—matrix squaring, and the Newton iteration—compute identical results (in exact arithmetic) with identical operation counts, but they are not quite identical computationally. They operate on different state spaces: the Newton iteration operates on a single number, and the matrix squaring iteration operates on a pair of numbers.</p>
+
+<p>They also arrange their multiplications and additions differently, so that in floating point arithmetic, they have different numerical stability. I claim that the Newton iteration is more numerically stable in the region where the series converges, <span class="mathquill-embedded-latex">-1\lt x\lt 1</span>, but I won’t go into further detail today.</p>
+</p>
+    <p><a href="/2026/03/22/matrix-squaring-geometric-series/">more...</a></p>
+  </div>
+
+  <div class="post">
     <h2><a href="/2026/03/21/newtons-method-geometric-series/">Newton's method can rapidly sum the geometric series</a></h2>
     <abbr class="date">21 Mar 2026</abbr>
     <p><p>Newton’s iteration for computing the reciprocal of <span class="mathquill-embedded-latex">a</span>,</p>
