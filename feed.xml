@@ -98,7 +98,7 @@
   y_{n+1} = y_n(2-ay_n),
 &lt;/div&gt;
 
-&lt;p&gt;can be derived by applying Newton’s method to the function &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;f(x)=1/x-a&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;can be derived by applying Newton’s method to the function &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;f(y)=1/y-a&lt;/span&gt;.&lt;/p&gt;
 
 &lt;p&gt;Substituting &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;a=1-x&lt;/span&gt; gives&lt;/p&gt;
 
