@@ -9,7 +9,7 @@ Newton's iteration for computing the reciprocal of <span class="mathquill-embedd
   y_{n+1} = y_n(2-ay_n),
 </div>
 
-can be derived by applying Newton's method to the function <span class="mathquill-embedded-latex">f(x)=1/x-a</span>.
+can be derived by applying Newton's method to the function <span class="mathquill-embedded-latex">f(y)=1/y-a</span>.
 
 Substituting <span class="mathquill-embedded-latex">a=1-x</span> gives
 

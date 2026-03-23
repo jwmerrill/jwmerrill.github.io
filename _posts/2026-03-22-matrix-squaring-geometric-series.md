@@ -27,7 +27,11 @@ with
   M = \begin{pmatrix} x & 1 \\ 0 & 1 \end{pmatrix}.
 </div>
 
-Repeatedly squaring <span class="mathquill-embedded-latex">M</span> can rapidly generate high matrix powers and thus sum large finite geometric series. The first few iterations of repeated squaring give
+Repeatedly squaring <span class="mathquill-embedded-latex">M</span> can rapidly generate high matrix powers and thus sum large finite geometric series.
+
+<!--more-->
+
+The first few iterations of repeated squaring give
 
 <div class="display-latex">
   \begin{aligned}
