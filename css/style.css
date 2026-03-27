@@ -47,7 +47,7 @@ body {
   max-width:65%
 }
 
-.main p, .main ul, .main ol, .main .highlight, .main .p, .main hr, .mainfig, .display-latex {
+.main p, .main ul, .main ol, .main blockquote, .main .highlight, .main .p, .main hr, .mainfig, .display-latex {
   line-height: 1.4em;
   font-size: 18px;
   width: 36em;
@@ -125,6 +125,10 @@ body {
   float: right;
 }
 
+.mathquill-embedded-latex {
+  white-space: nowrap;
+}
+
 h1, h2 {
   margin-top: 1em;
   margin-bottom: 0;
@@ -163,7 +167,7 @@ blockquote {
     max-width: 60%;
   }
 
-  .main p, .main ul, .main ol, .main .highlight, .main .p, .mainfig, .display-latex {
+  .main p, .main ul, .main ol, .main blockquote, .main .highlight, .main .p, .mainfig, .display-latex {
     line-height: 1.4em;
     font-size: 1.1em;
     max-width: 60%;
@@ -189,7 +193,7 @@ blockquote {
     max-width: 100%;
   }
 
-  .main p, .main ul, .main ol, .main .highlight, .main .p, .mainfig, .display-latex {
+  .main p, .main ul, .main ol, .main blockquote, .main .highlight, .main .p, .mainfig, .display-latex {
     margin-right: 0;
     margin-left: 0;
     width: auto;
