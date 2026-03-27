@@ -26,6 +26,30 @@
   <div class="main">
     
   <div class="post">
+    <h2><a href="/2026/03/27/polynomial-approximation-operation-count/">Counting operations instead of degree in polynomial approximation</a></h2>
+    <abbr class="date">27 Mar 2026</abbr>
+    <p><p>A famous problem in approximation theory is to approximate the function <span class="mathquill-embedded-latex">\left|x\right|</span> as accurately as possible on the interval <span class="mathquill-embedded-latex">-1 \le x \le 1</span>, measured by maximum absolute error, using either polynomials or rational functions of fixed degree.</p>
+
+<p>Perhaps it seems silly to approximate a function as simple as this, but it serves as a useful test problem for probing how well non-smooth functions can be approximated by polynomial or rational functions.</p>
+
+<p>I first read about this problem in Trefethen’s book <a href="https://people.maths.ox.ac.uk/trefethen/ATAP/">Approximation Theory and Approximation Practice</a>, which points out the significant gap in convergence behavior between polynomials and rationals<label for="clustering paper" class="margin-toggle"><sup>⊕</sup></label><input type="checkbox" id="clustering paper" class="margin-toggle" /><span class="marginnote">See also <em>Trefethen, Nakatsukasa, and Weideman, <a href="https://arxiv.org/abs/2007.11828">“Exponential node clustering at singularities for rational approximation, quadrature, and PDEs,”</a> 2020</em> for some more recent discussion of rational approximation problems like this.</span>:</p>
+
+<blockquote>
+<b>Theorem 25.1. Approximation of |x| on [&minus;1, 1].</b> <i>The errors in best polynomial and rational approximation of |x| on [&minus;1, 1] satisfy as n &rarr; &infin;</i>
+<div class="display-latex">E_{n0}(|x|) \sim \beta/n, \quad \beta = 0.2801\ldots</div>
+<i>and</i>
+<div class="display-latex">E_{nn}(|x|) \sim 8e^{-\pi\sqrt{n}}</div>
+</blockquote>
+
+<p>Polynomials can converge only linearly in their degree here, which we will call the “Bernstein bound,” and rationals can converge root-exponentially in their degree, which we will call the “Newman bound.” (The notation <span class="mathquill-embedded-latex">E</span> refers to the <em>minimax</em> error — the smallest achievable maximum absolute error over the interval.)</p>
+
+<p>The previous <a href="/2026/03/21/newtons-method-geometric-series/">two</a> <a href="/2026/03/22/matrix-squaring-geometric-series/">posts</a> explored repeated composition of low-degree polynomials, which can generate polynomials of exponentially high degree in the number of operations. What happens when we apply this to the problem above?</p>
+
+</p>
+    <p><a href="/2026/03/27/polynomial-approximation-operation-count/">more...</a></p>
+  </div>
+
+  <div class="post">
     <h2><a href="/2026/03/22/matrix-squaring-geometric-series/">Matrix squaring can also rapidly sum the geometric series</a></h2>
     <abbr class="date">22 Mar 2026</abbr>
     <p><p>The geometric series,</p>
