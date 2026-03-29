@@ -263,7 +263,7 @@ th { padding-left: 0.5em; padding-right: 0.5em; }
 &lt;p&gt;To verify, substitute&lt;/p&gt;
 
 &lt;div class=&quot;display-latex&quot;&gt;
-  y_n = \sum_{k=0}^{2^n-1} x^k.
+  y_n = \sum_{k=0}^{2^n-1} x^k
 &lt;/div&gt;
 
 &lt;p&gt;into the Newton iteration. The second factor &lt;a href=&quot;https://en.wikipedia.org/wiki/Telescoping_series&quot;&gt;telescopes&lt;/a&gt; to &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;1+x^{2^n}&lt;/span&gt;. This is an instruction to take the first factor and add a copy of it multiplied by &lt;span class=&quot;mathquill-embedded-latex&quot;&gt;x^{2^n}&lt;/span&gt;. The result is&lt;/p&gt;
@@ -287,6 +287,23 @@ th { padding-left: 0.5em; padding-right: 0.5em; }
 &lt;p&gt;Newton’s iteration instead factors the finite geometric series into a &lt;em&gt;composition&lt;/em&gt; of quadratic polynomials&lt;label for=&quot;horner&quot; class=&quot;margin-toggle&quot;&gt;&lt;sup&gt;⊕&lt;/sup&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;horner&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Horner%27s_method&quot;&gt;Horner’s method&lt;/a&gt; factors a polynomial into a composition of &lt;em&gt;linear&lt;/em&gt; polynomials. This is handy for evaluation, but kind of a trivial re-arrangement since it has exactly the same coefficients as standard form.&lt;/span&gt;.&lt;/p&gt;
 
 &lt;p&gt;What other polynomials can be factored this way? Counting free parameters suggests certainly not all of them. Beyond that, I don’t really know, but I think &lt;a href=&quot;https://en.wikipedia.org/wiki/Arithmetic_circuit_complexity&quot;&gt;arithmetic circuit complexity&lt;/a&gt; considers questions like this.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;update-29-march-2026&quot;&gt;Update 29 March, 2026&lt;/h3&gt;
+
+&lt;p&gt;I have learned a bit more about “What other polynomials can be factored this way?” which I might now rephrase as “which polynomials are composite?”.&lt;/p&gt;
+
+&lt;p&gt;J.F. Ritt, “&lt;a href=&quot;https://doi.org/10.1090/S0002-9947-1922-1501189-9&quot;&gt;Prime and composite polynomials&lt;/a&gt;” Trans. Amer. Math. Soc., 1922, considers exactly this question.&lt;/p&gt;
+
+&lt;p&gt;J. Rickards, “&lt;a href=&quot;https://doi.org/10.4169/amer.math.monthly.118.04.358&quot;&gt;When is a polynomial a composition of other polynomials?&lt;/a&gt;” Amer. Math. Monthly, 2011, is a more recent discussion (which I have not been able to access yet, unfortunately).&lt;/p&gt;
+
+&lt;p&gt;I learned of these references from&lt;/p&gt;
+
+&lt;p&gt;E. Gawlik and Y. Nakatsukasa, “&lt;a href=&quot;https://doi.org/10.1016/j.jat.2021.105577&quot;&gt;Approximating the pth root by composite rational functions&lt;/a&gt;,” J. Approx. Theory, 2021.&lt;/p&gt;
+
+&lt;p&gt;See also the updates to my subsequent post “&lt;a href=&quot;/2026/03/27/polynomial-approximation-operation-count/&quot;&gt;Counting operations instead of degree in polynomial approximation&lt;/a&gt;”.&lt;/p&gt;
+
 </description>
       <pubDate>Sat, 21 Mar 2026 00:00:00 -0400</pubDate>
       <link>http://www.shapeoperator.com/2026/03/21/newtons-method-geometric-series/</link>
