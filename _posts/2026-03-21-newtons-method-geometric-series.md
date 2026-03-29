@@ -34,7 +34,7 @@ This certainly looks like the geometric series, and after <span class="mathquill
 To verify, substitute
 
 <div class="display-latex">
-  y_n = \sum_{k=0}^{2^n-1} x^k.
+  y_n = \sum_{k=0}^{2^n-1} x^k
 </div>
 
 into the Newton iteration. The second factor [telescopes](https://en.wikipedia.org/wiki/Telescoping_series) to <span class="mathquill-embedded-latex">1+x^{2^n}</span>. This is an instruction to take the first factor and add a copy of it multiplied by <span class="mathquill-embedded-latex">x^{2^n}</span>. The result is
@@ -58,3 +58,20 @@ When we discuss factoring a polynomial, we mean factoring it into a _product_ of
 Newton's iteration instead factors the finite geometric series into a _composition_ of quadratic polynomials{%marginnote 'horner' """[Horner's method](https://en.wikipedia.org/wiki/Horner%27s_method) factors a polynomial into a composition of _linear_ polynomials. This is handy for evaluation, but kind of a trivial re-arrangement since it has exactly the same coefficients as standard form."""%}.
 
 What other polynomials can be factored this way? Counting free parameters suggests certainly not all of them. Beyond that, I don't really know, but I think [arithmetic circuit complexity](https://en.wikipedia.org/wiki/Arithmetic_circuit_complexity) considers questions like this.
+
+----
+
+### Update 29 March, 2026
+
+I have learned a bit more about "What other polynomials can be factored this way?" which I might now rephrase as "which polynomials are composite?".
+
+J.F. Ritt, "[Prime and composite polynomials](https://doi.org/10.1090/S0002-9947-1922-1501189-9)" Trans. Amer. Math. Soc., 1922, considers exactly this question.
+
+J. Rickards, "[When is a polynomial a composition of other polynomials?](https://doi.org/10.4169/amer.math.monthly.118.04.358)" Amer. Math. Monthly, 2011, is a more recent discussion (which I have not been able to access yet, unfortunately).
+
+I learned of these references from
+
+E. Gawlik and Y. Nakatsukasa, "[Approximating the pth root by composite rational functions](https://doi.org/10.1016/j.jat.2021.105577)," J. Approx. Theory, 2021.
+
+See also the updates to my subsequent post "[Counting operations instead of degree in polynomial approximation]({% post_url 2026-03-27-polynomial-approximation-operation-count %})".
+
